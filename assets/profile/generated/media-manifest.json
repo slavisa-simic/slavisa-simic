@@ -1,26 +1,126 @@
 {
-  "vigil": {
-    "bytes": 947687,
-    "duration_ms": 15840,
-    "samples": 24,
-    "sha256": "d6466c406899b4e7ced9d04833a8a99052ef83d8faa3091b326b47edeba9cd93"
+  "projects-carousel": {
+    "format": "svg",
+    "width": 1000,
+    "height": 420,
+    "bytes": 496774,
+    "duration_ms": 11200,
+    "hold_ms": 5000,
+    "transition_ms": 600,
+    "projects": [
+      "vigil",
+      "potamorph"
+    ],
+    "sha256": "dbf6cf2ceea180bf4221ca069bd30c4cff5a7cc71a2a04f530f7e3ea43fc1f9c",
+    "logos": [
+      {
+        "file": "assets/profile/source/vigil-logo.png",
+        "source_sha256": "fce01136a01affc3419a4a3d025e1d4dd2b749cc01eabecbc6a91f7496eec90b",
+        "crop": [
+          257,
+          202,
+          1010,
+          1101
+        ],
+        "position": [
+          639,
+          21
+        ],
+        "size": [
+          273,
+          326
+        ],
+        "operations": [
+          "crop near-transparent outer padding",
+          "proportional resize",
+          "alpha composite"
+        ]
+      },
+      {
+        "file": "assets/profile/source/potamorph-logo.png",
+        "source_sha256": "f8d4c988597ac86eed14ab94be0ad6e8020eca0806032b466430f223aa733cc7",
+        "crop": [
+          0,
+          36,
+          1254,
+          1239
+        ],
+        "position": [
+          605,
+          21
+        ],
+        "size": [
+          340,
+          326
+        ],
+        "operations": [
+          "crop near-transparent outer padding",
+          "proportional resize",
+          "alpha composite"
+        ]
+      }
+    ]
   },
-  "vigil-mobile": {
-    "bytes": 284592,
-    "duration_ms": 10560,
-    "samples": 16,
-    "sha256": "45853cf86aeabc89b89c04ed5e5e8438e00aa18460dda18826db23dcc2b46491"
-  },
-  "potamorph": {
-    "bytes": 951559,
-    "duration_ms": 15840,
-    "samples": 24,
-    "sha256": "2496d9686984c01ee32526c7006064dad29aeed7570cbc4bb876301fbafabc9e"
-  },
-  "potamorph-mobile": {
-    "bytes": 330871,
-    "duration_ms": 10560,
-    "samples": 16,
-    "sha256": "4c7e6be1c20239e60a08540c499b1fb91a106ab088ae7edd2970bd82ac967a72"
+  "projects-carousel-mobile": {
+    "format": "svg",
+    "width": 480,
+    "height": 480,
+    "bytes": 308246,
+    "duration_ms": 11200,
+    "hold_ms": 5000,
+    "transition_ms": 600,
+    "projects": [
+      "vigil",
+      "potamorph"
+    ],
+    "sha256": "f32abd7e555e7a8994fe1061d65710bb6a21540b60263489c382efcdeb2d5178",
+    "logos": [
+      {
+        "file": "assets/profile/source/vigil-logo.png",
+        "source_sha256": "fce01136a01affc3419a4a3d025e1d4dd2b749cc01eabecbc6a91f7496eec90b",
+        "crop": [
+          257,
+          202,
+          1010,
+          1101
+        ],
+        "position": [
+          136,
+          170
+        ],
+        "size": [
+          209,
+          250
+        ],
+        "operations": [
+          "crop near-transparent outer padding",
+          "proportional resize",
+          "alpha composite"
+        ]
+      },
+      {
+        "file": "assets/profile/source/potamorph-logo.png",
+        "source_sha256": "f8d4c988597ac86eed14ab94be0ad6e8020eca0806032b466430f223aa733cc7",
+        "crop": [
+          0,
+          36,
+          1254,
+          1239
+        ],
+        "position": [
+          110,
+          170
+        ],
+        "size": [
+          261,
+          250
+        ],
+        "operations": [
+          "crop near-transparent outer padding",
+          "proportional resize",
+          "alpha composite"
+        ]
+      }
+    ]
   }
 }

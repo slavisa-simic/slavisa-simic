@@ -5,14 +5,17 @@
 
 [GitHub](https://github.com/slavisa-simic) · [LinkedIn]({{LINKEDIN}})
 
-## Projects
+## Projects carousel
+
+{{CAROUSEL}}
+
+### Projects list
 
 {{PROJECTS}}
 
 ## Toolkit
 
-**Backend:** {{SKILLS}}<br>
-**AI Development Tools:** {{AI_TOOLS}}
+**Backend:** {{SKILLS}}<br>**AI Development Tools:** {{AI_TOOLS}}
 
 ## Recent work
 

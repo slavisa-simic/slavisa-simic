@@ -6,18 +6,18 @@ The page contains one introduction, one caption per project, one toolkit, and on
 
 The supplied S logo retains its silver ribbon and fold shading. The name and role type once and settle by 4.2 seconds. Self-contained SVGs embed rasterized Inter text, so no remote typing/font service is required. Light/dark and mobile variants have complete PNG fallbacks for reduced motion. If SVG animation is unsupported, the base clipping geometry exposes the complete text.
 
-## Project slideshows
+## Projects carousel
 
-Each project owns one anchor whose destination is always that project's `blob/main/README.md`, with no section fragment. A single GIF cannot switch its external link when its frame changes. Two separate slideshow previews make every displayed frame open the appropriate README from the beginning.
+One centered image shows Vigil, slides horizontally to Potamorph, and loops. The whole carousel links to the visible `Projects list` heading below it. Each native list entry links directly to its project's `blob/main/README.md`, with no section fragment. There are no pretend previous/next buttons.
 
-Desktop previews are 900 × 500 px. Each cycles through original header artwork, an actual application screenshot, and a small architecture/workflow view. Holds last five seconds; crossfades take 280 ms. The 15.84-second loop uses 24 decoded frames per image. The project name remains visible in every frame.
+The desktop carousel is 1000 × 420 px; mobile uses a 480 × 480 composition with larger relative typography and a centered logo. Each project is held for five seconds. A 600 ms eased translation creates the classic sliding-carousel effect. The complete two-project loop lasts 11.2 seconds, using an exact duplicate of the first slide for the loop boundary.
 
-Mobile previews are 360 × 320 px with larger names and two artwork/screenshot frames. Their 10.56-second loops contain 16 frames. Two-column native GitHub tables keep both projects accessible without a horizontal scrollbar. Native captions and details provide readable context independently of the thumbnails.
+Both supplied official logo PNGs remain byte-for-byte intact as source files. Rendering crops near-transparent outer padding, resizes proportionally, and composites the original pixels onto the new layout. Colors, shapes, lettering, and illustration detail are preserved. The Potamorph artwork is intentionally used as supplied, while surrounding typography and spacing stay restrained.
 
-Browsers download only the selected desktop/mobile media. The desktop GIF pair totals 1,899,246 bytes; the mobile pair totals 615,463 bytes. Reduced motion selects complete first-frame PNGs. Static fallbacks are preference-based; they are not automatic recovery from failed network requests.
+The self-contained SVG embeds lossless PNG slides and animates their translation. It needs no JavaScript, external images, or GIF palette reduction. The desktop animation is approximately 497 KB and mobile approximately 308 KB; only the selected variant loads. Reduced motion selects a complete first-slide PNG. Native project links remain visible independently of the animation.
 
 ## Activity
 
 The chart is a static, theme-aware SVG generated from current public repository commits. Its title, native recent-commit links, and snapshot label describe the scope. Counts include repository commits rather than claiming personal contributions or expertise. The profile's own automation commits are excluded.
 
-GitHub supports the native anchors, `picture`, `details`, and media queries used here. It removes arbitrary scripts and styles from README content, so swipe controls, interactive chart tooltips, and frame-dependent GIF links are not promised. A separate website would be required for those controls.
+GitHub supports the native anchors, `picture`, `details`, and media queries used here. JavaScript is excluded from README content, so the carousel uses SVG motion with one stable external anchor. Body content stays native and keyboard accessible.

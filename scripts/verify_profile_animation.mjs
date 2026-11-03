@@ -3,7 +3,8 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {root,launch,serve} from './lib.mjs';
 const server=await serve();const browser=await launch();const out=path.join(root,'assets/previews/profile');await fs.mkdir(out,{recursive:true});
-const report={status:'passed',identities:[]};
+const config=JSON.parse(await fs.readFile(path.join(root,'config/profile.json'),'utf8'));
+const report={status:'passed',identities:[],carousels:[]};
 try{
  const page=await browser.newPage({viewport:{width:720,height:126},deviceScaleFactor:2});
  for(const variant of ['dark','light','mobile-dark','mobile-light']){
@@ -23,6 +24,21 @@ try{
   if(JSON.stringify(frames[3].widths)!==JSON.stringify(frames[4].widths))throw new Error('Typing repeats');
   report.identities.push({variant,frames});
  }
+ for(const variant of ['projects-carousel','projects-carousel-mobile']){
+  await page.setViewportSize({width:variant.endsWith('mobile')?config.carousel.mobile_width:config.carousel.width,height:variant.endsWith('mobile')?config.carousel.mobile_height:config.carousel.height});
+  await page.goto(`${server.origin}/assets/profile/generated/${variant}.svg`);
+  const width=page.viewportSize().width;const frames=[];
+  for(const time of [0,4.9,5.3,5.7,10.5,11.4]){
+   const state=await page.evaluate(time=>{const s=document.documentElement;s.pauseAnimations();s.setCurrentTime(time);return {time,x:document.querySelector('#track').transform.animVal.getItem(0).matrix.e};},time);frames.push(state);
+   if([0,5.3,5.7].includes(time))await page.screenshot({path:path.join(out,`${variant}-${time}.png`)});
+  }
+  if(Math.abs(frames[0].x)>0.01||Math.abs(frames[1].x)>0.01)throw new Error('First project is not held for five seconds');
+  if(!(frames[2].x<0&&frames[2].x>-width))throw new Error('Carousel does not slide horizontally');
+  if(Math.abs(frames[3].x+width)>0.01||Math.abs(frames[4].x+width)>0.01)throw new Error('Second project is not held');
+  if(Math.abs(frames[5].x)>0.01)throw new Error('Carousel does not loop back to the first project');
+  report.carousels.push({variant,frames});
+ }
+ await page.setViewportSize({width:720,height:126});
  // SVG loaded as an image must also animate; GitHub embeds it in this context.
  await page.route('**/typing-test.html',route=>route.fulfill({contentType:'text/html',body:`<body style="margin:0;background:#0d1117"><img src="${server.origin}/assets/profile/generated/identity-dark.svg?image-playback" width="720"></body>`}));
  await page.goto(`${server.origin}/typing-test.html`);
@@ -33,6 +49,13 @@ try{
  const initial=await fs.readFile(path.join(out,'typing-image-start.png'));const final=await fs.readFile(path.join(out,'typing-image-complete.png'));
  if(initial.equals(final))throw new Error('Typing is static when embedded as an image');
  report.embeddedImage='Progressive playback and complete resting state recorded';
+ await page.route('**/carousel-test.html',route=>route.fulfill({contentType:'text/html',body:`<body style="margin:0"><img src="${server.origin}/assets/profile/generated/projects-carousel.svg?embedded-playback" width="1000"></body>`}));
+ await page.setViewportSize({width:1000,height:420});await page.goto(`${server.origin}/carousel-test.html`);
+ await page.waitForFunction(()=>document.images[0].complete&&document.images[0].naturalWidth>0);
+ const carouselImage=page.locator('img');const first=await carouselImage.screenshot({path:path.join(out,'carousel-image-first.png')});
+ await page.waitForTimeout(5800);const second=await carouselImage.screenshot({path:path.join(out,'carousel-image-second.png')});
+ if(first.equals(second))throw new Error('Carousel is static when embedded as an image');
+ report.embeddedCarousel='Both project images recorded in the same image element';
  await fs.writeFile(path.join(out,'animation-report.json'),JSON.stringify(report,null,2));
- console.log('Typing progresses once, settles before 4.3 seconds, and stays complete in all four variants.');
+ console.log('Typing settles once. Both carousel variants hold, slide horizontally, show the second project, and loop smoothly.');
 }finally{await browser.close();await server.close();}

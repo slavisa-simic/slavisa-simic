@@ -4,7 +4,9 @@ These page rules override the generated MASTER.md because the product is a GitHu
 
 - Use native GitHub Markdown for all prose, links, captions, activity, and expandable details. No newsletter form, subscriber claim, custom CSS UI, or oversized raster page.
 - Header: supplied S mark and name/title typed once; complete static fallbacks for light/dark and small screens. The animation finishes before project transitions begin.
-- Projects: two individually linked, compact animated previews. Each image belongs to one repository throughout its cycle. Every frame links to that repository's README from its beginning.
+- Projects: one centered carousel with a smooth horizontal transition between the two projects. The entire carousel links to the visible Projects list below; each list entry opens that project's README from its beginning.
+- Use the supplied official project logos as exact source files. Crop transparent margins and resize proportionally; preserve their colors, shapes, lettering, and detail. The Potamorph artwork is the requested official brand asset even though its imagery differs from the restrained page styling.
+- Self-contained SVG translation provides smooth motion and lossless logo images without JavaScript or GIF palette changes. Hold each project for five seconds, transition in 600 ms, and use one shared link. No decorative arrows that pretend to be previous/next controls.
 - Information budget: one introduction sentence, one caption per project, one toolkit block, three recent commits, one activity figure. Technical details belong inside native details elements.
 - Potamorph demonstrates AI-assisted development with OpenAI Codex. Unity/C# are project implementation details, not personal skills.
 - Retain Inter for authored images and GitHub's native body typography. Names and essential labels remain legible on 320 px screens; body text stays native at 16 px.

@@ -65,29 +65,27 @@ def media_picture(name,alt,width='100%',typing=False):
     if typing:
         sources=f'<source media="(max-width: 600px) and (prefers-reduced-motion: reduce) and (prefers-color-scheme: dark)" srcset="{base}/identity-mobile-dark.png"><source media="(max-width: 600px) and (prefers-reduced-motion: reduce)" srcset="{base}/identity-mobile-light.png"><source media="(prefers-reduced-motion: reduce) and (prefers-color-scheme: dark)" srcset="{base}/identity-dark.png"><source media="(prefers-reduced-motion: reduce)" srcset="{base}/identity-light.png"><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="{base}/identity-mobile-dark.svg"><source media="(max-width: 600px)" srcset="{base}/identity-mobile-light.svg"><source media="(prefers-color-scheme: dark)" srcset="{base}/identity-dark.svg">'
         return f'<picture>{sources}<img src="{base}/identity-light.svg" width="720" alt="{escape(alt,quote=True)}"></picture>'
-    return f'<picture><source media="(max-width: 600px) and (prefers-reduced-motion: reduce)" srcset="{base}/{name}-mobile.png"><source media="(prefers-reduced-motion: reduce)" srcset="{base}/{name}.png"><source media="(max-width: 600px)" srcset="{base}/{name}-mobile.gif"><img src="{base}/{name}.gif" width="{width}" alt="{escape(alt,quote=True)}"></picture>'
+    return f'<picture><source media="(max-width: 600px) and (prefers-reduced-motion: reduce)" srcset="{base}/{name}-mobile.png"><source media="(prefers-reduced-motion: reduce)" srcset="{base}/{name}.png"><source media="(max-width: 600px)" srcset="{base}/{name}-mobile.svg"><img src="{base}/{name}.svg" width="{width}" alt="{escape(alt,quote=True)}"></picture>'
 
 def render(data):
     identity=media_picture('identity',CONFIG['name']+' — '+' / '.join(CONFIG['roles']),typing=True)
-    cards=[]
+    alt='Projects carousel: '+', '.join(p['name'] for p in CONFIG['projects'])+'. Open the projects list.'
+    carousel=f'<p align="center"><a href="{CONFIG["carousel"]["target"]}">{media_picture("projects-carousel",alt,"100%")}</a></p>'
+    items=[]
     for p in CONFIG['projects']:
-        alt=f"{p['name']}: animated project preview. Open the README from the beginning."
-        cards.append(f'<a href="{p["readme"]}">{media_picture(p["id"],alt,"100%")}</a>')
-    cells=[]
-    for p,card in zip(CONFIG['projects'],cards):
-        cells.append(f'<td width="50%" valign="top">{card}<p>{escape(p["caption"])}</p><details><summary>{escape(p["details_title"])}</summary><p>{escape(p["details"])}</p></details></td>')
-    projects='<table><tr>'+''.join(cells)+'</tr></table>'
+        items.append(f'<p><a href="{p["readme"]}"><strong>{escape(p["name"])}</strong></a> — {escape(p["caption"])}</p>\n<details><summary>{escape(p["details_title"])}</summary><p>{escape(p["details"])}</p></details>')
+    projects='\n\n'.join(items)
     recent=[]
     for commit in data['recent']:
         message=commit['message']
         if len(message)>72:message=message[:69].rstrip()+'…'
         message=escape(message).replace('|','&#124;').replace('[','&#91;').replace(']','&#93;')
-        recent.append(f"- [{message}]({commit['url']})<br>\n  <sub>{commit['project_name']} · {commit['date'][:10]}</sub>")
+        recent.append(f"- [{message}]({commit['url']})<br><sub>{commit['project_name']} · {commit['date'][:10]}</sub>")
     rows='\n'.join(recent) if recent else 'No project commits in this time window.'
     base='assets/profile/generated'
     stats=f'<picture><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="{base}/activity-mobile-dark.svg"><source media="(max-width: 600px)" srcset="{base}/activity-mobile-light.svg"><source media="(prefers-color-scheme: dark)" srcset="{base}/activity-dark.svg"><img src="{base}/activity-light.svg" width="900" alt="{data["total_commits"]} project commits across {data["active_days"]} active days in the last {data["days"]} days. Profile automation is excluded."></picture>'
     template=(ROOT/'src/README.template.md').read_text(encoding='utf-8')
-    content=template.replace('{{IDENTITY}}',identity).replace('{{INTRO}}',CONFIG['intro']).replace('{{PROJECTS}}',projects).replace('{{SKILLS}}',' · '.join(CONFIG['skills'])).replace('{{AI_TOOLS}}',' · '.join(CONFIG['ai_tools'])).replace('{{ACTIVITY}}',stats).replace('{{RECENT}}',rows).replace('{{SNAPSHOT}}',data['fetched_at'].replace('T',' ').replace('Z',' UTC')).replace('{{LINKEDIN}}',CONFIG['linkedin'])
+    content=template.replace('{{IDENTITY}}',identity).replace('{{INTRO}}',CONFIG['intro']).replace('{{CAROUSEL}}',carousel).replace('{{PROJECTS}}',projects).replace('{{SKILLS}}',' · '.join(CONFIG['skills'])).replace('{{AI_TOOLS}}',' · '.join(CONFIG['ai_tools'])).replace('{{ACTIVITY}}',stats).replace('{{RECENT}}',rows).replace('{{SNAPSHOT}}',data['fetched_at'].replace('T',' ').replace('Z',' UTC')).replace('{{LINKEDIN}}',CONFIG['linkedin'])
     return content
 
 def refresh(offline=False):

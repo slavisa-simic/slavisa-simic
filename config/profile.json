@@ -1,42 +1,59 @@
 {
   "owner": "slavisa-simic",
   "name": "Slaviša Simić",
-  "roles": ["Software Engineer", "Backend Developer"],
+  "roles": [
+    "Software Engineer",
+    "Backend Developer"
+  ],
   "intro": "I build backend services and full-stack applications.",
   "linkedin": "https://www.linkedin.com/in/slavi%C5%A1a-simi%C4%87-1879bb438/",
-  "skills": ["Java", "Spring Boot", "PostgreSQL", "REST APIs", "Authentication", "Docker"],
-  "ai_tools": ["OpenAI Codex"],
+  "skills": [
+    "Java",
+    "Spring Boot",
+    "PostgreSQL",
+    "REST APIs",
+    "Authentication",
+    "Docker"
+  ],
+  "ai_tools": [
+    "OpenAI Codex"
+  ],
   "activity_days": 30,
   "recent_limit": 3,
-  "preview": {"width": 900, "height": 500, "hold_ms": 5000, "transition_ms": 280, "transition_frames": 7, "total_budget_bytes": 4500000},
+  "carousel": {
+    "width": 1000,
+    "height": 420,
+    "mobile_width": 480,
+    "mobile_height": 480,
+    "hold_ms": 5000,
+    "transition_ms": 600,
+    "total_budget_bytes": 2500000,
+    "target": "#projects-list"
+  },
   "projects": [
     {
-      "id": "vigil", "name": "Vigil", "repository": "slavisa-simic/vigil",
+      "id": "vigil",
+      "name": "Vigil",
+      "repository": "slavisa-simic/vigil",
       "readme": "https://github.com/slavisa-simic/vigil/blob/main/README.md",
       "caption": "Incident management, from report to resolution.",
       "details_title": "Stack & architecture",
       "details": "Java / Spring Boot API, PostgreSQL, React / TypeScript client, and Docker Compose. JWT authentication and role-based access control protect the incident workflow.",
-      "accent": "#73a9f8", "surface": "#f4f7fc", "ink": "#17233a",
-      "slides": ["Overview", "Application", "Request flow"],
-      "sources": {
-        "hero": "https://raw.githubusercontent.com/slavisa-simic/vigil/main/docs/readme/hero.png",
-        "screen": "https://raw.githubusercontent.com/slavisa-simic/vigil/main/docs/readme/sign-in.png"
-      },
-      "flow": ["React client", "Spring Boot API", "PostgreSQL"]
+      "logo": "assets/profile/source/vigil-logo.png",
+      "accent": "#73a9f8",
+      "logo_sha256": "fce01136a01affc3419a4a3d025e1d4dd2b749cc01eabecbc6a91f7496eec90b"
     },
     {
-      "id": "potamorph", "name": "Potamorph", "repository": "slavisa-simic/tower-defense-ai",
+      "id": "potamorph",
+      "name": "Potamorph",
+      "repository": "slavisa-simic/tower-defense-ai",
       "readme": "https://github.com/slavisa-simic/tower-defense-ai/blob/main/README.md",
       "caption": "AI-assisted development, from a brief to a working prototype.",
       "details_title": "Behind the build",
       "details": "I set the direction and scope; Codex handled implementation and tooling. The resulting prototype, currently titled Border Defenders, uses Unity and C#. The repository retains phase briefs and validation reports.",
-      "accent": "#d99692", "surface": "#141c20", "ink": "#eef0eb",
-      "slides": ["Overview", "Prototype", "AI workflow"],
-      "sources": {
-        "hero": "https://raw.githubusercontent.com/slavisa-simic/tower-defense-ai/main/Docs/Readme/Media/hero.svg",
-        "screen": "https://raw.githubusercontent.com/slavisa-simic/tower-defense-ai/main/Docs/Validation/Phase6B/aquatic-hud.png"
-      },
-      "flow": ["Project brief", "OpenAI Codex", "Validated prototype"]
+      "logo": "assets/profile/source/potamorph-logo.png",
+      "accent": "#d99692",
+      "logo_sha256": "f8d4c988597ac86eed14ab94be0ad6e8020eca0806032b466430f223aa733cc7"
     }
   ]
 }

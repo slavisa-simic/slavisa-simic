@@ -12,7 +12,6 @@ def main():
     parser.add_argument('--offline',action='store_true',help='Reuse the last valid activity snapshot')
     args=parser.parse_args()
     run(sys.executable,'scripts/prepare_profile_sources.py')
-    run('node','scripts/render_profile_sources.mjs')
     run(sys.executable,'scripts/build_profile_assets.py')
     run(sys.executable,'scripts/refresh_profile.py',*(['--offline'] if args.offline else []))
     run(sys.executable,'-m','unittest','discover','-s','tests')

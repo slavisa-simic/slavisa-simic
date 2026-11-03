@@ -1,18 +1,10 @@
 {
-  "vigil-hero.png": {
-    "source": "https://raw.githubusercontent.com/slavisa-simic/vigil/main/docs/readme/hero.png",
-    "sha256": "6ca9ed54cc20b8a8976383652a453a65af80e2b163920c5027fc2dd37c298c94"
+  "vigil-logo.png": {
+    "source": "User-supplied official Vigil logo",
+    "sha256": "fce01136a01affc3419a4a3d025e1d4dd2b749cc01eabecbc6a91f7496eec90b"
   },
-  "vigil-screen.png": {
-    "source": "https://raw.githubusercontent.com/slavisa-simic/vigil/main/docs/readme/sign-in.png",
-    "sha256": "9518190302536bcfda258697be0958c538cc4d8cc025c79c3bf29aaa188af82c"
-  },
-  "potamorph-hero.svg": {
-    "source": "https://raw.githubusercontent.com/slavisa-simic/tower-defense-ai/main/Docs/Readme/Media/hero.svg",
-    "sha256": "1083ca485fa4732bd10e3051725155a9f681b923ec36a33f75a52f9f0da1d5e5"
-  },
-  "potamorph-screen.png": {
-    "source": "https://raw.githubusercontent.com/slavisa-simic/tower-defense-ai/main/Docs/Validation/Phase6B/aquatic-hud.png",
-    "sha256": "1d7e7a1b6198f789b8e3cf96f5d30699a16fc475604ebda7f9708c5dfd370421"
+  "potamorph-logo.png": {
+    "source": "User-supplied official Potamorph logo",
+    "sha256": "f8d4c988597ac86eed14ab94be0ad6e8020eca0806032b466430f223aa733cc7"
   }
 }

@@ -1,6 +1,6 @@
 # Build and update the GitHub profile
 
-The root README uses native GitHub content with a typed identity, two independently linked project slideshows, expandable project details, a short toolkit, and real repository activity. Potamorph showcases AI-assisted development; Unity and C# describe its implementation and are not personal skills.
+The root README uses native GitHub content with a typed identity, one centered projects carousel, a linked project list, expandable details, a short toolkit, and real repository activity. Potamorph showcases AI-assisted development; Unity and C# describe its implementation and are not personal skills.
 
 ## Rebuild
 
@@ -13,9 +13,9 @@ npx playwright install chromium
 py scripts/build.py --preview --package
 ```
 
-The renderer can reuse an installed Playwright Chromium or `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`. The first build caches the actual project headers/screenshots. The preview uses GitHub's Markdown API and current styles. Fonts and the supplied S logo are bundled.
+The renderer can reuse an installed Playwright Chromium or `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`. Both official project logos, the personal S mark, and fonts are bundled. No image-generation or animation-hosting service is required. The preview uses GitHub's Markdown API and current styles.
 
-Add `--offline` to reuse the cached activity snapshot. Source artwork must already be cached, and browser preview still needs GitHub access. Builds do not publish.
+Add `--offline` to reuse the cached activity snapshot. Media generation works offline; browser preview still needs GitHub access. Builds do not publish.
 
 For an activity-only refresh, no third-party Python packages are needed:
 
@@ -25,9 +25,9 @@ py scripts/refresh_profile.py
 
 ## Edit
 
-- `config/profile.json`: identity, skills, project captions, sources, and README links.
+- `config/profile.json`: identity, skills, project captions, official-logo hashes, README links, and carousel timing.
 - `src/README.template.md`: native document structure.
-- `scripts/build_profile_assets.py`: authored media and animation.
+- `scripts/build_profile_assets.py`: typing identity; `scripts/build_carousel.py`: project slides and horizontal motion.
 - `scripts/refresh_profile.py`: public data collection, chart, and README generation.
 - `.github/workflows/profile.yml`: scheduled activity refresh and tests.
 
@@ -41,7 +41,7 @@ The standard repository `GITHUB_TOKEN` is sufficient. No personal access token o
 
 ## Verification and exports
 
-`assets/previews/profile/` contains local desktop/mobile/light screenshots and browser, animation, and media reports. These review artifacts are ignored by Git. `scripts/validate_layout.py` checks actual decoded GIFs and asset/source integrity. `tests/` covers activity boundaries, pagination, safe rendering, no-op updates, and failure preservation.
+`assets/previews/profile/` contains local desktop/mobile/light screenshots and browser, animation, and media reports. These review artifacts are ignored by Git. `scripts/validate_layout.py` checks lossless embedded slide images, unchanged logo pixels, and source integrity. `tests/` covers activity boundaries, pagination, safe rendering, no-op updates, and failure preservation.
 
 `dist/profile-ready.zip` contains the README and required images as a snapshot. `dist/profile-source.zip` adds the build and automatic-refresh sources. Preserve the `assets/profile/` paths.
 

@@ -4,10 +4,11 @@ Checked on 3 November 2026 for the native profile redesign.
 
 - GitHub's Markdown API preserves the required anchors, picture sources, details, and media conditions.
 - Browser checks cover 320, 375, 390, 600, 601, 768, 844, 1024, and 1440 px, including landscape. No document or table horizontal overflow occurs.
-- Both project destinations pass pointer and keyboard activation and point directly to the corresponding README. Preview targets exceed 44 × 44 px.
+- The single carousel and both native project destinations pass pointer and keyboard activation. The carousel targets the visible Projects list; each project link opens its README from the top. The carousel click target exceeds 44 × 44 px.
 - Light/dark rendering, enlarged native text, native disclosures, mobile sources, and reduced-motion PNG selection pass.
 - Chromium checks the actual typing timeline in all four SVG variants. The name progresses, all lines finish, cursors disappear, and the result remains complete. The SVG also animates when embedded as an image.
-- All slideshow frames decode correctly. Dimensions, timing, loop metadata, first-frame fallbacks, file budgets, and SHA-256 hashes pass validation.
+- Both carousel variants hold each project for five seconds, slide horizontally over 600 ms, and loop after 11.2 seconds. Actual Chromium playback passes both as an SVG document and embedded image. The first-slide PNG fallback, media budget, and exact first-slide loop clone pass validation.
+- Each embedded logo region matches the original proportional source composite pixel-for-pixel. Source files match the SHA-256 hashes of the supplied PNGs; no palette quantization, recoloring, or regenerated artwork is used.
 - Original project sources match their provenance hashes; all README images are local to the repository. SVGs have no scripts or external image dependencies.
 - Seven updater tests cover paginated data and date boundaries, exclusion of profile automation/private repositories, no-op writes, API failure preservation, commit-text escaping, and the empty state.
 - Personal skills exclude Unity and C#. OpenAI Codex appears under AI Development Tools; Potamorph's hidden detail distinguishes direction/scope from AI implementation.
