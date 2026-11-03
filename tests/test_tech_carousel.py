@@ -14,11 +14,11 @@ from tech_stack import header_picture
 
 class TechCarousel(TestCase):
     def test_header_never_selects_a_static_source_for_system_motion_preferences(self):
-        markup = header_picture()
+        markup = header_picture('test-avatar')
         self.assertNotIn('prefers-reduced-motion', markup)
         self.assertNotIn('-reduced.svg', markup)
-        self.assertIn('profile-header-mobile.svg', markup)
-        self.assertIn('profile-header-light.svg', markup)
+        self.assertRegex(markup, r'profile-header-[0-9a-f]{16}-mobile\.svg')
+        self.assertRegex(markup, r'profile-header-[0-9a-f]{16}-light\.svg')
 
     def test_new_long_label_expands_slot_without_clipping(self):
         spec = copy.deepcopy(builder.STACK)

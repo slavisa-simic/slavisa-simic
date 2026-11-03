@@ -48,6 +48,8 @@ The header uses responsive SVG image compositions because GitHub strips custom l
 
 The animated SVGs contain one linear SMIL translation and no JavaScript, external fonts, or external image requests. True alpha transparency and edge fades work over either GitHub theme. The header always selects the moving marquee, including when the system requests reduced motion, as explicitly requested. Static grid exports remain available as separate files; the README does not automatically select them. Local validation uses GitHub's Markdown API, current GitHub styles, and the actual README picture sources in all eight size/theme/motion combinations. No GIF fallback is needed for verified SVG image playback. `decoration_right_gutter` controls the extra desktop space placing the upper-right decoration farther outward.
 
+Header image filenames include a deterministic version hash of the avatar, stack, theme, identity, and header layout source. Changes therefore receive fresh GitHub image URLs rather than waiting for cached artwork to expire. Rebuilding unchanged inputs is still a no-op. Old header versions are retired only after the replacements and updated README exist.
+
 For an activity-only refresh, no third-party Python packages are needed:
 
 ```powershell

@@ -63,8 +63,8 @@ def compact_title(slug,label,width):
 
 def render(data,avatar=None):
     avatar=avatar or json.loads((OUT/'avatar.json').read_text(encoding='utf-8'))
-    avatar_name,_=profile_avatar.frame(avatar,CONFIG['theme'])
-    identity=(f'<p>{header_picture()}</p>\n'
+    avatar_name,avatar_svg=profile_avatar.frame(avatar,CONFIG['theme'])
+    identity=(f'<p>{header_picture(avatar_svg)}</p>\n'
               f'<p>{spacer()}<a href="https://github.com/{CONFIG["owner"]}?tab=repositories">{picture("link-github", "GitHub Repositories", 160)}</a> '
               f'<a href="{escape(CONFIG["linkedin"],quote=True)}">{picture("link-linkedin", "LinkedIn", 96)}</a></p>')
     alt='Projects carousel: '+', '.join(p['name'] for p in CONFIG['projects'])+'. Open the projects list.'
@@ -104,6 +104,9 @@ def refresh(offline=False):
     # Only retire our own old content-addressed avatar after the replacement exists.
     for previous in MEDIA.glob('profile-avatar-*.svg'):
         if re.fullmatch(r'profile-avatar-[0-9a-f]{16}\.svg',previous.name) and previous.name!=avatar_name:
+            previous.unlink();changed=True
+    for previous in MEDIA.glob('profile-header*.svg'):
+        if re.fullmatch(r'profile-header(?:-[0-9a-f]{16})?(?:-mobile)?(?:-light)?(?:-reduced)?\.svg',previous.name) and previous not in files:
             previous.unlink();changed=True
     return {'changed':changed,'snapshot':data['fetched_at'],'avatar_sha256':avatar['sha256'],'commits':data['total_commits'],'active_days':data['active_days'],'repositories':[p['repository'] for p in data['projects']]}
 

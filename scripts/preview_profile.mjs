@@ -51,7 +51,7 @@ try{
   check(!state.images.some(i=>i.alt.includes('project commits across')),'Stats must not be a picture');
   const toolkit=identity;check(toolkit&&!/Unity/.test(toolkit.alt)&&toolkit.alt.includes('Python')&&toolkit.alt.includes('AI development tool'),'Technology list or Codex category is incorrect');
   check(!(await page.locator('img[alt="Tech stack"]').count()),'Standalone tech stack must be removed');
-  check(identity.source.endsWith(width<=768?'profile-header-mobile.svg':'profile-header.svg'),'Wrong responsive header variant');
+  check((width<=768?/profile-header-[0-9a-f]{16}-mobile\.svg$/:/profile-header-[0-9a-f]{16}\.svg$/).test(identity.source),'Wrong responsive header variant');
   for(const [label,href] of [['GitHub Repositories',`https://github.com/${config.owner}?tab=repositories`],['LinkedIn',config.linkedin]])check(await page.locator(`article a[href="${href}"] img[alt="${label}"]`).count()===1,`Missing independent ${label} link`);
   await page.locator('details').first().locator('summary').click();check(await page.locator('details').first().evaluate(d=>d.open),'Disclosure does not open');await page.locator('details').first().locator('summary').click();
   await page.evaluate(()=>{window.links=[];document.querySelector('article').addEventListener('click',e=>{const a=e.target.closest('a');if(a){e.preventDefault();window.links.push(a.href);}});});

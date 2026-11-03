@@ -12,6 +12,7 @@ from hashlib import sha256
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 import refresh_profile as profile
+from tech_stack import header_base
 
 NOW=datetime(2026,11,3,12,tzinfo=timezone.utc)
 
@@ -101,11 +102,10 @@ class ActivityRefresh(TestCase):
             profile.refresh()
         self.assertFalse(old.exists())
         self.assertEqual(len(list((self.out/'generated').glob('profile-avatar-*.svg'))),1)
-        # Stable header filenames embed the new framed avatar, while the cached
-        # framed asset still changes its content-addressed filename.
-        self.assertEqual(old_readme,(self.root/'README.md').read_text(encoding='utf-8'))
-        header=(self.out/'generated/profile-header.svg').read_text(encoding='utf-8')
-        self.assertIn(b64encode(profile.profile_avatar.frame(replacement,self.config['theme'])[1].encode()).decode(),header)
+        self.assertNotEqual(old_readme,(self.root/'README.md').read_text(encoding='utf-8'))
+        framed=profile.profile_avatar.frame(replacement,self.config['theme'])[1]
+        header=(self.out/'generated'/(header_base(framed)+'.svg')).read_text(encoding='utf-8')
+        self.assertIn(b64encode(framed.encode()).decode(),header)
         self.assertEqual(json.loads((self.out/'avatar.json').read_text())['sha256'],replacement['sha256'])
         self.assertFalse(profile.refresh(offline=True)['changed'])
 

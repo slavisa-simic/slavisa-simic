@@ -14,6 +14,7 @@ Validated locally for the requested header refinement. This revision has not bee
 - The static-header issue was reproduced on the live profile: normal motion selected the animated SVG while reduced motion selected a static grid. The updated README always selects a moving header. Actual README image playback passes all eight desktop/mobile, light/dark, and system motion combinations. Optional static exports remain available. The separate project carousel retains its existing motion preferences.
 - SVG icon provenance hashes and Devicon MIT/Simple Icons CC0 notices are bundled. Each standalone tech asset is under 100 KB; the selected composed header is about 101 KB. Builds work offline with the bundled cache and fonts.
 - The workflow rebuilds on stack, source, font, or icon changes and hourly. An offline repeat rebuild is a no-op. Git diff whitespace checks pass.
+- GitHub was observed serving the old header artwork after the moving-only source fix. Header assets now use versioned filenames derived from their inputs and layout source, and avatar-change tests verify that the README receives a fresh image URL. Unchanged builds retain the same filenames.
 
 Review artifacts are in `assets/previews/profile/` (ignored by Git):
 

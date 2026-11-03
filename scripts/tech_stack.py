@@ -1,10 +1,20 @@
 """Shared stack data. The hourly README refresh remains standard-library only."""
 import json
 import base64
+import hashlib
+from pathlib import Path
 from html import escape
 from profile_common import ROOT,CONFIG
 
 STACK = json.loads((ROOT / 'config/tech-stack.json').read_text(encoding='utf-8'))
+
+
+def header_base(avatar_svg):
+    # Change the image URL whenever its identity, stack, theme, or layout changes.
+    # GitHub's raw-image cache otherwise keeps serving the preceding artwork.
+    key = (avatar_svg + json.dumps(STACK, sort_keys=True) + CONFIG['name']
+           + json.dumps(CONFIG['theme'], sort_keys=True) + Path(__file__).read_text(encoding='utf-8'))
+    return 'profile-header-' + hashlib.sha256(key.encode()).hexdigest()[:16]
 
 
 def description():
@@ -45,6 +55,7 @@ def header_assets(avatar_svg, media):
     Standard-library composition also runs during the hourly avatar refresh.
     """
     avatar_uri = 'data:image/svg+xml;base64,' + base64.b64encode(avatar_svg.encode()).decode()
+    base = header_base(avatar_svg)
     files = {}
     for mobile in (False, True):
         for light in (False, True):
@@ -94,7 +105,7 @@ def header_assets(avatar_svg, media):
                        f'<text x="{text_x}" y="{name_y}" font-size="{28 if mobile else 32}" font-weight="600" fill="{ink}">{escape(CONFIG["name"])}</text>'
                        f'<text x="{text_x}" y="{role_y}" font-size="16" fill="{secondary}">Software Engineer</text></g>'
                        + carousel + rule + '</svg>')
-                files[media / f'profile-header{suffix}.svg'] = svg
+                files[media / f'{base}{suffix}.svg'] = svg
     # Center the independent native links under the information block. The
     # lower-left decoration belongs on this footer row, beside the contacts.
     footer_width = 208 + (STACK['width'] - (160 + 96 + 4)) / 2
@@ -111,11 +122,11 @@ def header_assets(avatar_svg, media):
     return files
 
 
-def header_picture():
+def header_picture(avatar_svg):
     # Reuse the exact media selection order of the standalone carousel.
     # Explicit user preference: keep the continuous rightward marquee even
     # when the OS/browser requests reduced motion. Static exports remain available.
-    markup = carousel_picture(static_for_reduced_motion=False).replace('tech-carousel', 'profile-header')
+    markup = carousel_picture(static_for_reduced_motion=False).replace('tech-carousel', header_base(avatar_svg))
     # Natural image dimensions follow the selected source. GitHub's own
     # max-width rule shrinks a composition only when the container needs it.
     markup = markup.replace(f' width="{STACK["width"]}"', '')
