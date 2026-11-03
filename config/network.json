@@ -1,0 +1,60 @@
+{
+  "version": 2,
+  "direction": "Engineering Blueprint",
+  "identity": {
+    "name": "Slaviša Simić",
+    "role": "Software Engineer / Backend Developer",
+    "github": "https://github.com/slavisa-simic",
+    "linkedin": "https://www.linkedin.com/in/slavi%C5%A1a-simi%C4%87-1879bb438/",
+    "intro": ["I build backend services and full-stack applications.", "I also explore AI-assisted software development with OpenAI Codex."],
+    "personal_skills": ["Java · Spring Boot · PostgreSQL", "REST APIs · Authentication · Docker"],
+    "ai_tool": "OpenAI Codex",
+    "ai_note": "Used extensively during Potamorph development."
+  },
+  "theme": {
+    "background": "#101113", "surface": "#141619", "line": "#292c32",
+    "text": "#edf0f4", "muted": "#a4aab5", "silver": "#b9bfc8",
+    "blue": "#82a9d5", "red": "#cc8a88"
+  },
+  "animation": {
+    "duration_ms": 10400, "frame_ms": 80,
+    "dissolve": [800, 1440], "assemble": [1440, 3040],
+    "send": [[3360, 4880], [7200, 8720]], "response_ms": 800,
+    "boundary_guard": 14, "boundary_freeze": 3,
+    "fps_note": "12.5 fps; exact 80 ms GIF frame delays",
+    "tile_budget_bytes": 3000000
+  },
+  "exports": {
+    "desktop": { "width": 1120, "padding": 48, "diagram_width": 1024, "diagram_height": 430, "scale": 2 },
+    "mobile": { "width": 390, "padding": 24, "diagram_width": 342, "diagram_height": 245, "scale": 2 }
+  },
+  "panels": [
+    { "id": "vigil", "start": 0, "end": 0.38571428571428573, "url": "https://github.com/slavisa-simic/vigil", "alt": "Vigil, a full-stack incident-management application. Project technologies: Java, Spring Boot, PostgreSQL, React, TypeScript, Docker. Open the source repository." },
+    { "id": "core", "start": 0.38571428571428573, "end": 0.6142857142857143, "url": "https://github.com/slavisa-simic", "alt": "System Core: Slaviša Simić's original silver S logo, connected to the two portfolio projects. Open the GitHub profile." },
+    { "id": "potamorph", "start": 0.6142857142857143, "end": 1, "url": "https://github.com/slavisa-simic/tower-defense-ai", "alt": "Potamorph, an AI development case study built primarily using OpenAI Codex. Unity and C# are project technologies, not claimed personal expertise. Open the source repository." }
+  ],
+  "core": {
+    "desktop": { "box": [430, 128, 164, 142], "logo": [479, 151, 66, 93], "ports": { "W": [430, 198], "E": [594, 198] } },
+    "mobile": { "box": [136, 84, 70, 76], "logo": [155, 101, 32, 43], "ports": { "W": [136, 122], "E": [206, 122] } }
+  },
+  "projects": [
+    {
+      "id": "vigil", "name": "Vigil", "color": "blue", "sequence": "01",
+      "category": "FULL-STACK APPLICATION", "subtitle": "Incident management",
+      "summary": ["Report, assign, and resolve", "IT incidents in one workflow."],
+      "technology": ["Java · Spring Boot · PostgreSQL", "React · TypeScript · Docker"],
+      "note": "", "repository": "https://github.com/slavisa-simic/vigil", "repository_label": "/vigil",
+      "desktop": { "box": [40, 90, 306, 270], "input": [346, 216], "core_port": "W", "route": [[430, 198], [398, 198], [380, 216], [346, 216]], "secondary_route": [[430, 203], [400, 203], [382, 221], [346, 221]] },
+      "mobile": { "box": [0, 82, 112, 133], "input": [112, 132], "core_port": "W", "route": [[136, 122], [130, 122], [120, 132], [112, 132]], "summary": ["Incident", "management"], "technology": ["JAVA / SPRING", "/vigil"] }
+    },
+    {
+      "id": "potamorph", "name": "Potamorph", "color": "red", "sequence": "02",
+      "category": "AI DEVELOPMENT CASE STUDY", "subtitle": "Exploring AI coding workflows",
+      "summary": ["A practical case study in building", "software with OpenAI Codex."],
+      "technology": ["Unity · C#"], "note": "Primarily developed using OpenAI Codex",
+      "repository": "https://github.com/slavisa-simic/tower-defense-ai", "repository_label": "/tower-defense-ai",
+      "desktop": { "box": [678, 90, 306, 270], "input": [678, 216], "core_port": "E", "route": [[594, 198], [626, 198], [644, 216], [678, 216]], "secondary_route": [[594, 203], [624, 203], [642, 221], [678, 221]] },
+      "mobile": { "box": [230, 82, 112, 133], "input": [230, 132], "core_port": "E", "route": [[206, 122], [212, 122], [222, 132], [230, 132]], "summary": ["AI development", "case study"], "technology": ["OPENAI CODEX", "Project: Unity / C#"] }
+    }
+  ]
+}

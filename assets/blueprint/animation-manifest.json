@@ -1,0 +1,28 @@
+{
+  "duration_ms": 10400,
+  "frame_ms": 80,
+  "variants": {
+    "desktop": {
+      "tile_bytes": 180857,
+      "tiles": {
+        "vigil": 58549,
+        "core": 67681,
+        "potamorph": 54627
+      },
+      "width": 1120,
+      "height": 430,
+      "palette_sha256": "cacb1d6d5d5edbae090a2e81156e949ae265dc2ada29d5d7a83365d6798db713"
+    },
+    "mobile": {
+      "tile_bytes": 217818,
+      "tiles": {
+        "vigil": 66297,
+        "core": 83220,
+        "potamorph": 68301
+      },
+      "width": 1120,
+      "height": 704,
+      "palette_sha256": "e3a8b283427137d1e3a3fecfafef4bd701ddd49bad2ee281a4e37d86a9790743"
+    }
+  }
+}
