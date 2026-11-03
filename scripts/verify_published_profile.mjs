@@ -19,14 +19,19 @@ try{
  for(const width of [1440,390,320]){
   await page.setViewportSize({width,height:1000});await page.goto(report.url,{waitUntil:'domcontentloaded'});
   const article=page.locator('.markdown-body').first();await article.waitFor();
-  check((await article.locator('h3').allTextContents()).join('|')==='Selected work|Toolkit|Activity','Published profile has not updated');
+  check(await article.locator('h1').innerText()===config.name,'Published identity is not native selectable text');
   await page.waitForFunction(()=>[...document.querySelectorAll('.markdown-body img')].every(i=>i.complete&&i.naturalWidth>0));
   const state=await article.evaluate(a=>({width:innerWidth,images:[...a.querySelectorAll('img')].map(i=>({src:i.currentSrc,alt:i.alt,width:i.clientWidth,height:i.clientHeight,loaded:i.naturalWidth>0,href:i.closest('a')?.href})),tables:[...a.querySelectorAll('table')].map(t=>({width:t.clientWidth,scrollWidth:t.scrollWidth})),text:a.innerText}));
-  check(state.images.length===3,'Expected one public carousel');
+  check(state.images.length===8,'Missing logo, carousel, badges, or workflow status');
+  check(state.images[0].alt==='Personal S logo','Only the logo should be an image in the header');
+  check(state.text.includes('hourly sync')&&state.text.includes('UTC'),'Native statistics sync time is missing');
+  const rows=await article.locator('tbody tr').evaluateAll(rows=>rows.map(r=>[...r.cells].map(c=>c.textContent.trim())));
+  const data=JSON.parse(await fs.readFile(path.join(root,'assets/profile/activity.json'),'utf8'));
+  check(JSON.stringify(rows)===JSON.stringify(data.projects.map(p=>[p.name,String(p.commits_30d),String(p.stars)])),'Native statistics differ from the API snapshot');
+  state.nativeStats=rows;
   check(state.tables.every(t=>t.scrollWidth<=t.width+1),'Published table overflows');
   const carousel=state.images[1];check(carousel.href.endsWith(config.carousel.target),'Carousel does not open the project list');check(carousel.width>=44&&carousel.height>=44,'Carousel target too small');
   for(const p of config.projects)check(await article.locator(`a[href="${p.readme}"]`).count()===1,`Wrong README link for ${p.name}`);
-  check(state.images[0].src.includes(width<=600?'identity-mobile-dark.svg':'identity-dark.svg'),'Wrong identity variant');
   check(carousel.src.includes(width<=600?'projects-carousel-mobile.svg':'projects-carousel.svg'),'Wrong carousel variant');
   const carouselImage=article.locator('img').nth(1);
   if(width===1440){await carouselImage.screenshot({path:path.join(out,'published-carousel-first.png')});await page.waitForTimeout(3600);await carouselImage.screenshot({path:path.join(out,'published-carousel-second.png')});}
@@ -36,16 +41,16 @@ try{
   await article.locator('details').last().locator('summary').click();check(await article.locator('details').last().evaluate(d=>d.open),'Published disclosure does not work');await article.locator('details').last().locator('summary').click();
   if(width===1440)await capture(article,'published-animated.png');
   await page.emulateMedia({reducedMotion:'reduce'});
-  await page.waitForFunction(()=>document.querySelector('.markdown-body img').currentSrc.includes('.png')&&document.querySelectorAll('.markdown-body img')[1].currentSrc.includes('-reduced.svg')&&[...document.querySelectorAll('.markdown-body img')].every(i=>i.complete&&i.naturalWidth>0));
+  await page.waitForFunction(()=>document.querySelector('img[alt^="Projects carousel:"]').currentSrc.includes('-reduced.svg')&&[...document.querySelectorAll('.markdown-body img')].every(i=>i.complete&&i.naturalWidth>0));
   if(width===1440){const first=await carouselImage.screenshot({path:path.join(out,'published-reduced-first.png')});await page.waitForTimeout(1600);const middle=await carouselImage.screenshot({path:path.join(out,'published-reduced-middle.png')});await page.waitForTimeout(1600);const last=await carouselImage.screenshot({path:path.join(out,'published-reduced-last.png')});check(!first.equals(middle)||!middle.equals(last),'Reduced-motion view is still a static image');}
   if(width===390||width===1440)await capture(article,`published-${width===390?'mobile':'desktop'}.png`);
-  state.reducedMotion='Static identity; projects alternate every three seconds without sliding';report.checks.push(state);await page.emulateMedia({reducedMotion:'no-preference'});
+  state.reducedMotion='Native identity; automatic three-second project changes without sliding';report.checks.push(state);await page.emulateMedia({reducedMotion:'no-preference'});
  }
  await page.setViewportSize({width:1440,height:1000});await page.emulateMedia({colorScheme:'light',reducedMotion:'reduce'});await page.reload({waitUntil:'domcontentloaded'});
  await page.waitForFunction(()=>[...document.querySelectorAll('.markdown-body img')].every(i=>i.complete&&i.naturalWidth>0));
- const light=await page.locator('.markdown-body img').first().evaluate(i=>i.currentSrc);check(light.includes('identity-light.png'),'Light identity was not selected');
+ check(await page.locator('.markdown-body h1').innerText()===config.name,'Light-theme identity is missing');
  await capture(page.locator('.markdown-body').first(),'published-light.png');
  const first=await fs.readFile(path.join(out,'published-carousel-first.png'));const second=await fs.readFile(path.join(out,'published-carousel-second.png'));check(!first.equals(second),'Published carousel is static');
- report.status='passed';console.log('Public profile verified: one moving carousel, project-list navigation, README links, disclosures, themes, mobile layouts, and reduced motion.');
+ report.status='passed';console.log('Public profile verified: native terminal identity and API stats, badges, carousel, README links, mobile, and both motion preferences.');
 }catch(error){report.status='failed';report.error=error.message;throw error;}
 finally{await fs.writeFile(path.join(out,'published-report.json'),JSON.stringify(report,null,2));await browser.close();}

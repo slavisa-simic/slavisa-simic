@@ -23,9 +23,9 @@ class Markup(HTMLParser):
 
 def main():
     readme=(ROOT/'README.md').read_text(encoding='utf-8');markup=Markup();markup.feed(readme)
-    assert markup.images==3,'Expected identity, one carousel, and activity'
+    assert markup.images==8,'Expected logo, carousel, five technology badges, and workflow status'
     for relative in markup.assets:
-        assert relative.startswith('assets/profile/generated/'),'Images must be stored in this repository'
+        assert relative.startswith(('assets/profile/generated/','assets/profile/badges/')),'Images must be stored in this repository'
         assert (ROOT/relative).is_file(),f'Missing image: {relative}'
     for project in CONFIG['projects']:
         assert project['readme'] in markup.links,'Missing project README destination'
@@ -35,15 +35,20 @@ def main():
     assert '#### Projects list' in readme,'Missing project list target'
     assert readme.count(CONFIG['intro'])<=1,'Repeated introduction'
     assert '{{' not in readme,'Unresolved template field'
-    toolkit=readme.split('### Toolkit')[1].split('### Activity')[0]
+    assert f'<h1><samp>{CONFIG["name"]}</samp></h1>' in readme,'Identity must be native selectable text'
+    assert 'identity-dark.svg' not in readme and 'identity-dark.png' not in readme
+    assert 'activity-dark.svg' not in readme,'Statistics must be native text, not an image'
+    toolkit=readme.split('### <samp>$ cat ~/stack</samp>')[1]
     assert 'Unity' not in toolkit and 'C#' not in toolkit,'Unsupported personal skill'
-    assert 'AI DEVELOPMENT TOOLS' in toolkit and '`OpenAI Codex`' in toolkit
+    assert 'AI Development Tools' in toolkit and 'OpenAI Codex — AI Development Tool' in toolkit
     for name,record in json.loads((SOURCE/'provenance.json').read_text()).items():
         assert sha256((SOURCE/name).read_bytes()).hexdigest()==record['sha256'],f'Source changed: {name}'
     stats=json.loads((OUT/'activity.json').read_text(encoding='utf-8'))
     assert sum(d['commits'] for d in stats['daily'])==stats['total_commits']
     assert len([d for d in stats['daily'] if d['commits']])==stats['active_days']
     assert len(stats['recent'])<=CONFIG['recent_limit']
+    assert sum(p['commits_30d'] for p in stats['projects'])==stats['total_commits']
+    for badge in json.loads((OUT/'badges/provenance.json').read_text()).values():assert badge['url'].startswith('https://img.shields.io/badge/')
     report={'status':'passed','assets':len(markup.assets),'activity_commits':stats['total_commits'],'carousel_variants':{}}
     manifest=json.loads((MEDIA/'media-manifest.json').read_text())
     for name,expected in manifest.items():

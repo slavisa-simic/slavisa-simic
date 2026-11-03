@@ -49,15 +49,17 @@ class ActivityRefresh(TestCase):
         self.assertEqual(sum(day['commits'] for day in data['daily']),102)
         self.assertEqual(len(data['daily']),30)
         self.assertEqual(len(data['recent']),3)
+        self.assertEqual({p['id']:p['commits_30d'] for p in data['projects']},{'vigil':101,'potamorph':1})
         self.assertTrue(any('page=2' in path for path in paths))
         self.assertTrue(all('/repos/slavisa-simic/slavisa-simic' not in path for path in paths))
 
-    def test_unchanged_data_keeps_original_snapshot_and_files(self):
+    def test_successful_sync_updates_time_and_offline_rebuild_is_noop(self):
         data=self.collect();data['fetched_at']='2026-11-03T01:00:00Z'
         (self.out/'activity.json').write_text(json.dumps(data),encoding='utf-8')
         with patch.object(profile,'api',side_effect=self.api):
             fresh=profile.collect(NOW)
-        self.assertEqual(fresh['fetched_at'],data['fetched_at'])
+        self.assertEqual(fresh['fetched_at'],'2026-11-03T12:00:00Z')
+        self.assertNotEqual(fresh['fetched_at'],data['fetched_at'])
         profile.refresh(offline=True)
         before={p:p.stat().st_mtime_ns for p in self.root.rglob('*') if p.is_file()}
         self.assertFalse(profile.refresh(offline=True)['changed'])
@@ -94,8 +96,7 @@ class ActivityRefresh(TestCase):
         data=self.collect()
         self.assertEqual(data['total_commits'],0)
         self.assertIn('No project commits in this time window.',profile.render(data))
-        chart=profile.chart(data,True,True)
-        self.assertIn('0 commits',chart)
-        self.assertNotIn('nan',chart)
+        self.assertTrue(all(p['commits_30d']==0 for p in data['projects']))
+        self.assertIn('hourly sync',profile.render(data))
 
 if __name__=='__main__':main()

@@ -10,17 +10,21 @@ def draw_slide(project,index,mobile):
     from build_profile_assets import label,LANCZOS
     spec=CONFIG['carousel'];w=spec['mobile_width'] if mobile else spec['width'];h=spec['mobile_height'] if mobile else spec['height']
     footer=48;body=h-footer;vigil=project['id']=='vigil'
-    surface='#12181f';ink='#edf1f5';muted='#94a2b5'
+    surface='#edf4fd' if vigil else '#152026';ink='#15243d' if vigil else '#f0e9df';muted='#526b8c' if vigil else '#b4c0bb'
     image=Image.new('RGB',(w,h),surface);d=ImageDraw.Draw(image)
+    if vigil:
+        for gx in range(w//2,w,40):d.line((gx,0,gx,body),fill='#e2ebf7')
+        for gy in range(12,body,40):d.line((w//2,gy,w,gy),fill='#e2ebf7')
+    else:
+        d.rectangle((0,0,5,body),fill='#9e5c51')
     x=26 if mobile else 44
     label(d,(x,22 if mobile else 30),f'{index+1:02d} / {len(CONFIG["projects"]):02d}',14,muted,mono=True)
     if vigil:
         label(d,(x,60 if mobile else 108),'Vigil',48 if mobile else 68,ink,600)
-        label(d,(x,117 if mobile else 196),'Incident management',22 if mobile else 24,muted,450)
+        label(d,(x,117 if mobile else 196),'Incident management platform',20 if mobile else 24,muted,450)
     else:
-        size=36 if mobile else 48;y=60 if mobile else 104
-        label(d,(x,y),'AI-assisted',size,ink,600)
-        label(d,(x,y+size+6),'development',size,ink,600)
+        label(d,(x,60 if mobile else 108),project['name'],44 if mobile else 64,ink,600)
+        label(d,(x,117 if mobile else 196),'AI-assisted development case study',19 if mobile else 23,muted,450)
     if not mobile:d.line((x,263,x+50,263),fill=project['accent'],width=2)
     source=Image.open(ROOT/project['logo']).convert('RGBA')
     # The supplied PNG has alpha 1–3 noise far outside the visible mark.
@@ -32,9 +36,8 @@ def draw_slide(project,index,mobile):
     logo=ImageOps.contain(cropped,limit,LANCZOS)
     cx,cy=(w//2,body-133) if mobile else (w-224,body//2+3)
     xy=(cx-logo.width//2,cy-logo.height//2)
-    if vigil:
-        pad=14
-        d.rounded_rectangle((xy[0]-pad,xy[1]-pad,xy[0]+logo.width+pad,xy[1]+logo.height+pad),12,fill='#e9eef5')
+    # Keep the original logo pixels on an unobstructed part of each unique surface.
+    if vigil:d.rectangle((xy[0],xy[1],xy[0]+logo.width,xy[1]+logo.height),fill=surface)
     image.paste(logo,xy,logo)
     d=ImageDraw.Draw(image)
     d.rectangle((0,body,w,h),fill='#0f151c');d.line((0,body,w,body),fill='#27313d')
@@ -42,7 +45,7 @@ def draw_slide(project,index,mobile):
     ax=x+(168 if mobile else 178);ay=body+23
     d.line((ax,ay-6,ax,ay+7),fill='#a8b8cc',width=2);d.line((ax-5,ay+2,ax,ay+7,ax+5,ay+2),fill='#a8b8cc',width=2)
     d.rounded_rectangle((1,1,w-2,h-2),12,outline='#2b3542',width=2)
-    return image,{'file':project['logo'],'source_sha256':hashlib.sha256((ROOT/project['logo']).read_bytes()).hexdigest(),'crop':list(bounds),'position':list(xy),'size':list(logo.size),'background':'#e9eef5' if vigil else surface,'operations':['crop near-transparent outer padding','proportional resize','alpha composite']}
+    return image,{'file':project['logo'],'source_sha256':hashlib.sha256((ROOT/project['logo']).read_bytes()).hexdigest(),'crop':list(bounds),'position':list(xy),'size':list(logo.size),'background':surface,'operations':['crop near-transparent outer padding','proportional resize','alpha composite']}
 
 def build_carousel():
     from build_profile_assets import uri

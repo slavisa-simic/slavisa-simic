@@ -9,14 +9,16 @@
       "name": "Vigil",
       "repository": "slavisa-simic/vigil",
       "stars": 0,
-      "default_branch": "main"
+      "default_branch": "main",
+      "commits_30d": 15
     },
     {
       "id": "potamorph",
       "name": "Potamorph",
       "repository": "slavisa-simic/tower-defense-ai",
       "stars": 0,
-      "default_branch": "main"
+      "default_branch": "main",
+      "commits_30d": 15
     }
   ],
   "total_commits": 30,
@@ -169,5 +171,5 @@
       "message": "feat: add aquatic assaults, navigation combat, and research progression"
     }
   ],
-  "fetched_at": "2026-11-03T18:50:54Z"
+  "fetched_at": "2026-11-03T20:46:44Z"
 }

@@ -11,3 +11,4 @@
 - Inter is bundled from [Google Fonts' Inter directory](https://github.com/google/fonts/tree/main/ofl/inter), with its SIL Open Font License in `assets/source/fonts/Inter-OFL.txt`.
 - IBM Plex Mono is bundled from [Google Fonts' IBM Plex Mono directory](https://github.com/google/fonts/tree/main/ofl/ibmplexmono), with its SIL Open Font License in `assets/source/fonts/IBMPlexMono-OFL.txt`.
 - Rendering behavior was checked through [GitHub's Markdown API](https://docs.github.com/en/rest/markdown/markdown) and live GitHub styles. The preview records the rendered README and image hashes in `browser-report.json`.
+- Stack badges come from Shields.io's static-badge service. `assets/profile/badges/provenance.json` records exact generation URLs and SHA-256 hashes. They are cached locally; the GitHub-hosted workflow status badge stays dynamic.

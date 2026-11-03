@@ -1,6 +1,6 @@
 # Build and update the GitHub profile
 
-The root README uses a compact editorial layout: typed identity, one centered carousel, two repository links, native skill tags, and a framed activity dashboard. Project notes and recent commits are collapsed. Potamorph showcases AI-assisted development; Unity and C# describe its implementation and are not personal skills.
+The README uses a terminal theme with a native selectable identity, the preserved S logo, distinct project carousel cards, Shields.io stack badges, and a native API-generated statistics table. Project notes and recent commits are collapsed. Potamorph showcases AI-assisted development; Unity/C# remain project details rather than personal skills.
 
 ## Rebuild
 
@@ -27,8 +27,9 @@ py scripts/refresh_profile.py
 
 - `config/profile.json`: identity, skills, project captions, official-logo hashes, README links, and carousel timing.
 - `src/README.template.md`: native document structure.
-- `scripts/build_profile_assets.py`: typing identity; `scripts/build_carousel.py`: project slides and horizontal motion.
-- `scripts/refresh_profile.py`: public data collection, chart, and README generation.
+- `scripts/build_profile_assets.py`: preserved logo; `scripts/build_carousel.py`: project slides and horizontal motion.
+- `scripts/prepare_badges.py`: cache genuine Shields.io badges locally, recording URLs and hashes.
+- `scripts/refresh_profile.py`: public data collection and native statistics/README generation.
 - `.github/workflows/profile.yml`: scheduled activity refresh and tests.
 
 Personal skills are maintained explicitly. Project technologies never become personal skills automatically.
@@ -37,9 +38,9 @@ The carousel holds each project for three seconds. Normal motion uses a 400 ms s
 
 ## Automatic activity
 
-The workflow runs on a six-hour schedule, relevant source changes, and manual dispatch. It fetches the two public repositories, updates the last 30 calendar days of repository commits, and writes only changed activity files. This is a scheduled snapshot, not a streaming service. GitHub may delay scheduled runs.
+The workflow runs hourly at minute 17 UTC, on relevant source changes, and on manual dispatch. It fetches stars and the last 30 calendar days of commits for the two public repositories. Counts are rendered as native table text with a visible last-successful-sync timestamp. The workflow status badge links directly to its runs. GitHub may delay scheduled jobs; the displayed timestamp always records an actual successful fetch.
 
-The standard repository `GITHUB_TOKEN` is sufficient. No personal access token or external statistics service is required. The entire fetch and rendering completes before replacing valid content. A failed fetch leaves the previous snapshot intact; unchanged data preserves its timestamp and creates no bot commit. The profile repository is explicitly excluded from the activity scope.
+The standard repository `GITHUB_TOKEN` is sufficient. The entire fetch completes before replacing valid content, so a failed request leaves the previous snapshot intact. Successful fetches update the sync timestamp even when counts stay the same. Offline rebuilds remain no-ops when the cached data and sources are unchanged. The profile repository and its automation commits are excluded from statistics.
 
 ## Verification and exports
 

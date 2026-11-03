@@ -1,29 +1,30 @@
 <!-- Generated from config/profile.json and public project activity. -->
-<picture><source media="(max-width: 600px) and (prefers-reduced-motion: reduce) and (prefers-color-scheme: dark)" srcset="assets/profile/generated/identity-mobile-dark.png"><source media="(max-width: 600px) and (prefers-reduced-motion: reduce)" srcset="assets/profile/generated/identity-mobile-light.png"><source media="(prefers-reduced-motion: reduce) and (prefers-color-scheme: dark)" srcset="assets/profile/generated/identity-dark.png"><source media="(prefers-reduced-motion: reduce)" srcset="assets/profile/generated/identity-light.png"><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/profile/generated/identity-mobile-dark.svg"><source media="(max-width: 600px)" srcset="assets/profile/generated/identity-mobile-light.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/profile/generated/identity-dark.svg"><img src="assets/profile/generated/identity-light.svg" width="860" alt="Slaviša Simić — Software Engineer / Backend Developer"></picture>
+<p><img src="assets/profile/generated/personal-mark.png" align="right" width="56" height="78" alt="Personal S logo"><samp>slavisa-simic@github:~$ whoami</samp></p>
+<h1><samp>Slaviša Simić</samp></h1>
+<p><samp>Software Engineer<br>Backend Developer</samp></p>
 
-[LinkedIn ↗](https://www.linkedin.com/in/slavi%C5%A1a-simi%C4%87-1879bb438/) &nbsp; · &nbsp; [Repositories ↗](https://github.com/slavisa-simic?tab=repositories)
+<p><samp><a href="https://www.linkedin.com/in/slavi%C5%A1a-simi%C4%87-1879bb438/">LinkedIn &#8599;&#65038;</a> &nbsp; · &nbsp; <a href="https://github.com/slavisa-simic?tab=repositories">Repositories &#8599;&#65038;</a></samp></p>
 
-### Selected work
+### <samp>$ ls ~/projects</samp>
 
 <p align="center"><a href="#projects-list"><picture><source media="(max-width: 600px) and (prefers-reduced-motion: reduce)" srcset="assets/profile/generated/projects-carousel-mobile-reduced.svg"><source media="(prefers-reduced-motion: reduce)" srcset="assets/profile/generated/projects-carousel-reduced.svg"><source media="(max-width: 600px)" srcset="assets/profile/generated/projects-carousel-mobile.svg"><img src="assets/profile/generated/projects-carousel.svg" width="100%" alt="Projects carousel: Vigil, Potamorph. Open the projects list."></picture></a></p>
 
 #### Projects list
 
-<p><a href="https://github.com/slavisa-simic/vigil/blob/main/README.md"><strong>Vigil &#8599;&#65038;</strong></a> &nbsp; <sub>Incident management</sub><br><a href="https://github.com/slavisa-simic/tower-defense-ai/blob/main/README.md"><strong>Potamorph &#8599;&#65038;</strong></a> &nbsp; <sub>AI development case study</sub></p>
+<table><thead><tr><th>Project</th><th>Commits<br><sub>30 days</sub></th><th>Stars</th></tr></thead><tbody><tr><td><a href="https://github.com/slavisa-simic/vigil/blob/main/README.md"><samp>Vigil</samp></a></td><td align="center"><samp>15</samp></td><td align="center"><samp>0</samp></td></tr><tr><td><a href="https://github.com/slavisa-simic/tower-defense-ai/blob/main/README.md"><samp>Potamorph</samp></a></td><td align="center"><samp>15</samp></td><td align="center"><samp>0</samp></td></tr></tbody></table>
+<p><sub>GitHub API · hourly sync · last success 03 Nov 2026, 20:46:44 UTC</sub></p>
 <details><summary>Project notes</summary><p><strong>Vigil</strong><br>Java / Spring Boot API, PostgreSQL, React / TypeScript client, and Docker Compose. JWT authentication and role-based access control protect the incident workflow.</p><p><strong>Potamorph</strong><br>I set the direction and scope; Codex handled implementation and tooling. The resulting prototype, currently titled Border Defenders, uses Unity and C#. The repository retains phase briefs and validation reports.</p><p><a href="assets/profile/generated/projects-carousel.png">Static project preview</a></p></details>
 
-### Toolkit
+### <samp>$ cat ~/stack</samp>
 
-<sub>BACKEND ENGINEERING</sub><br>`Java` `Spring Boot` `PostgreSQL` `REST APIs` `Authentication` `Docker`
+<p><img src="assets/profile/badges/java.svg" height="24" alt="Java"> <img src="assets/profile/badges/spring-boot.svg" height="24" alt="Spring Boot"> <img src="assets/profile/badges/postgresql.svg" height="24" alt="PostgreSQL"> <img src="assets/profile/badges/docker.svg" height="24" alt="Docker"></p>
 
-<sub>AI DEVELOPMENT TOOLS</sub><br>`OpenAI Codex`
+<p><samp>REST APIs · Authentication</samp></p>
 
-### Activity
-
-<picture><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/profile/generated/activity-mobile-dark.svg"><source media="(max-width: 600px)" srcset="assets/profile/generated/activity-mobile-light.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/profile/generated/activity-dark.svg"><img src="assets/profile/generated/activity-light.svg" width="900" alt="30 project commits across 10 active days in the last 30 days. Profile automation is excluded."></picture>
+<p><samp>AI Development Tools</samp><br><img src="assets/profile/badges/codex.svg" height="24" alt="OpenAI Codex — AI Development Tool"></p>
 
 <details>
-<summary>Recent changes</summary>
+<summary><samp>$ git log — recent changes</samp></summary>
 
 - [fix(balance): close late economy and Industrial Port pressure](https://github.com/slavisa-simic/tower-defense-ai/commit/715548fccbd02a156cc8f6ab12160b1adc938e74)<br><sub>Potamorph · 2026-11-03</sub>
 - [feat(gameplay): add contextual onboarding and Phase 6E balance pass](https://github.com/slavisa-simic/tower-defense-ai/commit/2bbce1721f3b3d10fd3b304782855f1b678e75a6)<br><sub>Potamorph · 2026-11-03</sub>
@@ -31,4 +32,4 @@
 
 </details>
 
-<sub>Updated 03 Nov 2026</sub>
+<p><a href="https://github.com/slavisa-simic/slavisa-simic/actions/workflows/profile.yml"><img src="https://github.com/slavisa-simic/slavisa-simic/actions/workflows/profile.yml/badge.svg" alt="Hourly stats refresh"></a></p>

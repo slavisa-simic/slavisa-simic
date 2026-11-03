@@ -29,49 +29,37 @@ const browser=await launch();const server=await serve();
 const report={readme_sha256:hash,checked_at:new Date().toISOString(),renderer:cache,viewports:[],images:{}};
 for(const match of readme.matchAll(/\b(?:src|srcset)="(assets\/[^"]+)"/g))report.images[match[1]]=crypto.createHash('sha256').update(await fs.readFile(path.join(root,match[1]))).digest('hex');
 function check(condition,message){if(!condition)throw new Error(message);}
+const data=JSON.parse(await fs.readFile(path.join(root,'assets/profile/activity.json'),'utf8'));
 try{
  const context=await browser.newContext({deviceScaleFactor:1,colorScheme:'dark',reducedMotion:'no-preference'});const page=await context.newPage();
  for(const width of [320,375,390,600,601,768,844,1024,1440]){
   await page.setViewportSize({width,height:width===844?390:1000});await page.goto(`${server.origin}/assets/previews/profile/dark.html`);
   await page.waitForFunction(()=>[...document.querySelectorAll('article img')].every(i=>i.complete&&i.naturalWidth>0));
-  const state=await page.locator('article').evaluate(article=>({
-   width:innerWidth,overflow:document.documentElement.scrollWidth>innerWidth,
-   tables:[...article.querySelectorAll('table')].map(t=>({scrollWidth:t.scrollWidth,width:t.clientWidth})),
-   images:[...article.querySelectorAll('img')].map(i=>{const r=i.getBoundingClientRect();return{source:i.currentSrc,alt:i.alt,x:r.x,y:r.y,width:r.width,height:r.height,href:i.closest('a')?.href||null};}),
-   headings:[...article.querySelectorAll('h3')].map(h=>h.textContent),
-   visibleText:article.innerText
-  }));
-  check(!state.overflow,`Page overflow at ${width}`);
-  check(state.tables.every(t=>t.scrollWidth<=t.width+1),`Table overflow at ${width}: ${JSON.stringify(state.tables)}`);
-  check(state.images.length===3,'Expected one carousel, identity, and activity');
-  const carousel=state.images.find(i=>i.alt.startsWith('Projects carousel:'));
-  check(carousel?.href.endsWith(config.carousel.target),'Carousel must open the projects list');check(carousel.width>=44&&carousel.height>=44,'Carousel target is too small');
-  check(carousel.source.endsWith(width<=600?'projects-carousel-mobile.svg':'projects-carousel.svg'),'Wrong carousel source');
-  check(state.headings.join('|')==='Selected work|Toolkit|Activity','Information hierarchy changed');
-  check((await page.locator('article h4').allTextContents()).join('|')==='Projects list','Missing visible project list');
-  for(const p of config.projects)check(await page.locator(`article a[href="${p.readme}"]`).count()===1,'Project README link missing or repeated');
-  check(state.visibleText.split(config.intro).length<=2,'Introduction is repeated');
-  check(state.visibleText.split('AI DEVELOPMENT TOOLS').length===2,'AI tools label is repeated');
-  const toolkit=state.visibleText.split('Toolkit')[1].split('Activity')[0];check(!/Unity|C#/.test(toolkit),'Game technology is presented as personal expertise');
+  const state=await page.locator('article').evaluate(a=>({width:innerWidth,overflow:document.documentElement.scrollWidth>innerWidth,images:[...a.querySelectorAll('img')].map(i=>({source:i.currentSrc,alt:i.alt,width:i.clientWidth,height:i.clientHeight,href:i.closest('a')?.href})),tables:[...a.querySelectorAll('table')].map(t=>({width:t.clientWidth,scrollWidth:t.scrollWidth})),visibleText:a.innerText}));
+  check(!state.overflow,`Page overflow at ${width}`);check(state.tables.every(t=>t.scrollWidth<=t.width+1),`Table overflow at ${width}`);
+  check(await page.locator('article h1').innerText()===config.name,'Name must be selectable native text');
+  check(state.visibleText.includes('Software Engineer')&&state.visibleText.includes('Backend Developer'),'Missing native role text');
+  check(state.images.length===8,'Expected logo, carousel, five badges, and workflow status');
+  check(state.images[0].alt==='Personal S logo','Header must contain only the logo as an image');
+  const carousel=state.images.find(i=>i.alt.startsWith('Projects carousel:'));check(carousel?.href.endsWith(config.carousel.target),'Carousel target is incorrect');check(carousel.width>=44&&carousel.height>=44,'Carousel target is too small');
+  check(carousel.source.endsWith(width<=600?'projects-carousel-mobile.svg':'projects-carousel.svg'),'Wrong carousel variant');
+  for(const p of config.projects)check(await page.locator(`article a[href="${p.readme}"]`).count()===1,'Missing project README link');
+  const rows=await page.locator('article tbody tr').evaluateAll(rows=>rows.map(r=>[...r.cells].map(c=>c.textContent.trim())));
+  check(JSON.stringify(rows)===JSON.stringify(data.projects.map(p=>[p.name,String(p.commits_30d),String(p.stars)])),'Native stats differ from API data');
+  check(state.visibleText.includes('hourly sync')&&state.visibleText.includes('UTC'),'Missing successful-sync timestamp');
+  check(!state.images.some(i=>i.alt.includes('project commits across')),'Stats must not be a picture');
+  const toolkit=state.visibleText.split('$ cat ~/stack')[1];check(!/Unity|C#/.test(toolkit),'Project implementation is being claimed as expertise');check(toolkit.includes('AI Development Tools'),'Codex category is missing');
   await page.locator('details').first().locator('summary').click();check(await page.locator('details').first().evaluate(d=>d.open),'Disclosure does not open');await page.locator('details').first().locator('summary').click();
-  await page.evaluate(()=>{window.projectClicks=[];document.querySelector('article').addEventListener('click',e=>{const a=e.target.closest('a');if(a){e.preventDefault();window.projectClicks.push(a.href);}});});
-  const links=[page.locator('article a').filter({has:page.locator('img[alt^="Projects carousel:"]')}),...config.projects.map(p=>page.locator(`article a[href="${p.readme}"]`))];
-  for(const link of links){await link.click();await link.focus();await page.keyboard.press('Enter');}
-  const clicks=await page.evaluate(()=>window.projectClicks);check(clicks.slice(0,2).every(h=>h.endsWith(config.carousel.target))&&JSON.stringify(clicks.slice(2))===JSON.stringify(config.projects.flatMap(p=>[p.readme,p.readme])),'Pointer/keyboard carousel or README links failed');
-  await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>document.querySelectorAll('article img')[1].currentSrc.endsWith('-reduced.svg'));
-  check((await page.locator('article img').nth(1).evaluate(i=>i.currentSrc)).endsWith(width<=600?'projects-carousel-mobile-reduced.svg':'projects-carousel-reduced.svg'),'Reduced-motion carousel must still cycle, without sliding');
-  const identity=page.locator('article img').first();await page.waitForFunction(()=>document.querySelector('article img').currentSrc.endsWith('.png'));
-  if(width===390||width===1440){await page.locator('article h3').first().click();await page.screenshot({path:path.join(out,width===390?'mobile.png':'desktop.png'),fullPage:true});}
-  state.reducedMotion='Static identity; automatic three-second project changes without sliding';report.viewports.push(state);await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.evaluate(()=>{window.links=[];document.querySelector('article').addEventListener('click',e=>{const a=e.target.closest('a');if(a){e.preventDefault();window.links.push(a.href);}});});
+  const projectLinks=[page.locator('article a').filter({has:page.locator('img[alt^="Projects carousel:"]')}),...config.projects.map(p=>page.locator(`article a[href="${p.readme}"]`))];
+  for(const link of projectLinks){await link.click();await link.focus();await page.keyboard.press('Enter');}
+  const clicks=await page.evaluate(()=>window.links);check(clicks.slice(0,2).every(h=>h.endsWith(config.carousel.target))&&JSON.stringify(clicks.slice(2))===JSON.stringify(config.projects.flatMap(p=>[p.readme,p.readme])),'Keyboard or pointer navigation failed');
+  await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>document.querySelector('img[alt^="Projects carousel:"]').currentSrc.endsWith('-reduced.svg'));
+  if(width===390||width===1440){await page.locator('article h1').click();await page.screenshot({path:path.join(out,width===390?'mobile.png':'desktop.png'),fullPage:true});}
+  state.reducedMotion='Native text stays readable; carousel changes without sliding';report.viewports.push(state);await page.emulateMedia({reducedMotion:'no-preference'});
  }
  await page.setViewportSize({width:1440,height:1000});await page.emulateMedia({colorScheme:'light',reducedMotion:'reduce'});await page.goto(`${server.origin}/assets/previews/profile/light.html`);await page.waitForFunction(()=>[...document.querySelectorAll('article img')].every(i=>i.complete&&i.naturalWidth>0));await page.screenshot({path:path.join(out,'light.png'),fullPage:true});
- const live=await context.newPage();await live.setViewportSize({width:1440,height:1100});
- await live.route('https://github.githubassets.com/assets/profile-local-review/**',async route=>{const relative=new URL(route.request().url()).pathname.split('/profile-local-review/')[1];const file=path.resolve(root,relative);if(!file.startsWith(root+path.sep))return route.abort();await route.fulfill({status:200,contentType:file.endsWith('.svg')?'image/svg+xml':file.endsWith('.gif')?'image/gif':'image/png',body:await fs.readFile(file)});});
- await live.goto('https://github.com/slavisa-simic',{waitUntil:'domcontentloaded'});await live.locator('.markdown-body').first().evaluate((article,html)=>{article.innerHTML=html;},html.replace(/\b(src|srcset)="assets\//g,'$1="https://github.githubassets.com/assets/profile-local-review/assets/'));
- await live.waitForFunction(()=>[...document.querySelectorAll('.markdown-body img')].every(i=>i.complete&&i.naturalWidth>0));await live.locator('.markdown-body').first().screenshot({path:path.join(out,'github-css.png')});
- report.liveCSS='Verified with actual GitHub styles; read-only DOM substitution, no publishing';
- await page.setViewportSize({width:375,height:800});await page.goto(`${server.origin}/assets/previews/profile/dark.html`);await page.locator('article').evaluate(a=>a.style.fontSize='24px');
- check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Enlarged text causes horizontal overflow');report.enlargedText='Native text checked at 24 px on 375 px viewport';
- report.status='passed';await context.close();console.log('Passed nine widths, native text, project links, disclosures, reduced motion, enlarged text, and GitHub rendering.');
+ await page.setViewportSize({width:375,height:800});await page.goto(`${server.origin}/assets/previews/profile/dark.html`);await page.locator('article').evaluate(a=>a.style.fontSize='24px');check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Enlarged native text overflows');
+ report.status='passed';console.log('Passed nine widths, native identity and stats, badges, links, disclosures, themes, and reduced motion.');
 }catch(error){report.status='failed';report.error=error.stack;throw error;}
 finally{await fs.writeFile(path.join(out,'browser-report.json'),JSON.stringify(report,null,2));await browser.close();await server.close();}

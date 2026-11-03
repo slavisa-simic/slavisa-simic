@@ -1,9 +1,9 @@
 <!-- Generated from config/profile.json and public project activity. -->
 {{IDENTITY}}
 
-[LinkedIn ↗]({{LINKEDIN}}) &nbsp; · &nbsp; [Repositories ↗](https://github.com/slavisa-simic?tab=repositories)
+<p><samp><a href="{{LINKEDIN}}">LinkedIn &#8599;&#65038;</a> &nbsp; · &nbsp; <a href="https://github.com/slavisa-simic?tab=repositories">Repositories &#8599;&#65038;</a></samp></p>
 
-### Selected work
+### <samp>$ ls ~/projects</samp>
 
 {{CAROUSEL}}
 
@@ -11,21 +11,19 @@
 
 {{PROJECTS}}
 
-### Toolkit
+### <samp>$ cat ~/stack</samp>
 
-<sub>BACKEND ENGINEERING</sub><br>{{SKILLS}}
+<p>{{BADGES}}</p>
 
-<sub>AI DEVELOPMENT TOOLS</sub><br>{{AI_TOOLS}}
+<p><samp>REST APIs · Authentication</samp></p>
 
-### Activity
-
-{{ACTIVITY}}
+<p><samp>AI Development Tools</samp><br>{{AI_BADGE}}</p>
 
 <details>
-<summary>Recent changes</summary>
+<summary><samp>$ git log — recent changes</samp></summary>
 
 {{RECENT}}
 
 </details>
 
-<sub>Updated {{SNAPSHOT}}</sub>
+<p><a href="https://github.com/slavisa-simic/slavisa-simic/actions/workflows/profile.yml"><img src="https://github.com/slavisa-simic/slavisa-simic/actions/workflows/profile.yml/badge.svg" alt="Hourly stats refresh"></a></p>

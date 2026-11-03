@@ -1,0 +1,27 @@
+{
+  "java": {
+    "name": "Java",
+    "url": "https://img.shields.io/badge/Java-1a232e?style=flat-square&logo=openjdk&logoColor=ED8B00",
+    "sha256": "f79602aa2f883bb7d3e5f367ceb2a6615a1bad02478faf51198acba4db73f5de"
+  },
+  "spring-boot": {
+    "name": "Spring Boot",
+    "url": "https://img.shields.io/badge/Spring%20Boot-1a232e?style=flat-square&logo=springboot&logoColor=6DB33F",
+    "sha256": "3225ea50db0a8f736b5010f68547fe324d8b562c6adae537545c39ff28c749f9"
+  },
+  "postgresql": {
+    "name": "PostgreSQL",
+    "url": "https://img.shields.io/badge/PostgreSQL-1a232e?style=flat-square&logo=postgresql&logoColor=73A7D3",
+    "sha256": "33020a2e5a28cacbe2c9e6e0bcfada13b977db805ace9480fc0093c9fc78acfb"
+  },
+  "docker": {
+    "name": "Docker",
+    "url": "https://img.shields.io/badge/Docker-1a232e?style=flat-square&logo=docker&logoColor=2496ED",
+    "sha256": "ea3342d2f89f94b379bfe1cda4cfe3c8e117322b60d93ea2fb5f9d5b843b0558"
+  },
+  "codex": {
+    "name": "OpenAI Codex",
+    "url": "https://img.shields.io/badge/OpenAI%20Codex-1a232e?style=flat-square",
+    "sha256": "d924f3fba1045660344b5f47bba5bdeb63e7b7809ed8795ed0b9a8b09e6c0f8f"
+  }
+}
