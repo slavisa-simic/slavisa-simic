@@ -11,4 +11,6 @@ Checked on 3 November 2026 for the native terminal redesign.
 - Native table values match the API snapshot, including per-repository 30-day commit counts and stars. Successful-sync time is visible; the hourly GitHub workflow updates it even if counts stay unchanged.
 - Seven updater tests cover pagination, date boundaries, private/profile repository exclusion, sync timestamps, offline no-op rebuilds, failure preservation, escaping, and the empty state.
 
-Machine-readable browser, animation, source, and public-profile evidence is retained locally in assets/previews/profile. The published version and automatic writeback are verified after upload.
+Machine-readable browser, animation, source, and public-profile evidence is retained locally in assets/previews/profile.
+
+The published terminal profile passed public browser checks at 1440, 390, and 320 px. The [hourly refresh workflow](https://github.com/slavisa-simic/slavisa-simic/actions/runs/41716266707) completed successfully and created its own [automated update commit](https://github.com/slavisa-simic/slavisa-simic/commit/da23b16), updating both README.md and activity.json. The successful API sync time advanced to 20:50:39 UTC on 3 November 2026. This verifies actual automatic writeback, not just an installed schedule.
