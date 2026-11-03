@@ -1,26 +1,28 @@
 <!-- Generated from config/profile.json and public project activity. -->
 {{IDENTITY}}
 
-<p><samp><a href="{{LINKEDIN}}">LinkedIn &#8599;&#65038;</a> &nbsp; · &nbsp; <a href="https://github.com/slavisa-simic?tab=repositories">Repositories &#8599;&#65038;</a></samp></p>
+<p align="center"><a href="{{LINKEDIN}}">LinkedIn &#8599;&#65038;</a> &nbsp; · &nbsp; <a href="https://github.com/slavisa-simic?tab=repositories">Repositories &#8599;&#65038;</a></p>
 
-### <samp>$ ls ~/projects</samp>
+{{PROJECTS_TITLE}}
 
 {{CAROUSEL}}
 
-#### Projects list
+<a name="projects-list"></a>
+
+{{PROJECT_LIST_TITLE}}
 
 {{PROJECTS}}
 
-### <samp>$ cat ~/stack</samp>
+{{STACK_TITLE}}
 
 <p>{{BADGES}}</p>
 
 <p><samp>REST APIs · Authentication</samp></p>
 
-<p><samp>AI Development Tools</samp><br>{{AI_BADGE}}</p>
+<p>{{AI_TITLE}}<br>{{AI_BADGE}}</p>
 
 <details>
-<summary><samp>$ git log — recent changes</samp></summary>
+<summary>{{RECENT_TITLE}}</summary>
 
 {{RECENT}}
 

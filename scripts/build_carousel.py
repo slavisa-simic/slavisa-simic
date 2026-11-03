@@ -40,11 +40,12 @@ def draw_slide(project,index,mobile):
     if vigil:d.rectangle((xy[0],xy[1],xy[0]+logo.width,xy[1]+logo.height),fill=surface)
     image.paste(logo,xy,logo)
     d=ImageDraw.Draw(image)
-    d.rectangle((0,body,w,h),fill='#0f151c');d.line((0,body,w,body),fill='#27313d')
-    label(d,(x,body+14),'Explore projects',18 if mobile else 19,'#bac6d4',450)
+    p=CONFIG['theme']
+    d.rectangle((0,body,w,h),fill=p['background']);d.line((0,body,w,body),fill=p['line'])
+    label(d,(x,body+14),'Explore projects',18 if mobile else 19,p['secondary'],450)
     ax=x+(168 if mobile else 178);ay=body+23
     d.line((ax,ay-6,ax,ay+7),fill='#a8b8cc',width=2);d.line((ax-5,ay+2,ax,ay+7,ax+5,ay+2),fill='#a8b8cc',width=2)
-    d.rounded_rectangle((1,1,w-2,h-2),12,outline='#2b3542',width=2)
+    d.rectangle((1,1,w-2,h-2),outline=p['line'],width=2)
     return image,{'file':project['logo'],'source_sha256':hashlib.sha256((ROOT/project['logo']).read_bytes()).hexdigest(),'crop':list(bounds),'position':list(xy),'size':list(logo.size),'background':surface,'operations':['crop near-transparent outer padding','proportional resize','alpha composite']}
 
 def build_carousel():
@@ -60,7 +61,7 @@ def build_carousel():
             slide.save(OUT/'build'/f'carousel-{project["id"]}{"-mobile" if mobile else ""}.png',optimize=True)
         w,h=slides[0].size;footer=48;body=h-footer
         title='Projects carousel — '+', '.join(p['name'] for p in CONFIG['projects'])
-        svg=[f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img"><title>{escape(title)}</title><desc>One project at a time. Each project is held for three seconds. Open the carousel to reach the projects list.</desc><defs><clipPath id="frame"><rect width="{w}" height="{h}" rx="12"/></clipPath></defs><g clip-path="url(#frame)"><g id="track">']
+        svg=[f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img"><title>{escape(title)}</title><desc>One project at a time. Each project is held for three seconds. Open the carousel to reach the projects list.</desc><defs><clipPath id="frame"><rect width="{w}" height="{h}"/></clipPath></defs><g clip-path="url(#frame)"><g id="track">']
         values=['0 0'];times=[0];splines=[]
         for i in range(count):
             values.extend([f'{-i*w} 0',f'{-(i+1)*w} 0']);times.extend([(i*(hold+transition)+hold)/duration,(i+1)*(hold+transition)/duration]);splines.extend(['0 0 1 1','0.22 1 0.36 1'])
@@ -73,7 +74,7 @@ def build_carousel():
             x=dot_start+i*dot_gap
             states=[1 if i==0 else 0]+[1 if (j+1)%count==i else 0 for j in range(count)]+[1 if i==0 else 0]
             svg.append(f'<rect x="{x}" y="{dot_y}" width="22" height="3" rx="1.5" fill="#46566a"/><rect x="{x}" y="{dot_y}" width="22" height="3" rx="1.5" fill="#edf2f7" opacity="{states[0]}"><animate attributeName="opacity" values="{";".join(map(str,states))}" keyTimes="{";".join(f"{t:.8f}" for t in switches)}" calcMode="discrete" dur="{duration}s" repeatCount="indefinite"/></rect>')
-        svg.append(f'<rect x="1" y="1" width="{w-2}" height="{h-2}" rx="12" fill="none" stroke="#2b3542" stroke-width="2"/></svg>')
+        svg.append(f'<rect x="1" y="1" width="{w-2}" height="{h-2}" fill="none" stroke="{CONFIG["theme"]["line"]}" stroke-width="2"/></svg>')
         target=MEDIA/f'{name}.svg';target.write_text(''.join(svg),encoding='utf-8',newline='\n')
         static=slides[0].copy();d=ImageDraw.Draw(static)
         for i in range(count):d.rounded_rectangle((dot_start+i*dot_gap,dot_y,dot_start+i*dot_gap+22,dot_y+3),1,fill='#edf2f7' if i==0 else '#46566a')

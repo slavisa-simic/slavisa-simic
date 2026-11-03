@@ -17,13 +17,13 @@ class Markup(HTMLParser):
         assert not any(k=='style' or k.startswith('on') for k in attrs),'Unsupported README scripting or styling'
         for key in ('src','srcset','href'):
             if key in attrs and attrs[key].startswith('assets/'):self.assets.add(attrs[key])
-        if tag=='a':self.links.append(attrs['href'])
+        if tag=='a' and 'href' in attrs:self.links.append(attrs['href'])
         if tag=='img':
             self.images+=1;assert attrs.get('alt'),'Missing image description'
 
 def main():
     readme=(ROOT/'README.md').read_text(encoding='utf-8');markup=Markup();markup.feed(readme)
-    assert markup.images==8,'Expected logo, carousel, five technology badges, and workflow status'
+    assert markup.images==14,'Expected framed avatar, six title images, carousel, five badges, and workflow status'
     for relative in markup.assets:
         assert relative.startswith(('assets/profile/generated/','assets/profile/badges/')),'Images must be stored in this repository'
         assert (ROOT/relative).is_file(),f'Missing image: {relative}'
@@ -32,13 +32,14 @@ def main():
         assert project['readme'].endswith('/blob/main/README.md'),'Project target must start at the README'
         assert sha256((ROOT/project['logo']).read_bytes()).hexdigest()==project['logo_sha256'],'Official logo source has changed'
     assert CONFIG['carousel']['target'] in markup.links,'Carousel must open the project list'
-    assert '#### Projects list' in readme,'Missing project list target'
+    assert '<a name="projects-list"></a>' in readme,'Missing stable project list target'
     assert readme.count(CONFIG['intro'])<=1,'Repeated introduction'
     assert '{{' not in readme,'Unresolved template field'
-    assert f'<h1><samp>{CONFIG["name"]}</samp></h1>' in readme,'Identity must be native selectable text'
+    assert f'<h1 align="center">{CONFIG["name"]}</h1>' in readme,'Identity must be native selectable text'
+    assert '~/' not in readme and 'whoami' not in readme,'Terminal presentation is retired'
     assert 'identity-dark.svg' not in readme and 'identity-dark.png' not in readme
     assert 'activity-dark.svg' not in readme,'Statistics must be native text, not an image'
-    toolkit=readme.split('### <samp>$ cat ~/stack</samp>')[1]
+    toolkit=readme.split('title-tech-stack.png')[1]
     assert 'Unity' not in toolkit and 'C#' not in toolkit,'Unsupported personal skill'
     assert 'AI Development Tools' in toolkit and 'OpenAI Codex — AI Development Tool' in toolkit
     for name,record in json.loads((SOURCE/'provenance.json').read_text()).items():
@@ -77,7 +78,14 @@ def main():
         for element in document.iter():
             assert element.tag.split('}')[-1] not in ('script','foreignObject')
             for attribute,value in element.attrib.items():
-                if attribute.endswith('href'):assert value.startswith('data:image/png;base64,'),'SVG depends on an external resource'
+                if attribute.endswith('href'):assert value.startswith(('data:image/png;base64,','data:image/jpeg;base64,','data:image/webp;base64,')),'SVG depends on an external resource'
+    avatar=json.loads((OUT/'avatar.json').read_text())
+    assert sha256(base64.b64decode(avatar['data_uri'].split(',')[1])).hexdigest()==avatar['sha256']
+    assert avatar['source'].startswith('https://avatars.githubusercontent.com/')
+    active=list(MEDIA.glob('profile-avatar-*.svg'));assert len(active)==1 and active[0].name in readme
+    frame=ET.parse(active[0]);photo=frame.find('.//s:image',{'s':'http://www.w3.org/2000/svg'})
+    assert photo.attrib['href']==avatar['data_uri'],'Framed avatar pixels must match the downloaded original'
+    for element in frame.findall('.//s:rect',{'s':'http://www.w3.org/2000/svg'}):assert 'rx' not in element.attrib
     destination=ROOT/'assets/previews/profile';destination.mkdir(parents=True,exist_ok=True)
     (destination/'validation-report.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
     print(json.dumps(report,indent=2))

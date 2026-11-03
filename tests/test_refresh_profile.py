@@ -7,6 +7,8 @@ from unittest.mock import patch
 import copy
 import json
 import sys
+from base64 import b64encode
+from hashlib import sha256
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 import refresh_profile as profile
@@ -22,11 +24,17 @@ class ActivityRefresh(TestCase):
         self.temp=TemporaryDirectory();self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name);self.out=self.root/'activity';self.out.mkdir()
         self.config=copy.deepcopy(profile.CONFIG)
+        self.avatar=self.make_avatar(b'original avatar')
+        (self.out/'avatar.json').write_text(json.dumps(self.avatar),encoding='utf-8')
         for key,value in {'ROOT':self.root,'OUT':self.out,'MEDIA':self.out/'generated','CONFIG':self.config}.items():
             patcher=patch.object(profile,key,value);patcher.start();self.addCleanup(patcher.stop)
         (self.root/'src').mkdir()
         original=Path(__file__).resolve().parents[1]/'src/README.template.md'
         (self.root/'src/README.template.md').write_text(original.read_text(encoding='utf-8'),encoding='utf-8')
+
+    def make_avatar(self,payload):
+        return {'source':'https://avatars.githubusercontent.com/u/123?v=4&s=256','mime':'image/png',
+                'sha256':sha256(payload).hexdigest(),'data_uri':'data:image/png;base64,'+b64encode(payload).decode()}
 
     def api(self,path):
         if '?' not in path:return {'private':False,'stargazers_count':2,'default_branch':'main'}
@@ -78,6 +86,29 @@ class ActivityRefresh(TestCase):
     def test_private_repository_is_rejected(self):
         with self.assertRaisesRegex(ValueError,'private'):
             self.collect(lambda path:{'private':True})
+
+    def test_avatar_change_at_same_url_updates_frame_and_readme(self):
+        data=self.collect();(self.out/'activity.json').write_text(json.dumps(data),encoding='utf-8')
+        profile.refresh(offline=True)
+        old=list((self.out/'generated').glob('profile-avatar-*.svg'))[0]
+        old_readme=(self.root/'README.md').read_text(encoding='utf-8')
+        replacement=self.make_avatar(b'new avatar at unchanged GitHub URL')
+        with patch.object(profile,'collect',return_value=data),patch.object(profile,'api',return_value={'avatar_url':replacement['source']}),patch.object(profile.profile_avatar,'fetch',return_value=replacement):
+            profile.refresh()
+        self.assertFalse(old.exists())
+        self.assertEqual(len(list((self.out/'generated').glob('profile-avatar-*.svg'))),1)
+        self.assertNotEqual(old_readme,(self.root/'README.md').read_text(encoding='utf-8'))
+        self.assertEqual(json.loads((self.out/'avatar.json').read_text())['sha256'],replacement['sha256'])
+        self.assertFalse(profile.refresh(offline=True)['changed'])
+
+    def test_avatar_failure_preserves_last_good_stats_and_readme(self):
+        data=self.collect();(self.out/'activity.json').write_text(json.dumps(data),encoding='utf-8')
+        profile.refresh(offline=True)
+        before={p:p.read_bytes() for p in self.root.rglob('*') if p.is_file()}
+        fresh=copy.deepcopy(data);fresh['fetched_at']='2026-11-03T13:00:00Z'
+        with patch.object(profile,'collect',return_value=fresh),patch.object(profile,'api',return_value={'avatar_url':self.avatar['source']}),patch.object(profile.profile_avatar,'fetch',side_effect=OSError('Avatar unavailable')),self.assertRaises(OSError):
+            profile.refresh()
+        self.assertEqual(before,{p:p.read_bytes() for p in self.root.rglob('*') if p.is_file()})
 
     def test_profile_automation_cannot_become_project_activity(self):
         self.config['projects'][0]['repository']='slavisa-simic/slavisa-simic'

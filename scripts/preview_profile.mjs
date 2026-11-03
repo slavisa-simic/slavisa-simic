@@ -39,8 +39,9 @@ try{
   check(!state.overflow,`Page overflow at ${width}`);check(state.tables.every(t=>t.scrollWidth<=t.width+1),`Table overflow at ${width}`);
   check(await page.locator('article h1').innerText()===config.name,'Name must be selectable native text');
   check(state.visibleText.includes('Software Engineer')&&state.visibleText.includes('Backend Developer'),'Missing native role text');
-  check(state.images.length===8,'Expected logo, carousel, five badges, and workflow status');
-  check(state.images[0].alt==='Personal S logo','Header must contain only the logo as an image');
+  check(state.images.length===14,'Expected framed avatar, six image titles, carousel, badges, and workflow status');
+  check(state.images[0].alt==='GitHub profile picture','Header needs the current framed GitHub avatar');
+  for(const title of ['Projects','Projects list','Tech stack','AI Development Tools','Project notes','Recent changes'])check(await page.locator(`article img[alt="${title}"]`).count()===1,`Missing image title: ${title}`);
   const carousel=state.images.find(i=>i.alt.startsWith('Projects carousel:'));check(carousel?.href.endsWith(config.carousel.target),'Carousel target is incorrect');check(carousel.width>=44&&carousel.height>=44,'Carousel target is too small');
   check(carousel.source.endsWith(width<=600?'projects-carousel-mobile.svg':'projects-carousel.svg'),'Wrong carousel variant');
   for(const p of config.projects)check(await page.locator(`article a[href="${p.readme}"]`).count()===1,'Missing project README link');
@@ -48,7 +49,7 @@ try{
   check(JSON.stringify(rows)===JSON.stringify(data.projects.map(p=>[p.name,String(p.commits_30d),String(p.stars)])),'Native stats differ from API data');
   check(state.visibleText.includes('hourly sync')&&state.visibleText.includes('UTC'),'Missing successful-sync timestamp');
   check(!state.images.some(i=>i.alt.includes('project commits across')),'Stats must not be a picture');
-  const toolkit=state.visibleText.split('$ cat ~/stack')[1];check(!/Unity|C#/.test(toolkit),'Project implementation is being claimed as expertise');check(toolkit.includes('AI Development Tools'),'Codex category is missing');
+  const toolkit=await page.locator('article img[alt="Tech stack"]').evaluate(i=>{let s=i.closest('h2').nextElementSibling,text='';for(;s;s=s.nextElementSibling)text+=s.innerText;return text;});check(!/Unity|C#/.test(toolkit),'Project implementation is being claimed as expertise');check(await page.locator('img[alt="OpenAI Codex — AI Development Tool"]').count()===1,'Codex category is missing');
   await page.locator('details').first().locator('summary').click();check(await page.locator('details').first().evaluate(d=>d.open),'Disclosure does not open');await page.locator('details').first().locator('summary').click();
   await page.evaluate(()=>{window.links=[];document.querySelector('article').addEventListener('click',e=>{const a=e.target.closest('a');if(a){e.preventDefault();window.links.push(a.href);}});});
   const projectLinks=[page.locator('article a').filter({has:page.locator('img[alt^="Projects carousel:"]')}),...config.projects.map(p=>page.locator(`article a[href="${p.readme}"]`))];

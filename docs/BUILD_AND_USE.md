@@ -1,6 +1,6 @@
 # Build and update the GitHub profile
 
-The README uses a terminal theme with a native selectable identity, the preserved S logo, distinct project carousel cards, Shields.io stack badges, and a native API-generated statistics table. Project notes and recent commits are collapsed. Potamorph showcases AI-assisted development; Unity/C# remain project details rather than personal skills.
+The README follows the supplied blueprint reference: graphite title strips, white typography, blue/red accents, and square edges. Identity and statistics remain selectable text. The framed GitHub avatar, carousel, and Shields.io badges are separate assets. Project notes and recent commits are collapsed. Potamorph showcases AI-assisted development; Unity/C# remain project details rather than personal skills.
 
 ## Rebuild
 
@@ -15,7 +15,7 @@ py scripts/build.py --preview --package
 
 The renderer can reuse an installed Playwright Chromium or `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`. Both official project logos, the personal S mark, and fonts are bundled. No image-generation or animation-hosting service is required. The preview uses GitHub's Markdown API and current styles.
 
-Add `--offline` to reuse the cached activity snapshot. Media generation works offline; browser preview still needs GitHub access. Builds do not publish.
+Add `--offline` to reuse cached activity and the avatar. Media generation works offline; browser preview still needs GitHub access. Builds do not publish.
 
 For an activity-only refresh, no third-party Python packages are needed:
 
@@ -25,12 +25,12 @@ py scripts/refresh_profile.py
 
 ## Edit
 
-- `config/profile.json`: identity, skills, project captions, official-logo hashes, README links, and carousel timing.
+- `config/profile.json`: identity, reference palette, skills, captions, official-logo hashes, README links, and carousel timing.
 - `src/README.template.md`: native document structure.
-- `scripts/build_profile_assets.py`: preserved logo; `scripts/build_carousel.py`: project slides and horizontal motion.
+- `scripts/build_profile_assets.py`: responsive title strips; `scripts/build_carousel.py`: project slides and motion.
 - `scripts/prepare_badges.py`: cache genuine Shields.io badges locally, recording URLs and hashes.
-- `scripts/refresh_profile.py`: public data collection and native statistics/README generation.
-- `.github/workflows/profile.yml`: scheduled activity refresh and tests.
+- `scripts/refresh_profile.py`: public data collection and native statistics/README generation; `scripts/profile_avatar.py`: avatar download and square framing.
+- `.github/workflows/profile.yml`: hourly activity/avatar refresh and tests.
 
 Personal skills are maintained explicitly. Project technologies never become personal skills automatically.
 
@@ -41,6 +41,8 @@ The carousel holds each project for three seconds. Normal motion uses a 400 ms s
 The workflow runs hourly at minute 17 UTC, on relevant source changes, and on manual dispatch. It fetches stars and the last 30 calendar days of commits for the two public repositories. Counts are rendered as native table text with a visible last-successful-sync timestamp. The workflow status badge links directly to its runs. GitHub may delay scheduled jobs; the displayed timestamp always records an actual successful fetch.
 
 The standard repository `GITHUB_TOKEN` is sufficient. The entire fetch completes before replacing valid content, so a failed request leaves the previous snapshot intact. Successful fetches update the sync timestamp even when counts stay the same. Offline rebuilds remain no-ops when the cached data and sources are unchanged. The profile repository and its automation commits are excluded from statistics.
+
+The same workflow requests the current avatar URL and downloads it without sending API credentials to the image host. `assets/profile/avatar.json` caches the original image and checksum. A changed photo produces a new framed SVG filename; the README switches to it automatically. The old frame is retired after its replacement exists. Change the picture in GitHub settings; the README follows it on the next successful hourly run.
 
 ## Verification and exports
 

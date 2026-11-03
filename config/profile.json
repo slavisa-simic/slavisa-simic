@@ -20,6 +20,17 @@
   ],
   "activity_days": 30,
   "recent_limit": 3,
+  "theme": {
+    "background": "#101113",
+    "surface": "#141619",
+    "line": "#292c32",
+    "text": "#edf0f4",
+    "secondary": "#c3c8d0",
+    "muted": "#a4aab5",
+    "silver": "#b9bfc8",
+    "blue": "#82a9d5",
+    "red": "#cc8a88"
+  },
   "carousel": {
     "width": 1000,
     "height": 380,

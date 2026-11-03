@@ -1,25 +1,21 @@
-# Native profile layout and motion
+# Profile layout and motion
 
-The terminal theme uses native selectable text for identity, contacts, shell-style headings, and repository statistics. The preserved S mark, cached Shields.io badges, and project carousel are separate visual assets. Notes and raw commit messages remain in disclosures.
+The clean developer layout keeps identity, contacts, project notes, badges, and statistics native. Six title images follow the supplied blueprint reference: graphite, white, muted blue/red, Inter, and square outlines. Theme tokens live in config/profile.json.
 
-## Identity
+## Identity and titles
 
-The supplied S mark retains its silver ribbon and fold shading. It is the only image in the header. Name, roles, prompt, and contacts are native HTML text styled with samp, so they remain selectable, searchable, and responsive. The former identity SVG/PNG text assets are removed.
+The current GitHub avatar is embedded unchanged in a 128 x 128 square SVG frame, displayed at 112 px. Name, roles, and contacts remain selectable. Hourly refresh downloads the avatar even when its source URL stays unchanged. Changed image bytes create a fresh generated URL; original supplied assets remain untouched.
 
-## Projects carousel
+Projects, Projects list, and Tech stack have 860 x 50 desktop and 360 x 46 mobile strips at triple resolution. Compact 30 px image titles label AI Development Tools and both disclosures. Alt text provides accessible names. Picture wrappers prevent GitHub from turning summary images into download links. An explicit Projects list anchor preserves carousel navigation.
 
-One centered image shows Vigil, slides horizontally to Potamorph, and loops. The whole carousel links to the visible `Projects list` heading below it. Each native list entry links directly to its project's `blob/main/README.md`, with no section fragment. There are no pretend previous/next buttons.
+## Carousel
 
-The desktop carousel is 1000 × 380 px; mobile uses a 480 × 450 composition. Each project is held for three seconds. A 400 ms eased translation produces a 6.8-second loop. Reduced motion uses instant project changes at three-second intervals with no moving transition, producing a six-second loop. Both variants repeat automatically.
+One centered image holds Vigil for three seconds, slides to Potamorph in 400 ms, and loops in 6.8 seconds. Reduced motion switches every three seconds without sliding. The entire image links to #projects-list; native project links open each repository's blob/main/README.md.
 
-Both supplied official logo PNGs remain byte-for-byte intact. Vigil has a light blue blueprint surface; Potamorph has a darker teal/rust treatment. Each card explicitly displays its name, short description, and original logo. The shared Explore projects footer is embedded once below the moving track, so it stays identical throughout the carousel.
+Desktop uses 1000 x 380; mobile uses 480 x 450. The outer frame is square. Vigil retains its light-blue blueprint surface; Potamorph retains its teal/rust identity. Both show name, short description, and the unchanged official logo. Their Explore projects footer is embedded once below the moving track.
 
-The self-contained SVG embeds lossless PNG slides. It needs no JavaScript, external images, or GIF palette reduction. A browser loads one approximately 369 KB desktop or 257 KB mobile variant. Native project links remain visible independently of animation. A static preview is available inside Project notes.
+Self-contained SVG embeds lossless PNG slides. No JavaScript or external SVG images are required. A visitor loads one approximately 372 KB desktop or 259 KB mobile variant. A static preview remains inside Project notes. The prior frozen reduced-motion PNG is replaced by automatic non-sliding changes.
 
-The reported non-advancing carousel was reproduced in the in-app browser: reduced motion was true and its selected image was `projects-carousel.png`. The revised picture source selects the non-sliding animated SVG in this mode. Verification must test the actual default preference as well as forced normal motion.
+## Activity and avatar refresh
 
-## Activity
-
-The API updater generates native table cells for each project's 30-day commit count and stars. The last successful sync time is visible beside the hourly refresh label. These are real repository counts, and profile automation is excluded. No statistics image is used. Every successful scheduled fetch updates the timestamp; failures preserve the preceding valid profile.
-
-GitHub supports the native anchors, `picture`, `details`, and media queries used here. JavaScript is excluded from README content, so the carousel uses SVG motion with one stable external anchor. Body content stays native and keyboard accessible.
+The API updater renders native per-project 30-day commits and stars, with a visible successful-fetch timestamp. It excludes profile automation. The same hourly workflow fetches the current avatar. All network requests and rendering finish before replacing valid files. Failed requests preserve the previous valid profile; successful fetches advance the timestamp even when counts stay unchanged.

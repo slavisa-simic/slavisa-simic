@@ -1,6 +1,7 @@
 # Sources and provenance
 
-- The personal S logo comes from the user's supplied `assets/source/personal-logo.png`. The original stays untouched. Only its exterior black matte is removed in the generated transparent copy; the silver ribbon and its fold shading are retained.
+- The original S stays untouched at assets/source/personal-logo.png. The active header follows the current GitHub avatar, fetched from the public user API's official avatar URL. assets/profile/avatar.json records the source, MIME type, original bytes, and SHA-256. Framing preserves its image pixels.
+- The latest supplied blueprint screenshot defines title/frame palette and square geometry, recorded in config/profile.json and the profile design-system override. Title assets are composed with the bundled Inter font.
 - Earlier network/blueprint artwork is archived. The active carousel uses the two official logos supplied by the user for this revision, including the requested illustrated Potamorph mark.
 - [Vigil README](https://github.com/slavisa-simic/vigil/blob/main/README.md), content SHA `b4f87bcf6ebe7bafffd67dcc3c0844c53f5de958`, supports the incident workflow, authentication, access control, and project technology description.
 - [Tower-defense README](https://github.com/slavisa-simic/tower-defense-ai/blob/main/README.md), content SHA `a1852aab731e3e457ae8daeafb3f58a23bcbf452`, supports the prototype context, Unity/C# implementation, and the bounded briefs, Codex implementation, tooling, and validation record. See its [Built with Codex](https://github.com/slavisa-simic/tower-defense-ai#built-with-codex) section.

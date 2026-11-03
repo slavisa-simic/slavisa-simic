@@ -1,16 +1,13 @@
-# Terminal profile validation
+# Clean developer profile validation
 
-Checked on 3 November 2026 for the native terminal redesign.
+Checked on 3 November 2026 against the supplied blueprint reference.
 
-- Identity, role, contacts, shell headings, and statistics are native selectable text. The S mark is the only header image; the old image-based identity and activity chart are removed.
-- Genuine Shields.io badges cover Java, Spring Boot, PostgreSQL, Docker, and OpenAI Codex. Codex is explicitly under AI Development Tools. Unity and C# appear only in project notes.
-- Vigil uses its light blueprint identity. Potamorph has its own darker teal/rust identity, with its name, short description, and official logo. Both use the same fixed Explore projects footer.
-- All four carousel variants hold each project for three seconds. Normal motion uses a 400 ms slide; reduced motion switches without sliding. Actual embedded playback and the exact loop clone pass.
-- Logo source hashes and generated proportional composites match the supplied marks. No regenerated or recolored project logos are used.
-- Nine viewport widths from 320 to 1440 px pass overflow, navigation, disclosure, badge loading, theme, and reduced-motion checks.
-- Native table values match the API snapshot, including per-repository 30-day commit counts and stars. Successful-sync time is visible; the hourly GitHub workflow updates it even if counts stay unchanged.
-- Seven updater tests cover pagination, date boundaries, private/profile repository exclusion, sync timestamps, offline no-op rebuilds, failure preservation, escaping, and the empty state.
+- Name, roles, contacts, and statistics remain selectable text. The current GitHub avatar has a sharp frame; original supplied S and project marks remain unchanged.
+- Six titles are images with alt text. Major strips have mobile compositions. Summary images toggle their disclosures; the carousel retains its Projects list target.
+- The palette matches the reference. The carousel has square corners and retains both distinct project identities and the shared footer.
+- Shields.io badges cover Java, Spring Boot, PostgreSQL, Docker, and OpenAI Codex. Codex stays under AI Development Tools. Unity/C# remain project details.
+- All four carousel variants retain three-second holds, the loop clone, and unchanged proportional logo composites. Reduced motion changes projects automatically without sliding.
+- Eleven unit tests cover activity boundaries, pagination, private/profile exclusion, timestamps, no-op offline builds, escaping, empty windows, original avatar downloads, changed avatar bytes at an unchanged URL, and failure preservation.
+- Nine viewport widths from 320 to 1440 pass local overflow, image loading, navigation, disclosure, and motion checks. Framing preserves exact downloaded avatar bytes.
 
-Machine-readable browser, animation, source, and public-profile evidence is retained locally in assets/previews/profile.
-
-The published terminal profile passed public browser checks at 1440, 390, and 320 px. The [hourly refresh workflow](https://github.com/slavisa-simic/slavisa-simic/actions/runs/41716266707) completed successfully and created its own [automated update commit](https://github.com/slavisa-simic/slavisa-simic/commit/da23b16), updating both README.md and activity.json. The successful API sync time advanced to 20:50:39 UTC on 3 November 2026. This verifies actual automatic writeback, not just an installed schedule.
+Machine-readable browser, animation, media, and public-profile evidence is kept locally in assets/previews/profile. Deployment evidence will be added after publication.

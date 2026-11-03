@@ -22,21 +22,22 @@ try{
   check(await article.locator('h1').innerText()===config.name,'Published identity is not native selectable text');
   await page.waitForFunction(()=>[...document.querySelectorAll('.markdown-body img')].every(i=>i.complete&&i.naturalWidth>0));
   const state=await article.evaluate(a=>({width:innerWidth,images:[...a.querySelectorAll('img')].map(i=>({src:i.currentSrc,alt:i.alt,width:i.clientWidth,height:i.clientHeight,loaded:i.naturalWidth>0,href:i.closest('a')?.href})),tables:[...a.querySelectorAll('table')].map(t=>({width:t.clientWidth,scrollWidth:t.scrollWidth})),text:a.innerText}));
-  check(state.images.length===8,'Missing logo, carousel, badges, or workflow status');
-  check(state.images[0].alt==='Personal S logo','Only the logo should be an image in the header');
+  check(state.images.length===14,'Missing framed avatar, image title, carousel, badge, or workflow status');
+  check(state.images[0].alt==='GitHub profile picture','Missing current framed GitHub avatar');
+  for(const title of ['Projects','Projects list','Tech stack','AI Development Tools','Project notes','Recent changes'])check(await article.locator(`img[alt="${title}"]`).count()===1,`Missing image title: ${title}`);
   check(state.text.includes('hourly sync')&&state.text.includes('UTC'),'Native statistics sync time is missing');
   const rows=await article.locator('tbody tr').evaluateAll(rows=>rows.map(r=>[...r.cells].map(c=>c.textContent.trim())));
   const data=JSON.parse(await fs.readFile(path.join(root,'assets/profile/activity.json'),'utf8'));
   check(JSON.stringify(rows)===JSON.stringify(data.projects.map(p=>[p.name,String(p.commits_30d),String(p.stars)])),'Native statistics differ from the API snapshot');
   state.nativeStats=rows;
   check(state.tables.every(t=>t.scrollWidth<=t.width+1),'Published table overflows');
-  const carousel=state.images[1];check(carousel.href.endsWith(config.carousel.target),'Carousel does not open the project list');check(carousel.width>=44&&carousel.height>=44,'Carousel target too small');
+  const carousel=state.images.find(i=>i.alt.startsWith('Projects carousel:'));check(carousel.href.endsWith(config.carousel.target),'Carousel does not open the project list');check(carousel.width>=44&&carousel.height>=44,'Carousel target too small');
   for(const p of config.projects)check(await article.locator(`a[href="${p.readme}"]`).count()===1,`Wrong README link for ${p.name}`);
   check(carousel.src.includes(width<=600?'projects-carousel-mobile.svg':'projects-carousel.svg'),'Wrong carousel variant');
-  const carouselImage=article.locator('img').nth(1);
+  const carouselImage=article.locator('img[alt^="Projects carousel:"]');
   if(width===1440){await carouselImage.screenshot({path:path.join(out,'published-carousel-first.png')});await page.waitForTimeout(3600);await carouselImage.screenshot({path:path.join(out,'published-carousel-second.png')});}
   await carouselImage.click();await page.waitForFunction(()=>location.hash.includes('projects-list'));
-  await page.waitForFunction(()=>[...document.querySelectorAll('.markdown-body h4')].some(h=>h.textContent==='Projects list'&&h.getBoundingClientRect().top>=0&&h.getBoundingClientRect().top<innerHeight));
+  await page.waitForFunction(()=>{const h=document.querySelector('.markdown-body img[alt="Projects list"]')?.closest('h3');return h&&h.getBoundingClientRect().top>=0&&h.getBoundingClientRect().top<innerHeight;});
   state.carouselNavigation='Click scrolls to the visible projects list';
   await article.locator('details').last().locator('summary').click();check(await article.locator('details').last().evaluate(d=>d.open),'Published disclosure does not work');await article.locator('details').last().locator('summary').click();
   if(width===1440)await capture(article,'published-animated.png');
@@ -51,6 +52,6 @@ try{
  check(await page.locator('.markdown-body h1').innerText()===config.name,'Light-theme identity is missing');
  await capture(page.locator('.markdown-body').first(),'published-light.png');
  const first=await fs.readFile(path.join(out,'published-carousel-first.png'));const second=await fs.readFile(path.join(out,'published-carousel-second.png'));check(!first.equals(second),'Published carousel is static');
- report.status='passed';console.log('Public profile verified: native terminal identity and API stats, badges, carousel, README links, mobile, and both motion preferences.');
+ report.status='passed';console.log('Public profile verified: clean identity, current framed avatar, six image titles, API stats, carousel, README links, mobile, and both motion preferences.');
 }catch(error){report.status='failed';report.error=error.message;throw error;}
 finally{await fs.writeFile(path.join(out,'published-report.json'),JSON.stringify(report,null,2));await browser.close();}
