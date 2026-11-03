@@ -52,7 +52,8 @@ def media_picture(name,alt,width='100%'):
 
 def title(slug,label,level=2):
     base='assets/profile/generated/title-'+slug
-    return f'<h{level}><picture><source media="(max-width: 600px)" srcset="{base}-mobile.png"><img src="{base}.png" width="100%" alt="{label}"></picture></h{level}>'
+    tag=f'h{level}' if level else 'p'
+    return f'<{tag}><picture><source media="(max-width: 600px)" srcset="{base}-mobile.png"><img src="{base}.png" width="100%" alt="{label}"></picture></{tag}>'
 
 def compact_title(slug,label,width):
     path=f'assets/profile/generated/title-{slug}.png'
@@ -84,7 +85,7 @@ def render(data,avatar=None):
     rows='\n'.join(recent) if recent else 'No project commits in this time window.'
     template=(ROOT/'src/README.template.md').read_text(encoding='utf-8')
     content=template.replace('{{IDENTITY}}',identity).replace('{{CAROUSEL}}',carousel).replace('{{PROJECTS}}',projects).replace('{{BADGES}}',badges).replace('{{AI_BADGE}}',ai_badge).replace('{{RECENT}}',rows).replace('{{LINKEDIN}}',CONFIG['linkedin'])
-    for key,slug,label,level in [('PROJECTS_TITLE','projects','Projects',2),('PROJECT_LIST_TITLE','projects-list','Projects list',3),('STACK_TITLE','tech-stack','Tech stack',2)]:
+    for key,slug,label,level in [('PROJECTS_TITLE','projects','Projects',None),('PROJECT_LIST_TITLE','projects-list','Projects list',3),('STACK_TITLE','tech-stack','Tech stack',2)]:
         content=content.replace('{{'+key+'}}',title(slug,label,level))
     content=content.replace('{{AI_TITLE}}',compact_title('ai-tools','AI Development Tools',222)).replace('{{RECENT_TITLE}}',compact_title('recent-changes','Recent changes',158))
     return content

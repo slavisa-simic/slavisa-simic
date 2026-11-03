@@ -5,7 +5,7 @@
 
 <p align="center"><a href="https://www.linkedin.com/in/slavi%C5%A1a-simi%C4%87-1879bb438/">LinkedIn &#8599;&#65038;</a> &nbsp; · &nbsp; <a href="https://github.com/slavisa-simic?tab=repositories">Repositories &#8599;&#65038;</a></p>
 
-<h2><picture><source media="(max-width: 600px)" srcset="assets/profile/generated/title-projects-mobile.png"><img src="assets/profile/generated/title-projects.png" width="100%" alt="Projects"></picture></h2>
+<p><picture><source media="(max-width: 600px)" srcset="assets/profile/generated/title-projects-mobile.png"><img src="assets/profile/generated/title-projects.png" width="100%" alt="Projects"></picture></p>
 
 <p align="center"><a href="#projects-list"><picture><source media="(max-width: 600px) and (prefers-reduced-motion: reduce)" srcset="assets/profile/generated/projects-carousel-mobile-reduced.svg"><source media="(prefers-reduced-motion: reduce)" srcset="assets/profile/generated/projects-carousel-reduced.svg"><source media="(max-width: 600px)" srcset="assets/profile/generated/projects-carousel-mobile.svg"><img src="assets/profile/generated/projects-carousel.svg" width="100%" alt="Projects carousel: Vigil, Potamorph. Open the projects list."></picture></a></p>
 
