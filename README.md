@@ -12,7 +12,7 @@
 #### Projects list
 
 <table><thead><tr><th>Project</th><th>Commits<br><sub>30 days</sub></th><th>Stars</th></tr></thead><tbody><tr><td><a href="https://github.com/slavisa-simic/vigil/blob/main/README.md"><samp>Vigil</samp></a></td><td align="center"><samp>15</samp></td><td align="center"><samp>0</samp></td></tr><tr><td><a href="https://github.com/slavisa-simic/tower-defense-ai/blob/main/README.md"><samp>Potamorph</samp></a></td><td align="center"><samp>15</samp></td><td align="center"><samp>0</samp></td></tr></tbody></table>
-<p><sub>GitHub API · hourly sync · last success 03 Nov 2026, 20:46:44 UTC</sub></p>
+<p><sub>GitHub API · hourly sync · last success 03 Nov 2026, 20:50:39 UTC</sub></p>
 <details><summary>Project notes</summary><p><strong>Vigil</strong><br>Java / Spring Boot API, PostgreSQL, React / TypeScript client, and Docker Compose. JWT authentication and role-based access control protect the incident workflow.</p><p><strong>Potamorph</strong><br>I set the direction and scope; Codex handled implementation and tooling. The resulting prototype, currently titled Border Defenders, uses Unity and C#. The repository retains phase briefs and validation reports.</p><p><a href="assets/profile/generated/projects-carousel.png">Static project preview</a></p></details>
 
 ### <samp>$ cat ~/stack</samp>
