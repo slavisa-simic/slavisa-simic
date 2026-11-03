@@ -25,7 +25,7 @@ export async function launch() {
   return chromium.launch({ headless: true, executablePath });
 }
 export async function serve() {
-  const mime = { '.html':'text/html; charset=utf-8','.css':'text/css','.mjs':'text/javascript','.json':'application/json','.png':'image/png','.gif':'image/gif','.ttf':'font/ttf','.md':'text/plain; charset=utf-8' };
+  const mime = { '.html':'text/html; charset=utf-8','.css':'text/css','.mjs':'text/javascript','.json':'application/json','.png':'image/png','.gif':'image/gif','.svg':'image/svg+xml','.ttf':'font/ttf','.md':'text/plain; charset=utf-8' };
   const server = http.createServer(async (req, res) => {
     try {
       const file = path.resolve(root, `.${decodeURIComponent(new URL(req.url, 'http://localhost').pathname)}`);

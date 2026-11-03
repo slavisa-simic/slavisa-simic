@@ -1,0 +1,26 @@
+{
+  "vigil": {
+    "bytes": 947687,
+    "duration_ms": 15840,
+    "samples": 24,
+    "sha256": "d6466c406899b4e7ced9d04833a8a99052ef83d8faa3091b326b47edeba9cd93"
+  },
+  "vigil-mobile": {
+    "bytes": 284592,
+    "duration_ms": 10560,
+    "samples": 16,
+    "sha256": "45853cf86aeabc89b89c04ed5e5e8438e00aa18460dda18826db23dcc2b46491"
+  },
+  "potamorph": {
+    "bytes": 951559,
+    "duration_ms": 15840,
+    "samples": 24,
+    "sha256": "2496d9686984c01ee32526c7006064dad29aeed7570cbc4bb876301fbafabc9e"
+  },
+  "potamorph-mobile": {
+    "bytes": 330871,
+    "duration_ms": 10560,
+    "samples": 16,
+    "sha256": "4c7e6be1c20239e60a08540c499b1fb91a106ab088ae7edd2970bd82ac967a72"
+  }
+}

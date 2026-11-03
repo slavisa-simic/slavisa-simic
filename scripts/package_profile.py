@@ -1,4 +1,4 @@
-"""Package a minimal ready-to-use profile and the full reproducible blueprint source."""
+"""Package the native profile snapshot and its reproducible build/refresh sources."""
 from pathlib import Path
 from zipfile import ZipFile,ZIP_DEFLATED
 from html.parser import HTMLParser
@@ -24,10 +24,11 @@ def main():
     ready=[ROOT/'README.md',*[ROOT/p for p in parser.paths]]
     archive(out/'profile-ready.zip',ready)
     source=ready+[ROOT/p for p in ('.gitignore','.gitattributes','package.json','package-lock.json','requirements.txt')]
-    for folder in ('config','src','scripts','docs','assets/source','assets/blueprint/source','assets/previews/blueprint'):
+    for folder in ('config','src','scripts','docs','tests','design-system','.github'):
         source.extend(p for p in (ROOT/folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts)
-    source.extend(p for p in (ROOT/'assets/blueprint').rglob('*') if p.is_file() and 'build' not in p.relative_to(ROOT/'assets/blueprint').parts)
-    source += [ROOT/'assets/blueprint/source-manifest.json',ROOT/'assets/blueprint/animation-manifest.json']
+    source.extend(p for p in (ROOT/'assets/profile').rglob('*') if p.is_file() and 'build' not in p.relative_to(ROOT/'assets/profile').parts)
+    source.extend(p for p in (ROOT/'assets/source/fonts').glob('*') if p.is_file() and not p.name.startswith('Oxanium'))
+    source.append(ROOT/'assets/source/personal-logo.png')
     archive(out/'profile-source.zip',source)
     # Verify both archives are readable and that all README images are included.
     for name in ('profile-ready.zip','profile-source.zip'):

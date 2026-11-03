@@ -3,6 +3,7 @@ node_modules/
 __pycache__/
 *.pyc
 assets/blueprint/build/
+assets/profile/build/
 assets/previews/blueprint/vendor/
 dist/
 design-explorations/

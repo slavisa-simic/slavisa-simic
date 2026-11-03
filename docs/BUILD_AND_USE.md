@@ -1,18 +1,10 @@
-# Build and use the Engineering Blueprint profile
+# Build and update the GitHub profile
 
-The approved design is implemented in the root `README.md`. Potamorph is presented as an **AI development case study**, with OpenAI Codex under **AI Development Tools**. Unity and C# describe the resulting prototype; neither is listed as personal expertise.
-
-## Ready-to-use files
-
-`dist/profile-ready.zip` contains only the README and the assets it needs. Extract its contents into the root of the profile repository while preserving the `assets/blueprint/` paths. Keep the full source locally or use `dist/profile-source.zip` if you want the reproducible pipeline in the repository as well.
-
-For GitHub to display the README on the profile, the public repository must be named `slavisa-simic`, owned by `slavisa-simic`, with `README.md` at its root. See [GitHub's profile README instructions](https://docs.github.com/en/account-and-profile/how-tos/profile-customization/managing-your-profile-readme).
-
-The profile belongs in `slavisa-simic/slavisa-simic`. Publish subsequent updates by committing the rebuilt README and assets to that repository's default branch. Keep the build sources alongside them so the design can be reproduced.
+The root README uses native GitHub content with a typed identity, two independently linked project slideshows, expandable project details, a short toolkit, and real repository activity. Potamorph showcases AI-assisted development; Unity and C# describe its implementation and are not personal skills.
 
 ## Rebuild
 
-Use Python 3.11+ and Node.js 20+. On Windows, the installed Python launcher is `py`; use `python` in environments where that command selects your interpreter.
+Use Python 3.11+ and Node.js 20+. On Windows:
 
 ```powershell
 py -m pip install -r requirements.txt
@@ -21,36 +13,36 @@ npx playwright install chromium
 py scripts/build.py --preview --package
 ```
 
-The renderer can reuse an installed Playwright Chromium, or accept `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`. Fonts and the supplied personal logo are bundled, so asset generation needs no font service or image-generation API. The first `--preview` run needs internet access for GitHub's Markdown renderer and stylesheets.
+The renderer can reuse an installed Playwright Chromium or `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`. The first build caches the actual project headers/screenshots. The preview uses GitHub's Markdown API and current styles. Fonts and the supplied S logo are bundled.
 
-For a focused rebuild, run these stages in order:
+Add `--offline` to reuse the cached activity snapshot. Source artwork must already be cached, and browser preview still needs GitHub access. Builds do not publish.
+
+For an activity-only refresh, no third-party Python packages are needed:
 
 ```powershell
-py scripts/build_assets.py
-node scripts/render_assets.mjs
-py scripts/generate_animations.py
-py scripts/build_readme.py
-node scripts/render_preview.mjs
-py scripts/validate_layout.py --check-links
-py scripts/package_profile.py
+py scripts/refresh_profile.py
 ```
 
-The build script runs these checks except the optional external-link recheck. It does not publish anything.
+## Edit
 
-## Edit the profile
+- `config/profile.json`: identity, skills, project captions, sources, and README links.
+- `src/README.template.md`: native document structure.
+- `scripts/build_profile_assets.py`: authored media and animation.
+- `scripts/refresh_profile.py`: public data collection, chart, and README generation.
+- `.github/workflows/profile.yml`: scheduled activity refresh and tests.
 
-- Change identity copy, personal skills, AI tool disclosure, project labels, ports, and routes in `config/network.json`.
-- Edit readable profile descriptions in `src/README.template.md`.
-- Edit the approved visual grammar in `src/blueprint.css` and `src/blueprint.mjs`.
-- Rebuild instead of editing generated README HTML or image files.
+Personal skills are maintained explicitly. Project technologies never become personal skills automatically.
 
-## Previews and evidence
+## Automatic activity
 
-- `assets/previews/blueprint/profile.html`: entire profile, rendered through GitHub's Markdown API.
-- `assets/previews/blueprint/profile-desktop.png` and `profile-mobile.png`: complete profile screenshots.
-- `assets/previews/blueprint/profile-light.png`: light-theme rendering.
-- `assets/previews/blueprint/github-live-hero.png`: read-only test inside a live GitHub page using its actual styles.
-- `assets/blueprint/desktop/hero-static.png`: complete static hero.
-- `assets/previews/blueprint/browser-report.json` and `validation-report.json`: measured results.
+The workflow runs on a six-hour schedule, relevant source changes, and manual dispatch. It fetches the two public repositories, updates the last 30 calendar days of repository commits, and writes only changed activity files. This is a scheduled snapshot, not a streaming service. GitHub may delay scheduled runs.
 
-The HTML preview opens locally and references saved stylesheets and local image files. The source ZIP includes these dependencies. It is a review artifact, not a separate portfolio website.
+The standard repository `GITHUB_TOKEN` is sufficient. No personal access token or external statistics service is required. The entire fetch and rendering completes before replacing valid content. A failed fetch leaves the previous snapshot intact; unchanged data preserves its timestamp and creates no bot commit. The profile repository is explicitly excluded from the activity scope.
+
+## Verification and exports
+
+`assets/previews/profile/` contains local desktop/mobile/light screenshots and browser, animation, and media reports. These review artifacts are ignored by Git. `scripts/validate_layout.py` checks actual decoded GIFs and asset/source integrity. `tests/` covers activity boundaries, pagination, safe rendering, no-op updates, and failure preservation.
+
+`dist/profile-ready.zip` contains the README and required images as a snapshot. `dist/profile-source.zip` adds the build and automatic-refresh sources. Preserve the `assets/profile/` paths.
+
+The active profile is published in [slavisa-simic/slavisa-simic](https://github.com/slavisa-simic/slavisa-simic). Earlier blueprint assets and authoring files remain as historical design references; `scripts/build.py` uses the current pipeline exclusively.
