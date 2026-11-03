@@ -23,7 +23,7 @@ def main():
     parser=Assets();parser.feed((ROOT/'README.md').read_text(encoding='utf-8'))
     ready=[ROOT/'README.md',*[ROOT/p for p in parser.paths]]
     archive(out/'profile-ready.zip',ready)
-    source=ready+[ROOT/p for p in ('.gitignore','package.json','package-lock.json','requirements.txt')]
+    source=ready+[ROOT/p for p in ('.gitignore','.gitattributes','package.json','package-lock.json','requirements.txt')]
     for folder in ('config','src','scripts','docs','assets/source','assets/blueprint/source','assets/previews/blueprint'):
         source.extend(p for p in (ROOT/folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts)
     source.extend(p for p in (ROOT/'assets/blueprint').rglob('*') if p.is_file() and 'build' not in p.relative_to(ROOT/'assets/blueprint').parts)

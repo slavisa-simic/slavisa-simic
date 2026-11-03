@@ -29,3 +29,11 @@ The checks recorded above were performed before publication. They used actual se
 LinkedIn was verified as the public profile's listed link; automated access to LinkedIn contents is not required by the profile. No email address or unsupported contact information was invented.
 
 GitHub activity uses native contribution and commit links, avoiding third-party statistics services and fabricated activity counts.
+
+## Published profile verification
+
+Published on 3 November 2026 to the public [profile repository](https://github.com/slavisa-simic/slavisa-simic), on its `main` branch. The README is visible directly on the [GitHub profile](https://github.com/slavisa-simic).
+
+The actual public profile was checked in an unauthenticated browser at 1440 px and 390 px. The published README matches the approved local file. Every hero image loaded from the public repository, all seven linked regions had the expected destinations, responsive sources selected the correct desktop/mobile assets, and no panel or row seams were measured. Reduced motion selected the published PNG fallbacks successfully.
+
+Screenshots and the machine-readable public verification report are retained locally under `assets/previews/blueprint/published-*`. This check used the published profile and its real public assets, without replacing page contents or intercepting image requests.
