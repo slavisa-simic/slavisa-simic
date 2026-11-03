@@ -1,17 +1,18 @@
 {
   "projects-carousel": {
     "format": "svg",
+    "motion": "slide",
     "width": 1000,
-    "height": 420,
-    "bytes": 496774,
-    "duration_ms": 11200,
-    "hold_ms": 5000,
-    "transition_ms": 600,
+    "height": 380,
+    "bytes": 368908,
+    "duration_ms": 6800,
+    "hold_ms": 3000,
+    "transition_ms": 400,
     "projects": [
       "vigil",
       "potamorph"
     ],
-    "sha256": "dbf6cf2ceea180bf4221ca069bd30c4cff5a7cc71a2a04f530f7e3ea43fc1f9c",
+    "sha256": "9e2ea571675226ce511d20debfc2d275c80f6d19ef8e640614ad883a0fc2d1ff",
     "logos": [
       {
         "file": "assets/profile/source/vigil-logo.png",
@@ -23,13 +24,14 @@
           1101
         ],
         "position": [
-          639,
-          21
+          662,
+          33
         ],
         "size": [
-          273,
-          326
+          228,
+          272
         ],
+        "background": "#e9eef5",
         "operations": [
           "crop near-transparent outer padding",
           "proportional resize",
@@ -46,13 +48,79 @@
           1239
         ],
         "position": [
-          605,
-          21
+          634,
+          33
         ],
         "size": [
-          340,
-          326
+          284,
+          272
         ],
+        "background": "#12181f",
+        "operations": [
+          "crop near-transparent outer padding",
+          "proportional resize",
+          "alpha composite"
+        ]
+      }
+    ]
+  },
+  "projects-carousel-reduced": {
+    "format": "svg",
+    "motion": "cut",
+    "width": 1000,
+    "height": 380,
+    "bytes": 368741,
+    "duration_ms": 6000,
+    "hold_ms": 3000,
+    "transition_ms": 0,
+    "projects": [
+      "vigil",
+      "potamorph"
+    ],
+    "sha256": "060f42cc6abb51ab957f4049623e705f465db6bdb7cdbf2e1986b47fa256a14d",
+    "logos": [
+      {
+        "file": "assets/profile/source/vigil-logo.png",
+        "source_sha256": "fce01136a01affc3419a4a3d025e1d4dd2b749cc01eabecbc6a91f7496eec90b",
+        "crop": [
+          257,
+          202,
+          1010,
+          1101
+        ],
+        "position": [
+          662,
+          33
+        ],
+        "size": [
+          228,
+          272
+        ],
+        "background": "#e9eef5",
+        "operations": [
+          "crop near-transparent outer padding",
+          "proportional resize",
+          "alpha composite"
+        ]
+      },
+      {
+        "file": "assets/profile/source/potamorph-logo.png",
+        "source_sha256": "f8d4c988597ac86eed14ab94be0ad6e8020eca0806032b466430f223aa733cc7",
+        "crop": [
+          0,
+          36,
+          1254,
+          1239
+        ],
+        "position": [
+          634,
+          33
+        ],
+        "size": [
+          284,
+          272
+        ],
+        "background": "#12181f",
         "operations": [
           "crop near-transparent outer padding",
           "proportional resize",
@@ -63,17 +131,18 @@
   },
   "projects-carousel-mobile": {
     "format": "svg",
+    "motion": "slide",
     "width": 480,
-    "height": 480,
-    "bytes": 308246,
-    "duration_ms": 11200,
-    "hold_ms": 5000,
-    "transition_ms": 600,
+    "height": 450,
+    "bytes": 256488,
+    "duration_ms": 6800,
+    "hold_ms": 3000,
+    "transition_ms": 400,
     "projects": [
       "vigil",
       "potamorph"
     ],
-    "sha256": "f32abd7e555e7a8994fe1061d65710bb6a21540b60263489c382efcdeb2d5178",
+    "sha256": "29f3183597dc3c8bd2b01591d0b3e5b1354c8afe5409ad01dd573fa37e59ac43",
     "logos": [
       {
         "file": "assets/profile/source/vigil-logo.png",
@@ -85,13 +154,14 @@
           1101
         ],
         "position": [
-          136,
-          170
+          146,
+          157
         ],
         "size": [
-          209,
-          250
+          188,
+          224
         ],
+        "background": "#e9eef5",
         "operations": [
           "crop near-transparent outer padding",
           "proportional resize",
@@ -108,13 +178,79 @@
           1239
         ],
         "position": [
-          110,
-          170
+          124,
+          157
         ],
         "size": [
-          261,
-          250
+          233,
+          224
         ],
+        "background": "#12181f",
+        "operations": [
+          "crop near-transparent outer padding",
+          "proportional resize",
+          "alpha composite"
+        ]
+      }
+    ]
+  },
+  "projects-carousel-mobile-reduced": {
+    "format": "svg",
+    "motion": "cut",
+    "width": 480,
+    "height": 450,
+    "bytes": 256322,
+    "duration_ms": 6000,
+    "hold_ms": 3000,
+    "transition_ms": 0,
+    "projects": [
+      "vigil",
+      "potamorph"
+    ],
+    "sha256": "d59d755e3ae7db611923bef3f1e9a4529e05e247160d1f784f31e22d54728533",
+    "logos": [
+      {
+        "file": "assets/profile/source/vigil-logo.png",
+        "source_sha256": "fce01136a01affc3419a4a3d025e1d4dd2b749cc01eabecbc6a91f7496eec90b",
+        "crop": [
+          257,
+          202,
+          1010,
+          1101
+        ],
+        "position": [
+          146,
+          157
+        ],
+        "size": [
+          188,
+          224
+        ],
+        "background": "#e9eef5",
+        "operations": [
+          "crop near-transparent outer padding",
+          "proportional resize",
+          "alpha composite"
+        ]
+      },
+      {
+        "file": "assets/profile/source/potamorph-logo.png",
+        "source_sha256": "f8d4c988597ac86eed14ab94be0ad6e8020eca0806032b466430f223aa733cc7",
+        "crop": [
+          0,
+          36,
+          1254,
+          1239
+        ],
+        "position": [
+          124,
+          157
+        ],
+        "size": [
+          233,
+          224
+        ],
+        "background": "#12181f",
         "operations": [
           "crop near-transparent outer padding",
           "proportional resize",

@@ -22,11 +22,11 @@
   "recent_limit": 3,
   "carousel": {
     "width": 1000,
-    "height": 420,
+    "height": 380,
     "mobile_width": 480,
-    "mobile_height": 480,
-    "hold_ms": 5000,
-    "transition_ms": 600,
+    "mobile_height": 450,
+    "hold_ms": 3000,
+    "transition_ms": 400,
     "total_budget_bytes": 2500000,
     "target": "#projects-list"
   },

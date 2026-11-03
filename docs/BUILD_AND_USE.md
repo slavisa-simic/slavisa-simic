@@ -1,6 +1,6 @@
 # Build and update the GitHub profile
 
-The root README uses native GitHub content with a typed identity, one centered projects carousel, a linked project list, expandable details, a short toolkit, and real repository activity. Potamorph showcases AI-assisted development; Unity and C# describe its implementation and are not personal skills.
+The root README uses a compact editorial layout: typed identity, one centered carousel, two repository links, native skill tags, and a framed activity dashboard. Project notes and recent commits are collapsed. Potamorph showcases AI-assisted development; Unity and C# describe its implementation and are not personal skills.
 
 ## Rebuild
 
@@ -32,6 +32,8 @@ py scripts/refresh_profile.py
 - `.github/workflows/profile.yml`: scheduled activity refresh and tests.
 
 Personal skills are maintained explicitly. Project technologies never become personal skills automatically.
+
+The carousel holds each project for three seconds. Normal motion uses a 400 ms slide; reduced motion uses a three-second content switch with no sliding. The former PNG source for reduced motion caused the reported frozen carousel and has been replaced. A static preview link remains inside Project notes. Browser checks cover both motion preferences.
 
 ## Automatic activity
 

@@ -38,7 +38,7 @@ try{
    width:innerWidth,overflow:document.documentElement.scrollWidth>innerWidth,
    tables:[...article.querySelectorAll('table')].map(t=>({scrollWidth:t.scrollWidth,width:t.clientWidth})),
    images:[...article.querySelectorAll('img')].map(i=>{const r=i.getBoundingClientRect();return{source:i.currentSrc,alt:i.alt,x:r.x,y:r.y,width:r.width,height:r.height,href:i.closest('a')?.href||null};}),
-   headings:[...article.querySelectorAll('h2')].map(h=>h.textContent),
+   headings:[...article.querySelectorAll('h3')].map(h=>h.textContent),
    visibleText:article.innerText
   }));
   check(!state.overflow,`Page overflow at ${width}`);
@@ -47,21 +47,22 @@ try{
   const carousel=state.images.find(i=>i.alt.startsWith('Projects carousel:'));
   check(carousel?.href.endsWith(config.carousel.target),'Carousel must open the projects list');check(carousel.width>=44&&carousel.height>=44,'Carousel target is too small');
   check(carousel.source.endsWith(width<=600?'projects-carousel-mobile.svg':'projects-carousel.svg'),'Wrong carousel source');
-  check(state.headings.join('|')==='Projects carousel|Toolkit|Recent work','Information hierarchy changed');
-  check((await page.locator('article h3').allTextContents()).join('|')==='Projects list','Missing visible project list');
+  check(state.headings.join('|')==='Selected work|Toolkit|Activity','Information hierarchy changed');
+  check((await page.locator('article h4').allTextContents()).join('|')==='Projects list','Missing visible project list');
   for(const p of config.projects)check(await page.locator(`article a[href="${p.readme}"]`).count()===1,'Project README link missing or repeated');
-  check(state.visibleText.split(config.intro).length===2,'Introduction is repeated');
-  check(state.visibleText.split('AI Development Tools:').length===2,'AI tools label is repeated');
-  const toolkit=state.visibleText.split('Toolkit')[1].split('Recent work')[0];check(!/Unity|C#/.test(toolkit),'Game technology is presented as personal expertise');
+  check(state.visibleText.split(config.intro).length<=2,'Introduction is repeated');
+  check(state.visibleText.split('AI DEVELOPMENT TOOLS').length===2,'AI tools label is repeated');
+  const toolkit=state.visibleText.split('Toolkit')[1].split('Activity')[0];check(!/Unity|C#/.test(toolkit),'Game technology is presented as personal expertise');
   await page.locator('details').first().locator('summary').click();check(await page.locator('details').first().evaluate(d=>d.open),'Disclosure does not open');await page.locator('details').first().locator('summary').click();
   await page.evaluate(()=>{window.projectClicks=[];document.querySelector('article').addEventListener('click',e=>{const a=e.target.closest('a');if(a){e.preventDefault();window.projectClicks.push(a.href);}});});
   const links=[page.locator('article a').filter({has:page.locator('img[alt^="Projects carousel:"]')}),...config.projects.map(p=>page.locator(`article a[href="${p.readme}"]`))];
   for(const link of links){await link.click();await link.focus();await page.keyboard.press('Enter');}
   const clicks=await page.evaluate(()=>window.projectClicks);check(clicks.slice(0,2).every(h=>h.endsWith(config.carousel.target))&&JSON.stringify(clicks.slice(2))===JSON.stringify(config.projects.flatMap(p=>[p.readme,p.readme])),'Pointer/keyboard carousel or README links failed');
-  await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>[...document.querySelectorAll('article img')].slice(0,2).every(i=>i.currentSrc.endsWith('.png')));
+  await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>document.querySelectorAll('article img')[1].currentSrc.endsWith('-reduced.svg'));
+  check((await page.locator('article img').nth(1).evaluate(i=>i.currentSrc)).endsWith(width<=600?'projects-carousel-mobile-reduced.svg':'projects-carousel-reduced.svg'),'Reduced-motion carousel must still cycle, without sliding');
   const identity=page.locator('article img').first();await page.waitForFunction(()=>document.querySelector('article img').currentSrc.endsWith('.png'));
-  if(width===390||width===1440){await page.locator('article h2').first().click();await page.screenshot({path:path.join(out,width===390?'mobile.png':'desktop.png'),fullPage:true});}
-  state.reducedMotion='Static identity and carousel PNGs';report.viewports.push(state);await page.emulateMedia({reducedMotion:'no-preference'});
+  if(width===390||width===1440){await page.locator('article h3').first().click();await page.screenshot({path:path.join(out,width===390?'mobile.png':'desktop.png'),fullPage:true});}
+  state.reducedMotion='Static identity; automatic three-second project changes without sliding';report.viewports.push(state);await page.emulateMedia({reducedMotion:'no-preference'});
  }
  await page.setViewportSize({width:1440,height:1000});await page.emulateMedia({colorScheme:'light',reducedMotion:'reduce'});await page.goto(`${server.origin}/assets/previews/profile/light.html`);await page.waitForFunction(()=>[...document.querySelectorAll('article img')].every(i=>i.complete&&i.naturalWidth>0));await page.screenshot({path:path.join(out,'light.png'),fullPage:true});
  const live=await context.newPage();await live.setViewportSize({width:1440,height:1100});

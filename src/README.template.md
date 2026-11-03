@@ -1,26 +1,31 @@
 <!-- Generated from config/profile.json and public project activity. -->
 {{IDENTITY}}
 
-{{INTRO}}
+[LinkedIn ↗]({{LINKEDIN}}) &nbsp; · &nbsp; [Repositories ↗](https://github.com/slavisa-simic?tab=repositories)
 
-[GitHub](https://github.com/slavisa-simic) · [LinkedIn]({{LINKEDIN}})
-
-## Projects carousel
+### Selected work
 
 {{CAROUSEL}}
 
-### Projects list
+#### Projects list
 
 {{PROJECTS}}
 
-## Toolkit
+### Toolkit
 
-**Backend:** {{SKILLS}}<br>**AI Development Tools:** {{AI_TOOLS}}
+<sub>BACKEND ENGINEERING</sub><br>{{SKILLS}}
 
-## Recent work
+<sub>AI DEVELOPMENT TOOLS</sub><br>{{AI_TOOLS}}
+
+### Activity
 
 {{ACTIVITY}}
 
+<details>
+<summary>Recent changes</summary>
+
 {{RECENT}}
 
-<sub>Featured repositories only · Snapshot {{SNAPSHOT}}</sub>
+</details>
+
+<sub>Updated {{SNAPSHOT}}</sub>

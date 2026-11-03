@@ -11,7 +11,7 @@ class Assets(HTMLParser):
     def __init__(self):super().__init__();self.paths=set()
     def handle_starttag(self,tag,attrs):
         for key,value in attrs:
-            if key in ('src','srcset') and value.startswith('assets/'):self.paths.add(value)
+            if key in ('src','srcset','href') and value.startswith('assets/'):self.paths.add(value)
 
 def archive(destination,files):
     with ZipFile(destination,'w',ZIP_DEFLATED,compresslevel=9) as output:

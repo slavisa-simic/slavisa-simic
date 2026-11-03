@@ -15,8 +15,8 @@ class Markup(HTMLParser):
         attrs=dict(attrs)
         assert tag not in ('script','style','iframe','canvas','map','svg'),f'Unsupported tag: {tag}'
         assert not any(k=='style' or k.startswith('on') for k in attrs),'Unsupported README scripting or styling'
-        for key in ('src','srcset'):
-            if key in attrs:self.assets.add(attrs[key])
+        for key in ('src','srcset','href'):
+            if key in attrs and attrs[key].startswith('assets/'):self.assets.add(attrs[key])
         if tag=='a':self.links.append(attrs['href'])
         if tag=='img':
             self.images+=1;assert attrs.get('alt'),'Missing image description'
@@ -32,12 +32,12 @@ def main():
         assert project['readme'].endswith('/blob/main/README.md'),'Project target must start at the README'
         assert sha256((ROOT/project['logo']).read_bytes()).hexdigest()==project['logo_sha256'],'Official logo source has changed'
     assert CONFIG['carousel']['target'] in markup.links,'Carousel must open the project list'
-    assert '### Projects list' in readme,'Missing project list target'
-    assert readme.count(CONFIG['intro'])==1,'Repeated introduction'
+    assert '#### Projects list' in readme,'Missing project list target'
+    assert readme.count(CONFIG['intro'])<=1,'Repeated introduction'
     assert '{{' not in readme,'Unresolved template field'
-    toolkit=readme.split('## Toolkit')[1].split('## Recent work')[0]
+    toolkit=readme.split('### Toolkit')[1].split('### Activity')[0]
     assert 'Unity' not in toolkit and 'C#' not in toolkit,'Unsupported personal skill'
-    assert '**AI Development Tools:** OpenAI Codex' in toolkit
+    assert 'AI DEVELOPMENT TOOLS' in toolkit and '`OpenAI Codex`' in toolkit
     for name,record in json.loads((SOURCE/'provenance.json').read_text()).items():
         assert sha256((SOURCE/name).read_bytes()).hexdigest()==record['sha256'],f'Source changed: {name}'
     stats=json.loads((OUT/'activity.json').read_text(encoding='utf-8'))
@@ -54,15 +54,15 @@ def main():
         assert np.array_equal(np.asarray(clone),np.asarray(holds[0])),'Loop clone differs from the first project'
         motion=svg.find('.//s:animateTransform',ns)
         assert motion is not None and motion.attrib['repeatCount']=='indefinite'
-        assert motion.attrib['type']=='translate' and motion.attrib['calcMode']=='spline'
+        assert motion.attrib['type']=='translate' and motion.attrib['calcMode']==('discrete' if expected['motion']=='cut' else 'spline')
         assert round(float(motion.attrib['dur'].removesuffix('s'))*1000)==expected['duration_ms']
         assert sha256((MEDIA/f'{name}.svg').read_bytes()).hexdigest()==expected['sha256']
-        fallback=Image.open(MEDIA/f'{name}.png').convert('RGB')
+        fallback=Image.open(MEDIA/f'{name.removesuffix("-reduced")}.png').convert('RGB')
         assert fallback.size==(expected['width'],expected['height'])
         assert np.array_equal(np.asarray(fallback)[:holds[0].height,8:-8],np.asarray(holds[0])[:,8:-8]),'Static fallback changes the first slide'
         for slide,logo in zip(holds,expected['logos']):
             source=Image.open(ROOT/logo['file']).convert('RGBA').crop(logo['crop']).resize(logo['size'],Image.Resampling.LANCZOS)
-            composited=Image.new('RGB',source.size,slide.getpixel((8,100)));composited.paste(source,(0,0),source)
+            composited=Image.new('RGB',source.size,logo['background']);composited.paste(source,(0,0),source)
             x,y=logo['position'];actual=slide.crop((x,y,x+source.width,y+source.height))
             assert np.array_equal(np.asarray(actual),np.asarray(composited)),f'Logo colors or details have been modified: {logo["file"]}'
         report['carousel_variants'][name]={'bytes':expected['bytes'],'duration_ms':expected['duration_ms'],'projects':expected['projects'],'logo_pixels':'exact proportional source composites'}
