@@ -37,11 +37,11 @@ try{
   await page.waitForFunction(()=>[...document.querySelectorAll('article img')].every(i=>i.complete&&i.naturalWidth>0));
   const state=await page.locator('article').evaluate(a=>({width:innerWidth,overflow:document.documentElement.scrollWidth>innerWidth,images:[...a.querySelectorAll('img')].map(i=>({source:i.currentSrc,alt:i.alt,width:i.clientWidth,height:i.clientHeight,href:i.closest('a')?.href})),tables:[...a.querySelectorAll('table')].map(t=>({width:t.clientWidth,scrollWidth:t.scrollWidth})),visibleText:a.innerText}));
   check(!state.overflow,`Page overflow at ${width}`);check(state.tables.every(t=>t.scrollWidth<=t.width+1),`Table overflow at ${width}`);
-  check(await page.locator('article h1').innerText()===config.name,'Name must be selectable native text');
-  check(state.visibleText.includes('Software Engineer')&&state.visibleText.includes('Backend Developer'),'Missing native role text');
-  check(state.images.length===14,'Expected framed avatar, six image titles, carousel, badges, and workflow status');
-  check(state.images[0].alt==='GitHub profile picture','Header needs the current framed GitHub avatar');
-  for(const title of ['Projects','Projects list','Tech stack','AI Development Tools','Project notes','Recent changes'])check(await page.locator(`article img[alt="${title}"]`).count()===1,`Missing image title: ${title}`);
+  const identity=state.images.find(i=>i.alt.startsWith(config.name+' — Software Engineer.'));
+  check(identity&&!identity.alt.includes('Backend Developer'),'Incorrect responsive identity');
+  check(state.images.length===10,'Expected header, footer decoration/spacer, two contact links, four titles, project carousel and workflow status');
+  check(state.images[0]===identity,'Header must appear first');
+  for(const title of ['Projects','Projects list','Project notes','Recent changes'])check(await page.locator(`article img[alt="${title}"]`).count()===1,`Missing image title: ${title}`);
   const carousel=state.images.find(i=>i.alt.startsWith('Projects carousel:'));check(carousel?.href.endsWith(config.carousel.target),'Carousel target is incorrect');check(carousel.width>=44&&carousel.height>=44,'Carousel target is too small');
   check(carousel.source.endsWith(width<=600?'projects-carousel-mobile.svg':'projects-carousel.svg'),'Wrong carousel variant');
   for(const p of config.projects)check(await page.locator(`article a[href="${p.readme}"]`).count()===1,'Missing project README link');
@@ -49,18 +49,25 @@ try{
   check(JSON.stringify(rows)===JSON.stringify(data.projects.map(p=>[p.name,String(p.commits_30d),String(p.stars)])),'Native stats differ from API data');
   check(state.visibleText.includes('hourly sync')&&state.visibleText.includes('UTC'),'Missing successful-sync timestamp');
   check(!state.images.some(i=>i.alt.includes('project commits across')),'Stats must not be a picture');
-  const toolkit=await page.locator('article img[alt="Tech stack"]').evaluate(i=>{let s=i.closest('h2').nextElementSibling,text='';for(;s;s=s.nextElementSibling)text+=s.innerText;return text;});check(!/Unity|C#/.test(toolkit),'Project implementation is being claimed as expertise');check(await page.locator('img[alt="OpenAI Codex — AI Development Tool"]').count()===1,'Codex category is missing');
+  const toolkit=identity;check(toolkit&&!/Unity/.test(toolkit.alt)&&toolkit.alt.includes('Python')&&toolkit.alt.includes('AI development tool'),'Technology list or Codex category is incorrect');
+  check(!(await page.locator('img[alt="Tech stack"]').count()),'Standalone tech stack must be removed');
+  check(identity.source.endsWith(width<=768?'profile-header-mobile.svg':'profile-header.svg'),'Wrong responsive header variant');
+  for(const [label,href] of [['GitHub Repositories',`https://github.com/${config.owner}?tab=repositories`],['LinkedIn',config.linkedin]])check(await page.locator(`article a[href="${href}"] img[alt="${label}"]`).count()===1,`Missing independent ${label} link`);
   await page.locator('details').first().locator('summary').click();check(await page.locator('details').first().evaluate(d=>d.open),'Disclosure does not open');await page.locator('details').first().locator('summary').click();
   await page.evaluate(()=>{window.links=[];document.querySelector('article').addEventListener('click',e=>{const a=e.target.closest('a');if(a){e.preventDefault();window.links.push(a.href);}});});
-  const projectLinks=[page.locator('article a').filter({has:page.locator('img[alt^="Projects carousel:"]')}),...config.projects.map(p=>page.locator(`article a[href="${p.readme}"]`))];
+  const contacts=[`https://github.com/${config.owner}?tab=repositories`,config.linkedin];
+  const projectLinks=[page.locator('article a').filter({has:page.locator('img[alt^="Projects carousel:"]')}),...[...config.projects.map(p=>p.readme),...contacts].map(url=>page.locator(`article a[href="${url}"]`))];
   for(const link of projectLinks){await link.click();await link.focus();await page.keyboard.press('Enter');}
-  const clicks=await page.evaluate(()=>window.links);check(clicks.slice(0,2).every(h=>h.endsWith(config.carousel.target))&&JSON.stringify(clicks.slice(2))===JSON.stringify(config.projects.flatMap(p=>[p.readme,p.readme])),'Keyboard or pointer navigation failed');
+  const clicks=await page.evaluate(()=>window.links);check(clicks.slice(0,2).every(h=>h.endsWith(config.carousel.target))&&JSON.stringify(clicks.slice(2))===JSON.stringify([...config.projects.map(p=>p.readme),...contacts].flatMap(url=>[url,url])),'Keyboard or pointer navigation failed');
+  await page.evaluate(()=>document.activeElement?.blur());
+  if(width===390||width===1440){await page.evaluate(()=>window.scrollTo(0,0));const article=await page.locator('article').boundingBox();const projects=await page.locator('article img[alt="Projects"]').boundingBox();await page.screenshot({path:path.join(out,width===390?'header-mobile.png':'header-desktop.png'),clip:{x:article.x,y:article.y,width:article.width,height:projects.y-article.y-12}});}
   await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>document.querySelector('img[alt^="Projects carousel:"]').currentSrc.endsWith('-reduced.svg'));
-  if(width===390||width===1440){await page.locator('article h1').click();await page.screenshot({path:path.join(out,width===390?'mobile.png':'desktop.png'),fullPage:true});}
-  state.reducedMotion='Native text stays readable; carousel changes without sliding';report.viewports.push(state);await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.waitForFunction(()=>document.querySelector('article img').currentSrc.endsWith('-reduced.svg'));
+  if(width===390||width===1440){await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:path.join(out,width===390?'mobile.png':'desktop.png'),fullPage:true});const article=await page.locator('article').boundingBox();const projects=await page.locator('article img[alt="Projects"]').boundingBox();await page.screenshot({path:path.join(out,width===390?'header-mobile-reduced.png':'header-desktop-reduced.png'),clip:{x:article.x,y:article.y,width:article.width,height:projects.y-article.y-12}});}
+  state.reducedMotion='Technology stack becomes a complete static grid; project carousel keeps its original non-sliding switches';report.viewports.push(state);await page.emulateMedia({reducedMotion:'no-preference'});
  }
  await page.setViewportSize({width:1440,height:1000});await page.emulateMedia({colorScheme:'light',reducedMotion:'reduce'});await page.goto(`${server.origin}/assets/previews/profile/light.html`);await page.waitForFunction(()=>[...document.querySelectorAll('article img')].every(i=>i.complete&&i.naturalWidth>0));await page.screenshot({path:path.join(out,'light.png'),fullPage:true});
  await page.setViewportSize({width:375,height:800});await page.goto(`${server.origin}/assets/previews/profile/dark.html`);await page.locator('article').evaluate(a=>a.style.fontSize='24px');check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Enlarged native text overflows');
- report.status='passed';console.log('Passed nine widths, native identity and stats, badges, links, disclosures, themes, and reduced motion.');
+ report.status='passed';console.log('Passed nine widths, responsive identity, native stats, technology carousel, pointer/keyboard links, disclosures, themes, and reduced motion.');
 }catch(error){report.status='failed';report.error=error.stack;throw error;}
 finally{await fs.writeFile(path.join(out,'browser-report.json'),JSON.stringify(report,null,2));await browser.close();await server.close();}

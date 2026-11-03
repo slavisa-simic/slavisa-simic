@@ -1,7 +1,5 @@
-<!-- Generated from config/profile.json and public project activity. -->
+<!-- Generated from config/profile.json, config/tech-stack.json and public project activity. -->
 {{IDENTITY}}
-
-<p align="center"><a href="{{LINKEDIN}}">LinkedIn &#8599;&#65038;</a> &nbsp; · &nbsp; <a href="https://github.com/slavisa-simic?tab=repositories">Repositories &#8599;&#65038;</a></p>
 
 {{PROJECTS_TITLE}}
 
@@ -12,14 +10,6 @@
 {{PROJECT_LIST_TITLE}}
 
 {{PROJECTS}}
-
-{{STACK_TITLE}}
-
-<p>{{BADGES}}</p>
-
-<p><samp>REST APIs · Authentication</samp></p>
-
-<p>{{AI_TITLE}}<br>{{AI_BADGE}}</p>
 
 <details>
 <summary>{{RECENT_TITLE}}</summary>

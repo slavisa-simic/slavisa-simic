@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET
 import numpy as np
 from PIL import Image
 from profile_common import ROOT,CONFIG,OUT,MEDIA,SOURCE
+from tech_stack import STACK,description
 
 class Markup(HTMLParser):
     def __init__(self):super().__init__();self.assets=set();self.links=[];self.images=0
@@ -19,11 +20,12 @@ class Markup(HTMLParser):
             if key in attrs and attrs[key].startswith('assets/'):self.assets.add(attrs[key])
         if tag=='a' and 'href' in attrs:self.links.append(attrs['href'])
         if tag=='img':
-            self.images+=1;assert attrs.get('alt'),'Missing image description'
+            self.images+=1
+            assert attrs.get('alt') or attrs.get('src','').endswith('header-spacer.svg'),'Missing image description'
 
 def main():
     readme=(ROOT/'README.md').read_text(encoding='utf-8');markup=Markup();markup.feed(readme)
-    assert markup.images==14,'Expected framed avatar, six title images, carousel, five badges, and workflow status'
+    assert markup.images==10,'Expected profile header, four title images, project carousel and workflow status'
     for relative in markup.assets:
         assert relative.startswith(('assets/profile/generated/','assets/profile/badges/')),'Images must be stored in this repository'
         assert (ROOT/relative).is_file(),f'Missing image: {relative}'
@@ -35,13 +37,26 @@ def main():
     assert '<a name="projects-list"></a>' in readme,'Missing stable project list target'
     assert readme.count(CONFIG['intro'])<=1,'Repeated introduction'
     assert '{{' not in readme,'Unresolved template field'
-    assert f'<h1 align="center">{CONFIG["name"]}</h1>' in readme,'Identity must be native selectable text'
+    assert f'{CONFIG["name"]} — Software Engineer.' in readme,'Identity needs an accessible text equivalent'
     assert '~/' not in readme and 'whoami' not in readme,'Terminal presentation is retired'
     assert 'identity-dark.svg' not in readme and 'identity-dark.png' not in readme
     assert 'activity-dark.svg' not in readme,'Statistics must be native text, not an image'
-    toolkit=readme.split('title-tech-stack.png')[1]
-    assert 'Unity' not in toolkit and 'C#' not in toolkit,'Unsupported personal skill'
-    assert 'AI Development Tools' in toolkit and 'OpenAI Codex — AI Development Tool' in toolkit
+    assert 'title-tech-stack' not in readme and 'title-ai-tools' not in readme,'Standalone stack must be removed'
+    assert 'Unity' not in description() and 'Python' in description()
+    assert 'OpenAI Codex (AI development tool)' in description()
+    assert 'Software Engineer' in readme and 'Backend Developer' not in readme
+    assert CONFIG['linkedin'] in markup.links
+    assert f'https://github.com/{CONFIG["owner"]}?tab=repositories' in markup.links
+    for name,record in json.loads((OUT/'icons/provenance.json').read_text()).items():
+        assert sha256((OUT/'icons'/name).read_bytes()).hexdigest()==record['sha256'],'Icon cache changed'
+    for name,record in json.loads((MEDIA/'tech-manifest.json').read_text()).items():
+        payload=(MEDIA/f'{name}.svg').read_bytes();assert sha256(payload).hexdigest()==record['sha256']
+        document=ET.fromstring(payload);motion=document.find('.//{http://www.w3.org/2000/svg}animateTransform')
+        if record['static']: assert motion is None
+        else:
+            assert motion.attrib['from']==f'-{record["period"]} 0' and motion.attrib['to']=='0 0'
+            assert motion.attrib['calcMode']=='linear' and motion.attrib['repeatCount']=='indefinite'
+        assert record['bytes']<100_000,'Tech asset exceeds budget'
     for name,record in json.loads((SOURCE/'provenance.json').read_text()).items():
         assert sha256((SOURCE/name).read_bytes()).hexdigest()==record['sha256'],f'Source changed: {name}'
     stats=json.loads((OUT/'activity.json').read_text(encoding='utf-8'))
@@ -78,11 +93,25 @@ def main():
         for element in document.iter():
             assert element.tag.split('}')[-1] not in ('script','foreignObject')
             for attribute,value in element.attrib.items():
-                if attribute.endswith('href'):assert value.startswith(('data:image/png;base64,','data:image/jpeg;base64,','data:image/webp;base64,')),'SVG depends on an external resource'
+                if attribute.endswith('href'):assert value.startswith(('#','data:image/svg+xml;base64,','data:image/png;base64,','data:image/jpeg;base64,','data:image/webp;base64,')),'SVG depends on an external resource'
     avatar=json.loads((OUT/'avatar.json').read_text())
     assert sha256(base64.b64decode(avatar['data_uri'].split(',')[1])).hexdigest()==avatar['sha256']
     assert avatar['source'].startswith('https://avatars.githubusercontent.com/')
-    active=list(MEDIA.glob('profile-avatar-*.svg'));assert len(active)==1 and active[0].name in readme
+    active=list(MEDIA.glob('profile-avatar-*.svg'));assert len(active)==1
+    framed_uri='data:image/svg+xml;base64,'+base64.b64encode(active[0].read_bytes()).decode()
+    for header in MEDIA.glob('profile-header*.svg'):
+        contents=header.read_text(encoding='utf-8')
+        assert framed_uri in contents,'Header must embed the exact original framed avatar'
+        assert 'Software Engineer</text>' in contents and 'Backend Developer' not in contents
+        assert 'Unity' not in contents and 'Python' in contents
+        doc=ET.fromstring(contents);ns={'s':'http://www.w3.org/2000/svg'}
+        photo=doc.find('s:image',ns);name=doc.find('.//s:text',ns);tech=doc.find('s:svg',ns)
+        if '-mobile' in header.name:
+            assert float(name.attrib['y'])>=float(photo.attrib['y'])+float(photo.attrib['height'])
+            assert float(tech.attrib['y'])>float(name.attrib['y'])
+        else:
+            assert float(tech.attrib['x'])>=float(photo.attrib['x'])+float(photo.attrib['width'])
+            assert name.attrib['x']==tech.attrib['x']
     frame=ET.parse(active[0]);photo=frame.find('.//s:image',{'s':'http://www.w3.org/2000/svg'})
     assert photo.attrib['href']==avatar['data_uri'],'Framed avatar pixels must match the downloaded original'
     for element in frame.findall('.//s:rect',{'s':'http://www.w3.org/2000/svg'}):assert 'rx' not in element.attrib

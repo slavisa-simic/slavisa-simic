@@ -1,0 +1,90 @@
+{
+  "tech-carousel": {
+    "width": 600,
+    "height": 88,
+    "period": 642,
+    "item_width": 107,
+    "duration_seconds": 30,
+    "direction": "right",
+    "static": false,
+    "bytes": 43103,
+    "sha256": "9cdf16efa543920d6b2ca323ae9cf0d67d09e4b710faf83abd65c7ff964dba8f"
+  },
+  "tech-carousel-reduced": {
+    "width": 600,
+    "height": 88,
+    "period": 642,
+    "item_width": 107,
+    "duration_seconds": 30,
+    "direction": "right",
+    "static": true,
+    "bytes": 42456,
+    "sha256": "8595007dc9680db2065edd938e39f491e04d2a904ae00509512a6dd0191ed5f2"
+  },
+  "tech-carousel-light": {
+    "width": 600,
+    "height": 88,
+    "period": 642,
+    "item_width": 107,
+    "duration_seconds": 30,
+    "direction": "right",
+    "static": false,
+    "bytes": 43163,
+    "sha256": "0fdb57f5981ead01240e910b5631efa2a209495c2ab962ea63b1cfdad4d2104d"
+  },
+  "tech-carousel-light-reduced": {
+    "width": 600,
+    "height": 88,
+    "period": 642,
+    "item_width": 107,
+    "duration_seconds": 30,
+    "direction": "right",
+    "static": true,
+    "bytes": 42516,
+    "sha256": "52dff32a42f79f92fb1578ef7796d25279d9876f7395dcfbb57fec9900a2f601"
+  },
+  "tech-carousel-mobile": {
+    "width": 288,
+    "height": 88,
+    "period": 642,
+    "item_width": 107,
+    "duration_seconds": 30,
+    "direction": "right",
+    "static": false,
+    "bytes": 43102,
+    "sha256": "0dd545962171bb6c21d953b257686b755301bd36dfefca5b1046502976296bda"
+  },
+  "tech-carousel-mobile-reduced": {
+    "width": 288,
+    "height": 176,
+    "period": 642,
+    "item_width": 107,
+    "duration_seconds": 30,
+    "direction": "right",
+    "static": true,
+    "bytes": 42462,
+    "sha256": "75602d6ecdc0390c5bd36b0ecd397097bfed2b73eae8a5733306af998cb793d8"
+  },
+  "tech-carousel-mobile-light": {
+    "width": 288,
+    "height": 88,
+    "period": 642,
+    "item_width": 107,
+    "duration_seconds": 30,
+    "direction": "right",
+    "static": false,
+    "bytes": 43162,
+    "sha256": "6b267e5890f36cfbe6d5c05199d7b6571602409be4a60744e1aba6564e1ce4aa"
+  },
+  "tech-carousel-mobile-light-reduced": {
+    "width": 288,
+    "height": 176,
+    "period": 642,
+    "item_width": 107,
+    "duration_seconds": 30,
+    "direction": "right",
+    "static": true,
+    "bytes": 42522,
+    "sha256": "939dd53241cb9839c3edd1ffd4b8c76543e2ffb2eef36a8208e5ffa81a9b997f"
+  }
+}

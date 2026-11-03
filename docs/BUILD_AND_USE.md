@@ -1,6 +1,6 @@
 # Build and update the GitHub profile
 
-The README follows the supplied blueprint reference: graphite title strips, white typography, blue/red accents, and square edges. Identity and statistics remain selectable text. The framed GitHub avatar, carousel, and Shields.io badges are separate assets. Project notes and recent commits are collapsed. Potamorph showcases AI-assisted development; Unity/C# remain project details rather than personal skills.
+The README retains its graphite title strips, blue/red accents, square frames, project cards, and native activity table. The responsive header combines the unchanged framed avatar, name, Software Engineer title, and transparent technology marquee. GitHub Repositories and LinkedIn remain separate native links. Project notes and recent commits stay collapsed.
 
 ## Rebuild
 
@@ -15,7 +15,38 @@ py scripts/build.py --preview --package
 
 The renderer can reuse an installed Playwright Chromium or `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH`. Both official project logos, the personal S mark, and fonts are bundled. No image-generation or animation-hosting service is required. The preview uses GitHub's Markdown API and current styles.
 
-Add `--offline` to reuse cached activity and the avatar. Media generation works offline; browser preview still needs GitHub access. Builds do not publish.
+Add `--offline` to reuse cached activity and the avatar. Cached media generation works offline; a new icon URL is downloaded once. Browser preview still needs GitHub access. Builds do not publish.
+
+## Add a technology
+
+Edit `config/tech-stack.json`. This is the authoritative personal stack: Java, Spring Boot, PostgreSQL, Docker, Python, and OpenAI Codex. REST APIs and Authentication are retained as unused `capabilities` metadata and are no longer displayed. Project languages are never imported as personal skills.
+
+Add an entry to `technologies`, for example:
+
+```json
+{
+  "id": "typescript",
+  "name": "TypeScript",
+  "category": "language",
+  "icon_url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/typescript/typescript-original.svg"
+}
+```
+
+Use a unique lowercase ID and a pinned official/Devicon/Simple Icons SVG URL. Optional `color` and `light_color` set monochrome logo fills. Set `category` to `ai_tool` for AI development tools; their extra caption is generated automatically. Then run:
+
+```powershell
+py scripts/build_tech_carousel.py
+npm run preview
+npm run verify:animation
+```
+
+The generator caches the icon, computes item widths from the longest label, duplicates the sequence to cover the viewport, and rebuilds the SVGs, composed headers, and README using the existing activity snapshot. No manual frame editing is needed. `duration_seconds` controls the complete cycle (default 30 seconds); increasing it slows the marquee. `--check-cache` forbids network access and verifies cached icon hashes. Adding technologies updates the reduced-motion grid automatically too.
+
+The existing GitHub Action rebuilds the carousel when the configuration, generator, fonts, or icon sources change, as well as during the hourly refresh. It records any newly cached icon alongside the generated output. Local commands never commit or push.
+
+The header uses responsive SVG image compositions because GitHub strips custom layout CSS. The exact existing framed avatar SVG is embedded as image data; it is neither redrawn nor cropped. Below 769 px the portrait, name, role, and marquee stack vertically. The name and role are image text with a complete accessible alt description; activity stays selectable native text. Contact links remain independent, keyboard-accessible anchors. Their transparent alignment spacer collapses on mobile. This avoids a visible layout table border and broken float wrapping.
+
+The animated SVGs contain one linear SMIL translation and no JavaScript, external fonts, or external image requests. True alpha transparency and edge fades work over either GitHub theme. Reduced motion selects an unanimated full-stack grid. Local validation uses GitHub's Markdown API, current GitHub styles, and actual image-element playback. This revision has not been published or checked on the live profile; no GIF fallback is needed for the verified SVG image playback.
 
 For an activity-only refresh, no third-party Python packages are needed:
 
@@ -25,10 +56,12 @@ py scripts/refresh_profile.py
 
 ## Edit
 
-- `config/profile.json`: identity, reference palette, skills, captions, official-logo hashes, README links, and carousel timing.
+- `config/profile.json`: identity, reference palette, captions, official-logo hashes, README links, and project carousel timing.
+- `config/tech-stack.json`: personal stack, capabilities, pinned icons, marquee dimensions and timing.
 - `src/README.template.md`: native document structure.
 - `scripts/build_profile_assets.py`: responsive title strips; `scripts/build_carousel.py`: project slides and motion.
-- `scripts/prepare_badges.py`: cache genuine Shields.io badges locally, recording URLs and hashes.
+- `scripts/build_tech_carousel.py`: cached official icons, transparent tech marquee, static grids, and link artwork; `scripts/tech_stack.py`: shared data and responsive header composition.
+- `scripts/prepare_badges.py`: retained legacy badge cache; the standalone badge section is no longer displayed.
 - `scripts/refresh_profile.py`: public data collection and native statistics/README generation; `scripts/profile_avatar.py`: avatar download and square framing.
 - `.github/workflows/profile.yml`: hourly activity/avatar refresh and tests.
 

@@ -9,10 +9,17 @@ on:
     paths:
       - '.github/workflows/profile.yml'
       - 'config/profile.json'
+      - 'config/tech-stack.json'
+      - 'assets/profile/icons/**'
+      - 'assets/source/fonts/**'
+      - 'requirements.txt'
       - 'src/README.template.md'
       - 'scripts/profile_common.py'
       - 'scripts/refresh_profile.py'
       - 'scripts/profile_avatar.py'
+      - 'scripts/tech_stack.py'
+      - 'scripts/build_tech_carousel.py'
+      - 'scripts/build_profile_assets.py'
       - 'tests/**'
 
 permissions:
@@ -33,15 +40,19 @@ jobs:
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
         with:
           python-version: '3.13'
+      - name: Install asset dependencies
+        run: python -m pip install -r requirements.txt
       - name: Test profile refresh
         run: python -m unittest discover -s tests
+      - name: Build technology carousel
+        run: python scripts/build_tech_carousel.py
       - name: Fetch public activity and current avatar
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python scripts/refresh_profile.py
       - name: Commit changed snapshot
         run: |
-          git add README.md assets/profile/activity.json assets/profile/avatar.json assets/profile/generated
+          git add README.md assets/profile/activity.json assets/profile/avatar.json assets/profile/generated assets/profile/icons
           if git diff --cached --quiet; then
             echo "Profile snapshot is unchanged."
             exit 0

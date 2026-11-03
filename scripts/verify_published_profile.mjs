@@ -19,12 +19,14 @@ try{
  for(const width of [1440,390,320]){
   await page.setViewportSize({width,height:1000});await page.goto(report.url,{waitUntil:'domcontentloaded'});
   const article=page.locator('.markdown-body').first();await article.waitFor();
-  check(await article.locator('h1').innerText()===config.name,'Published identity is not native selectable text');
+  check(await article.locator(`img[alt^="${config.name} — Software Engineer."]`).count()===1,'Published responsive identity is missing');
   await page.waitForFunction(()=>[...document.querySelectorAll('.markdown-body img')].every(i=>i.complete&&i.naturalWidth>0));
   const state=await article.evaluate(a=>({width:innerWidth,images:[...a.querySelectorAll('img')].map(i=>({src:i.currentSrc,alt:i.alt,width:i.clientWidth,height:i.clientHeight,loaded:i.naturalWidth>0,href:i.closest('a')?.href})),tables:[...a.querySelectorAll('table')].map(t=>({width:t.clientWidth,scrollWidth:t.scrollWidth})),text:a.innerText}));
-  check(state.images.length===14,'Missing framed avatar, image title, carousel, badge, or workflow status');
-  check(state.images[0].alt==='GitHub profile picture','Missing current framed GitHub avatar');
-  for(const title of ['Projects','Projects list','Tech stack','AI Development Tools','Project notes','Recent changes'])check(await article.locator(`img[alt="${title}"]`).count()===1,`Missing image title: ${title}`);
+  check(state.images.length===10,'Missing header, contact link, footer decoration, title, carousel, or workflow status');
+  check(state.images[0].alt.startsWith(config.name+' — Software Engineer.'),'Missing responsive profile header');
+  check(state.images[0].alt.includes('Python')&&!state.images[0].alt.includes('Unity'),'Incorrect personal technology stack');
+  for(const [label,url] of [['GitHub Repositories',`https://github.com/${config.owner}?tab=repositories`],['LinkedIn',config.linkedin]])check(await article.locator(`a[href="${url}"] img[alt="${label}"]`).count()===1,`Missing ${label} link`);
+  for(const title of ['Projects','Projects list','Project notes','Recent changes'])check(await article.locator(`img[alt="${title}"]`).count()===1,`Missing image title: ${title}`);
   check(state.text.includes('hourly sync')&&state.text.includes('UTC'),'Native statistics sync time is missing');
   const rows=await article.locator('tbody tr').evaluateAll(rows=>rows.map(r=>[...r.cells].map(c=>c.textContent.trim())));
   const data=JSON.parse(await fs.readFile(path.join(root,'assets/profile/activity.json'),'utf8'));
@@ -45,13 +47,13 @@ try{
   await page.waitForFunction(()=>document.querySelector('img[alt^="Projects carousel:"]').currentSrc.includes('-reduced.svg')&&[...document.querySelectorAll('.markdown-body img')].every(i=>i.complete&&i.naturalWidth>0));
   if(width===1440){const first=await carouselImage.screenshot({path:path.join(out,'published-reduced-first.png')});await page.waitForTimeout(1600);const middle=await carouselImage.screenshot({path:path.join(out,'published-reduced-middle.png')});await page.waitForTimeout(1600);const last=await carouselImage.screenshot({path:path.join(out,'published-reduced-last.png')});check(!first.equals(middle)||!middle.equals(last),'Reduced-motion view is still a static image');}
   if(width===390||width===1440)await capture(article,`published-${width===390?'mobile':'desktop'}.png`);
-  state.reducedMotion='Native identity; automatic three-second project changes without sliding';report.checks.push(state);await page.emulateMedia({reducedMotion:'no-preference'});
+  state.reducedMotion='Static technology grid; automatic three-second project changes without sliding';report.checks.push(state);await page.emulateMedia({reducedMotion:'no-preference'});
  }
  await page.setViewportSize({width:1440,height:1000});await page.emulateMedia({colorScheme:'light',reducedMotion:'reduce'});await page.reload({waitUntil:'domcontentloaded'});
  await page.waitForFunction(()=>[...document.querySelectorAll('.markdown-body img')].every(i=>i.complete&&i.naturalWidth>0));
- check(await page.locator('.markdown-body h1').innerText()===config.name,'Light-theme identity is missing');
+ check(await page.locator(`.markdown-body img[alt^="${config.name} — Software Engineer."]`).count()===1,'Light-theme identity is missing');
  await capture(page.locator('.markdown-body').first(),'published-light.png');
  const first=await fs.readFile(path.join(out,'published-carousel-first.png'));const second=await fs.readFile(path.join(out,'published-carousel-second.png'));check(!first.equals(second),'Published carousel is static');
- report.status='passed';console.log('Public profile verified: clean identity, current framed avatar, six image titles, API stats, carousel, README links, mobile, and both motion preferences.');
+ report.status='passed';console.log('Public profile verified: responsive header, technology stack, four image titles, API stats, links, mobile, and both motion preferences.');
 }catch(error){report.status='failed';report.error=error.message;throw error;}
 finally{await fs.writeFile(path.join(out,'published-report.json'),JSON.stringify(report,null,2));await browser.close();}

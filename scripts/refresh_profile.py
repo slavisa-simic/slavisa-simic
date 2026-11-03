@@ -8,6 +8,7 @@ import json
 import os
 import re
 import profile_avatar
+from tech_stack import header_assets,header_picture,picture,spacer
 from profile_common import ROOT,CONFIG,OUT,MEDIA,write_if_changed
 
 def api(path):
@@ -63,7 +64,9 @@ def compact_title(slug,label,width):
 def render(data,avatar=None):
     avatar=avatar or json.loads((OUT/'avatar.json').read_text(encoding='utf-8'))
     avatar_name,_=profile_avatar.frame(avatar,CONFIG['theme'])
-    identity=f'<p align="center"><img src="assets/profile/generated/{avatar_name}" width="112" height="112" alt="GitHub profile picture"></p>\n<h1 align="center">{escape(CONFIG["name"])}</h1>\n<p align="center">'+ ' &nbsp;·&nbsp; '.join(escape(r) for r in CONFIG['roles'])+'</p>'
+    identity=(f'<p>{header_picture()}</p>\n'
+              f'<p>{spacer()}<a href="https://github.com/{CONFIG["owner"]}?tab=repositories">{picture("link-github", "GitHub Repositories", 160)}</a> '
+              f'<a href="{escape(CONFIG["linkedin"],quote=True)}">{picture("link-linkedin", "LinkedIn", 96)}</a></p>')
     alt='Projects carousel: '+', '.join(p['name'] for p in CONFIG['projects'])+'. Open the projects list.'
     carousel=f'<p align="center"><a href="{CONFIG["carousel"]["target"]}">{media_picture("projects-carousel",alt,"100%")}</a></p>'
     items=['<table><thead><tr><th>Project</th><th>Commits<br><sub>30 days</sub></th><th>Stars</th></tr></thead><tbody>'];notes=[]
@@ -74,8 +77,6 @@ def render(data,avatar=None):
         notes.append(f'<p><strong>{escape(p["name"])}</strong><br>{escape(p["details"])}</p>')
     sync=datetime.fromisoformat(data['fetched_at'].replace('Z','+00:00')).strftime('%d %b %Y, %H:%M:%S UTC')
     projects=''.join(items)+'</tbody></table>\n'+f'<p><sub>GitHub API · hourly sync · last success {sync}</sub></p>\n<details><summary>'+compact_title('project-notes','Project notes',140)+'</summary>'+''.join(notes)+'<p><a href="assets/profile/generated/projects-carousel.png">Static project preview</a></p></details>'
-    badges=' '.join(f'<img src="assets/profile/badges/{slug}.svg" height="24" alt="{label}">' for slug,label in [('java','Java'),('spring-boot','Spring Boot'),('postgresql','PostgreSQL'),('docker','Docker')])
-    ai_badge='<img src="assets/profile/badges/codex.svg" height="24" alt="OpenAI Codex — AI Development Tool">'
     recent=[]
     for commit in data['recent']:
         message=commit['message']
@@ -84,10 +85,10 @@ def render(data,avatar=None):
         recent.append(f"- [{message}]({commit['url']})<br><sub>{commit['project_name']} · {commit['date'][:10]}</sub>")
     rows='\n'.join(recent) if recent else 'No project commits in this time window.'
     template=(ROOT/'src/README.template.md').read_text(encoding='utf-8')
-    content=template.replace('{{IDENTITY}}',identity).replace('{{CAROUSEL}}',carousel).replace('{{PROJECTS}}',projects).replace('{{BADGES}}',badges).replace('{{AI_BADGE}}',ai_badge).replace('{{RECENT}}',rows).replace('{{LINKEDIN}}',CONFIG['linkedin'])
-    for key,slug,label,level in [('PROJECTS_TITLE','projects','Projects',None),('PROJECT_LIST_TITLE','projects-list','Projects list',3),('STACK_TITLE','tech-stack','Tech stack',2)]:
+    content=template.replace('{{IDENTITY}}',identity).replace('{{CAROUSEL}}',carousel).replace('{{PROJECTS}}',projects).replace('{{RECENT}}',rows)
+    for key,slug,label,level in [('PROJECTS_TITLE','projects','Projects',None),('PROJECT_LIST_TITLE','projects-list','Projects list',3)]:
         content=content.replace('{{'+key+'}}',title(slug,label,level))
-    content=content.replace('{{AI_TITLE}}',compact_title('ai-tools','AI Development Tools',222)).replace('{{RECENT_TITLE}}',compact_title('recent-changes','Recent changes',158))
+    content=content.replace('{{RECENT_TITLE}}',compact_title('recent-changes','Recent changes',158))
     return content
 
 def refresh(offline=False):
@@ -96,6 +97,7 @@ def refresh(offline=False):
     avatar=json.loads((OUT/'avatar.json').read_text(encoding='utf-8')) if offline else profile_avatar.fetch(api('/users/'+CONFIG['owner'])['avatar_url'])
     avatar_name,avatar_svg=profile_avatar.frame(avatar,CONFIG['theme'])
     files={OUT/'activity.json':json.dumps(data,indent=2,ensure_ascii=False)+'\n',OUT/'avatar.json':json.dumps(avatar,indent=2)+'\n',MEDIA/avatar_name:avatar_svg,ROOT/'README.md':render(data,avatar)}
+    files.update(header_assets(avatar_svg,MEDIA))
     OUT.mkdir(parents=True,exist_ok=True);MEDIA.mkdir(parents=True,exist_ok=True)
     changed=False
     for path,content in files.items():changed=write_if_changed(path,content) or changed

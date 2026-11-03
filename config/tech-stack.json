@@ -1,0 +1,53 @@
+{
+  "duration_seconds": 30,
+  "width": 600,
+  "mobile_width": 288,
+  "height": 88,
+  "minimum_item_width": 100,
+  "icon_size": 32,
+  "label_size": 12,
+  "edge_fade": 14,
+  "capabilities": ["REST APIs", "Authentication"],
+  "technologies": [
+    {
+      "id": "java",
+      "name": "Java",
+      "category": "language",
+      "icon_url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/java/java-original.svg"
+    },
+    {
+      "id": "spring-boot",
+      "name": "Spring Boot",
+      "category": "framework",
+      "color": "#6DB33F",
+      "icon_url": "https://raw.githubusercontent.com/simple-icons/simple-icons/13.21.0/icons/springboot.svg"
+    },
+    {
+      "id": "postgresql",
+      "name": "PostgreSQL",
+      "category": "database",
+      "icon_url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/postgresql/postgresql-original.svg"
+    },
+    {
+      "id": "docker",
+      "name": "Docker",
+      "category": "tool",
+      "icon_url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/docker/docker-original.svg"
+    },
+    {
+      "id": "python",
+      "name": "Python",
+      "category": "language",
+      "icon_url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/python/python-original.svg"
+    },
+    {
+      "id": "codex",
+      "name": "OpenAI Codex",
+      "category": "ai_tool",
+      "color": "#edf0f4",
+      "light_color": "#24292f",
+      "icon_note": "Official OpenAI knot identifies the vendor; Codex is an AI-assisted development tool.",
+      "icon_url": "https://raw.githubusercontent.com/simple-icons/simple-icons/13.21.0/icons/openai.svg"
+    }
+  ]
+}

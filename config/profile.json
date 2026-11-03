@@ -2,22 +2,10 @@
   "owner": "slavisa-simic",
   "name": "Slaviša Simić",
   "roles": [
-    "Software Engineer",
-    "Backend Developer"
+    "Software Engineer"
   ],
   "intro": "I build backend services and full-stack applications.",
   "linkedin": "https://www.linkedin.com/in/slavi%C5%A1a-simi%C4%87-1879bb438/",
-  "skills": [
-    "Java",
-    "Spring Boot",
-    "PostgreSQL",
-    "REST APIs",
-    "Authentication",
-    "Docker"
-  ],
-  "ai_tools": [
-    "OpenAI Codex"
-  ],
   "activity_days": 30,
   "recent_limit": 3,
   "theme": {

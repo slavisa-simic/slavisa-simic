@@ -14,11 +14,13 @@ def main():
     run(sys.executable,'scripts/prepare_profile_sources.py')
     run(sys.executable,'scripts/prepare_badges.py')
     run(sys.executable,'scripts/build_profile_assets.py')
+    run(sys.executable,'scripts/build_tech_carousel.py')
     run(sys.executable,'scripts/refresh_profile.py',*(['--offline'] if args.offline else []))
     run(sys.executable,'-m','unittest','discover','-s','tests')
     if args.preview:
         run('node','scripts/preview_profile.mjs')
         run('node','scripts/verify_profile_animation.mjs')
+        run('node','scripts/verify_tech_animation.mjs')
     run(sys.executable,'scripts/validate_layout.py')
     if args.package: run(sys.executable,'scripts/package_profile.py')
 if __name__=='__main__': main()

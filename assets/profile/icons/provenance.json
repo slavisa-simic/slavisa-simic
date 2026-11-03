@@ -1,0 +1,42 @@
+{
+  "java.svg": {
+    "url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/java/java-original.svg",
+    "sha256": "7582e518a9c02425f97155e5a3bd39d1a3a7d421b78caf9c8df7443dad3edc5d"
+  },
+  "spring-boot.svg": {
+    "url": "https://raw.githubusercontent.com/simple-icons/simple-icons/13.21.0/icons/springboot.svg",
+    "sha256": "1b4bb8d7522fa0742a9fc40685b3efe3e089c5d07e4d3eebf4b4dbb28f827ad3"
+  },
+  "postgresql.svg": {
+    "url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/postgresql/postgresql-original.svg",
+    "sha256": "f220a436258ed014c512ba4f9c0de6b9e5c2c4b55331a0a29f8c7a1a12c36443"
+  },
+  "docker.svg": {
+    "url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/docker/docker-original.svg",
+    "sha256": "3fd830ea69431ed7a0b8d068cd5b34ad3f00a1a78195d50f13ff56713f2462e1"
+  },
+  "python.svg": {
+    "url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/python/python-original.svg",
+    "sha256": "71493b4a732f0532b3a03a7a95da3ee11a65766367c8303b901ffbe7bf91a3a2"
+  },
+  "codex.svg": {
+    "url": "https://raw.githubusercontent.com/simple-icons/simple-icons/13.21.0/icons/openai.svg",
+    "sha256": "2b4a04ddc2395b20d168694d3850ce2050a702c4a0cdeb4d8b31b9a970481a8c"
+  },
+  "github.svg": {
+    "url": "https://raw.githubusercontent.com/simple-icons/simple-icons/13.21.0/icons/github.svg",
+    "sha256": "3bf8cceead820aec50d4ee825a3fd02c5a1cd6665cc9cf4cbf3d9c8861a204bb"
+  },
+  "linkedin.svg": {
+    "url": "https://raw.githubusercontent.com/simple-icons/simple-icons/13.21.0/icons/linkedin.svg",
+    "sha256": "2687ac468d96bd03e748dc8646ef6465cb4cc7f34b96e1d0bc86fcb3dd79121a"
+  },
+  "Devicon-LICENSE": {
+    "url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/LICENSE",
+    "sha256": "121194741d4a915b9f5890fdd6dd95121f9b1f816517c792358d72d7c838d664"
+  },
+  "Simple-Icons-LICENSE": {
+    "url": "https://raw.githubusercontent.com/simple-icons/simple-icons/13.21.0/LICENSE.md",
+    "sha256": "e43ad2b5f43c4798f7ceb92c259f4b854d59eb9dee3f4321ea0185758d7dea7b"
+  }
+}

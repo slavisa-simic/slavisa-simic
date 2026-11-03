@@ -31,6 +31,10 @@ class ActivityRefresh(TestCase):
         (self.root/'src').mkdir()
         original=Path(__file__).resolve().parents[1]/'src/README.template.md'
         (self.root/'src/README.template.md').write_text(original.read_text(encoding='utf-8'),encoding='utf-8')
+        (self.out/'generated').mkdir()
+        source=Path(__file__).resolve().parents[1]/'assets/profile/generated'
+        for asset in source.glob('tech-carousel*.svg'):
+            (self.out/'generated'/asset.name).write_bytes(asset.read_bytes())
 
     def make_avatar(self,payload):
         return {'source':'https://avatars.githubusercontent.com/u/123?v=4&s=256','mime':'image/png',
@@ -97,7 +101,11 @@ class ActivityRefresh(TestCase):
             profile.refresh()
         self.assertFalse(old.exists())
         self.assertEqual(len(list((self.out/'generated').glob('profile-avatar-*.svg'))),1)
-        self.assertNotEqual(old_readme,(self.root/'README.md').read_text(encoding='utf-8'))
+        # Stable header filenames embed the new framed avatar, while the cached
+        # framed asset still changes its content-addressed filename.
+        self.assertEqual(old_readme,(self.root/'README.md').read_text(encoding='utf-8'))
+        header=(self.out/'generated/profile-header.svg').read_text(encoding='utf-8')
+        self.assertIn(b64encode(profile.profile_avatar.frame(replacement,self.config['theme'])[1].encode()).decode(),header)
         self.assertEqual(json.loads((self.out/'avatar.json').read_text())['sha256'],replacement['sha256'])
         self.assertFalse(profile.refresh(offline=True)['changed'])
 

@@ -1,9 +1,6 @@
-<!-- Generated from config/profile.json and public project activity. -->
-<p align="center"><img src="assets/profile/generated/profile-avatar-cb74ec67cc7abfcb.svg" width="112" height="112" alt="GitHub profile picture"></p>
-<h1 align="center">Slaviša Simić</h1>
-<p align="center">Software Engineer &nbsp;·&nbsp; Backend Developer</p>
-
-<p align="center"><a href="https://www.linkedin.com/in/slavi%C5%A1a-simi%C4%87-1879bb438/">LinkedIn &#8599;&#65038;</a> &nbsp; · &nbsp; <a href="https://github.com/slavisa-simic?tab=repositories">Repositories &#8599;&#65038;</a></p>
+<!-- Generated from config/profile.json, config/tech-stack.json and public project activity. -->
+<p><picture><source media="(max-width: 768px) and (prefers-color-scheme: light) and (prefers-reduced-motion: reduce)" srcset="assets/profile/generated/profile-header-mobile-light-reduced.svg"><source media="(max-width: 768px) and (prefers-reduced-motion: reduce)" srcset="assets/profile/generated/profile-header-mobile-reduced.svg"><source media="(prefers-color-scheme: light) and (prefers-reduced-motion: reduce)" srcset="assets/profile/generated/profile-header-light-reduced.svg"><source media="(prefers-reduced-motion: reduce)" srcset="assets/profile/generated/profile-header-reduced.svg"><source media="(max-width: 768px) and (prefers-color-scheme: light)" srcset="assets/profile/generated/profile-header-mobile-light.svg"><source media="(max-width: 768px)" srcset="assets/profile/generated/profile-header-mobile.svg"><source media="(prefers-color-scheme: light)" srcset="assets/profile/generated/profile-header-light.svg"><img src="assets/profile/generated/profile-header.svg" alt="Slaviša Simić — Software Engineer. Technology stack: Java, Spring Boot, PostgreSQL, Docker, Python, OpenAI Codex (AI development tool)"></picture></p>
+<p><picture><source media="(max-width: 768px) and (prefers-color-scheme: light)" srcset="assets/profile/generated/header-spacer-mobile-light.svg"><source media="(max-width: 768px)" srcset="assets/profile/generated/header-spacer-mobile.svg"><source media="(prefers-color-scheme: light)" srcset="assets/profile/generated/header-spacer-light.svg"><img src="assets/profile/generated/header-spacer.svg" height="44" alt=""></picture><a href="https://github.com/slavisa-simic?tab=repositories"><picture><source media="(prefers-color-scheme: light)" srcset="assets/profile/generated/link-github-light.svg"><img src="assets/profile/generated/link-github.svg" width="160" height="44" alt="GitHub Repositories"></picture></a> <a href="https://www.linkedin.com/in/slavi%C5%A1a-simi%C4%87-1879bb438/"><picture><source media="(prefers-color-scheme: light)" srcset="assets/profile/generated/link-linkedin-light.svg"><img src="assets/profile/generated/link-linkedin.svg" width="96" height="44" alt="LinkedIn"></picture></a></p>
 
 <p><picture><source media="(max-width: 600px)" srcset="assets/profile/generated/title-projects-mobile.png"><img src="assets/profile/generated/title-projects.png" width="100%" alt="Projects"></picture></p>
 
@@ -16,14 +13,6 @@
 <table><thead><tr><th>Project</th><th>Commits<br><sub>30 days</sub></th><th>Stars</th></tr></thead><tbody><tr><td><a href="https://github.com/slavisa-simic/vigil/blob/main/README.md"><samp>Vigil</samp></a></td><td align="center"><samp>15</samp></td><td align="center"><samp>0</samp></td></tr><tr><td><a href="https://github.com/slavisa-simic/tower-defense-ai/blob/main/README.md"><samp>Potamorph</samp></a></td><td align="center"><samp>15</samp></td><td align="center"><samp>0</samp></td></tr></tbody></table>
 <p><sub>GitHub API · hourly sync · last success 03 Nov 2026, 22:09:41 UTC</sub></p>
 <details><summary><picture><source media="(max-width: 600px)" srcset="assets/profile/generated/title-project-notes.png"><img src="assets/profile/generated/title-project-notes.png" width="140" height="30" alt="Project notes"></picture></summary><p><strong>Vigil</strong><br>Java / Spring Boot API, PostgreSQL, React / TypeScript client, and Docker Compose. JWT authentication and role-based access control protect the incident workflow.</p><p><strong>Potamorph</strong><br>I set the direction and scope; Codex handled implementation and tooling. The resulting prototype, currently titled Border Defenders, uses Unity and C#. The repository retains phase briefs and validation reports.</p><p><a href="assets/profile/generated/projects-carousel.png">Static project preview</a></p></details>
-
-<h2><picture><source media="(max-width: 600px)" srcset="assets/profile/generated/title-tech-stack-mobile.png"><img src="assets/profile/generated/title-tech-stack.png" width="100%" alt="Tech stack"></picture></h2>
-
-<p><img src="assets/profile/badges/java.svg" height="24" alt="Java"> <img src="assets/profile/badges/spring-boot.svg" height="24" alt="Spring Boot"> <img src="assets/profile/badges/postgresql.svg" height="24" alt="PostgreSQL"> <img src="assets/profile/badges/docker.svg" height="24" alt="Docker"></p>
-
-<p><samp>REST APIs · Authentication</samp></p>
-
-<p><picture><source media="(max-width: 600px)" srcset="assets/profile/generated/title-ai-tools.png"><img src="assets/profile/generated/title-ai-tools.png" width="222" height="30" alt="AI Development Tools"></picture><br><img src="assets/profile/badges/codex.svg" height="24" alt="OpenAI Codex — AI Development Tool"></p>
 
 <details>
 <summary><picture><source media="(max-width: 600px)" srcset="assets/profile/generated/title-recent-changes.png"><img src="assets/profile/generated/title-recent-changes.png" width="158" height="30" alt="Recent changes"></picture></summary>
