@@ -2,89 +2,89 @@
   "tech-carousel": {
     "width": 600,
     "height": 88,
-    "period": 642,
-    "item_width": 107,
+    "period": 600,
+    "item_width": 100,
     "duration_seconds": 30,
     "direction": "right",
     "static": false,
-    "bytes": 43147,
-    "sha256": "4b0be01c277e632ceeb86a1371654209cd090a8536c2ea96aa866cbeed194dde"
+    "bytes": 41684,
+    "sha256": "83c8748b6f9d374033a84a2b88b9706f597ec9b6778a6fc6ab73d0d05de405e6"
   },
   "tech-carousel-reduced": {
     "width": 600,
     "height": 88,
-    "period": 642,
-    "item_width": 107,
+    "period": 600,
+    "item_width": 100,
     "duration_seconds": 30,
     "direction": "right",
     "static": true,
-    "bytes": 42500,
-    "sha256": "8d809c34c34c81e878127febad5ad76c3bf30395ea920d9470397f85b4bd6791"
+    "bytes": 41037,
+    "sha256": "fb39164326603137ee390d4caba82f837d3e4aed7ac9e0d6083a6c8ea0ba5381"
   },
   "tech-carousel-light": {
     "width": 600,
     "height": 88,
-    "period": 642,
-    "item_width": 107,
+    "period": 600,
+    "item_width": 100,
     "duration_seconds": 30,
     "direction": "right",
     "static": false,
-    "bytes": 43215,
-    "sha256": "19d63a1c036cf3872323f18175ea9fd4342f39bc9be41b6740726cde71df4142"
+    "bytes": 41812,
+    "sha256": "6a1247c668b336c4f78f21808703fe5b8f8d693ff1ed41329ab31745da564e5f"
   },
   "tech-carousel-light-reduced": {
     "width": 600,
     "height": 88,
-    "period": 642,
-    "item_width": 107,
+    "period": 600,
+    "item_width": 100,
     "duration_seconds": 30,
     "direction": "right",
     "static": true,
-    "bytes": 42568,
-    "sha256": "c5fe0cc12b582acc482e1688886feed789df3f8d6d61dc483fb65900cb3c2e0c"
+    "bytes": 41165,
+    "sha256": "7638aac4d21873a2f6a071c0d7908d8bad0ce8b974c7c029dc4359b116286b98"
   },
   "tech-carousel-mobile": {
     "width": 288,
     "height": 88,
-    "period": 642,
-    "item_width": 107,
+    "period": 600,
+    "item_width": 100,
     "duration_seconds": 30,
     "direction": "right",
     "static": false,
-    "bytes": 43146,
-    "sha256": "c37004499bb271f57f07d0a28d49fe37475324e166e447d47a7b2610c705187f"
+    "bytes": 41683,
+    "sha256": "28ccd4bcd0f4512e768e806580c06d1ed66f5e32c9553360d46715aea96d77dc"
   },
   "tech-carousel-mobile-reduced": {
     "width": 288,
     "height": 176,
-    "period": 642,
-    "item_width": 107,
+    "period": 600,
+    "item_width": 100,
     "duration_seconds": 30,
     "direction": "right",
     "static": true,
-    "bytes": 42506,
-    "sha256": "65ba5e9e09ed63340471fd00a5cd64be45d631102fb5f5cadf65d81a7ee52fc8"
+    "bytes": 41043,
+    "sha256": "9b4c30da4e3b98b6fe0abdacd32874e9659ea8d12601d87c37bb3de70a41653b"
   },
   "tech-carousel-mobile-light": {
     "width": 288,
     "height": 88,
-    "period": 642,
-    "item_width": 107,
+    "period": 600,
+    "item_width": 100,
     "duration_seconds": 30,
     "direction": "right",
     "static": false,
-    "bytes": 43214,
-    "sha256": "19e2d61ad78194421710a6c20d2f372be3b526eed26baff466b57b186a3c3e51"
+    "bytes": 41811,
+    "sha256": "39772f261da6d391b0b08234a53c2372760836a82a74afbc549ef354fa57cd6f"
   },
   "tech-carousel-mobile-light-reduced": {
     "width": 288,
     "height": 176,
-    "period": 642,
-    "item_width": 107,
+    "period": 600,
+    "item_width": 100,
     "duration_seconds": 30,
     "direction": "right",
     "static": true,
-    "bytes": 42574,
-    "sha256": "d9ba4e4f1031ccfdaae2caca55a6475b91d10ec47533b2b584d8f49c2aa5f351"
+    "bytes": 41171,
+    "sha256": "c194a9815fed7c95f3fdfe90059dfb9c990939eaa1bc9545749655f18e4f1ee8"
   }
 }

@@ -119,7 +119,7 @@ def carousel(mobile=False, light=False, reduced=False):
     columns = min(len(tech), max(1, width // 96)) if mobile else len(tech)
     if reduced: height *= math.ceil(len(tech) / columns)
     svg = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img">',
-           '<title>Technology stack</title><desc>Official logos. OpenAI Codex is an AI development tool. '
+           '<title>Technology stack</title><desc>Official logos. Codex is an AI development tool. '
            'Continuous left-to-right motion; reduced motion shows the full stack without movement.</desc>']
     items = []
     for i, t in enumerate(tech):

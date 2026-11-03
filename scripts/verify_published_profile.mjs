@@ -47,7 +47,10 @@ try{
   await page.waitForFunction(()=>document.querySelector('img[alt^="Projects carousel:"]').currentSrc.includes('-reduced.svg')&&[...document.querySelectorAll('.markdown-body img')].every(i=>i.complete&&i.naturalWidth>0));
   if(width===1440){const first=await carouselImage.screenshot({path:path.join(out,'published-reduced-first.png')});await page.waitForTimeout(1600);const middle=await carouselImage.screenshot({path:path.join(out,'published-reduced-middle.png')});await page.waitForTimeout(1600);const last=await carouselImage.screenshot({path:path.join(out,'published-reduced-last.png')});check(!first.equals(middle)||!middle.equals(last),'Reduced-motion view is still a static image');}
   if(width===390||width===1440)await capture(article,`published-${width===390?'mobile':'desktop'}.png`);
-  state.reducedMotion='Static technology grid; automatic three-second project changes without sliding';report.checks.push(state);await page.emulateMedia({reducedMotion:'no-preference'});
+  const headerImage=article.locator('img[alt^="'+config.name+' — Software Engineer."]');
+  check(!(await headerImage.evaluate(i=>i.currentSrc)).includes('-reduced.svg'),'Published header selects a static reduced-motion source');
+  const headerBefore=await headerImage.screenshot();await page.waitForTimeout(1100);const headerAfter=await headerImage.screenshot();check(!headerBefore.equals(headerAfter),'Published technology marquee does not move with reduced motion enabled');
+  state.reducedMotion='Technology marquee keeps moving right; project carousel retains three-second switches';report.checks.push(state);await page.emulateMedia({reducedMotion:'no-preference'});
  }
  await page.setViewportSize({width:1440,height:1000});await page.emulateMedia({colorScheme:'light',reducedMotion:'reduce'});await page.reload({waitUntil:'domcontentloaded'});
  await page.waitForFunction(()=>[...document.querySelectorAll('.markdown-body img')].every(i=>i.complete&&i.naturalWidth>0));

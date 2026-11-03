@@ -9,9 +9,17 @@ import xml.etree.ElementTree as ET
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 import build_tech_carousel as builder
+from tech_stack import header_picture
 
 
 class TechCarousel(TestCase):
+    def test_header_never_selects_a_static_source_for_system_motion_preferences(self):
+        markup = header_picture()
+        self.assertNotIn('prefers-reduced-motion', markup)
+        self.assertNotIn('-reduced.svg', markup)
+        self.assertIn('profile-header-mobile.svg', markup)
+        self.assertIn('profile-header-light.svg', markup)
+
     def test_new_long_label_expands_slot_without_clipping(self):
         spec = copy.deepcopy(builder.STACK)
         before, _ = builder.layout(spec)

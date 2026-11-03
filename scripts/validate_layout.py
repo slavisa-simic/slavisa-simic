@@ -43,7 +43,7 @@ def main():
     assert 'activity-dark.svg' not in readme,'Statistics must be native text, not an image'
     assert 'title-tech-stack' not in readme and 'title-ai-tools' not in readme,'Standalone stack must be removed'
     assert 'Unity' not in description() and 'Python' in description()
-    assert 'OpenAI Codex (AI development tool)' in description()
+    assert 'Codex (AI development tool)' in description()
     assert 'Software Engineer' in readme and 'Backend Developer' not in readme
     assert CONFIG['linkedin'] in markup.links
     assert f'https://github.com/{CONFIG["owner"]}?tab=repositories' in markup.links

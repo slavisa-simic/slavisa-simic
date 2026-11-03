@@ -7,6 +7,7 @@
   "icon_size": 32,
   "label_size": 12,
   "edge_fade": 14,
+  "decoration_right_gutter": 48,
   "capabilities": ["REST APIs", "Authentication"],
   "technologies": [
     {
@@ -42,7 +43,7 @@
     },
     {
       "id": "codex",
-      "name": "OpenAI Codex",
+      "name": "Codex",
       "category": "ai_tool",
       "color": "#edf0f4",
       "light_color": "#24292f",

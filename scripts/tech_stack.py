@@ -19,7 +19,7 @@ def picture(name, alt, width):
             f'<img src="{base}.svg" width="{width}" height="44" alt="{escape(alt, quote=True)}"></picture>')
 
 
-def carousel_picture():
+def carousel_picture(static_for_reduced_motion=True):
     from html import escape
     base = 'assets/profile/generated/tech-carousel'
     sources = []
@@ -27,6 +27,8 @@ def carousel_picture():
     for mobile, light, reduced in [(True, True, True), (True, False, True),
                                     (False, True, True), (False, False, True),
                                     (True, True, False), (True, False, False), (False, True, False)]:
+        if reduced and not static_for_reduced_motion:
+            continue
         conditions = []
         if mobile: conditions.append('(max-width: 600px)')
         if light: conditions.append('(prefers-color-scheme: light)')
@@ -55,7 +57,8 @@ def header_assets(avatar_svg, media):
                 if reduced:
                     import xml.etree.ElementTree as ET
                     tech_height = int(ET.fromstring(carousel).attrib['height'])
-                width = STACK['mobile_width'] if mobile else STACK['width'] + 208
+                content_width = STACK['mobile_width'] if mobile else STACK['width'] + 208
+                width = content_width + (0 if mobile else STACK.get('decoration_right_gutter', 0))
                 height = (202 if mobile else 100) + tech_height + 20
                 ink = '#1f2328' if light else '#edf0f4'
                 secondary = '#57606a' if light else '#c3c8d0'
@@ -72,11 +75,11 @@ def header_assets(avatar_svg, media):
                              f'stroke="{decoration}" stroke-opacity=".65"/>')
                 rule_x = 0 if mobile else 208
                 rule_y = height - 3
-                rule_center = (rule_x + width) / 2
-                rule = (f'<defs><linearGradient id="contact-rule" gradientUnits="userSpaceOnUse" x1="{rule_x}" y1="{rule_y}" x2="{width}" y2="{rule_y}">'
+                rule_center = (rule_x + content_width) / 2
+                rule = (f'<defs><linearGradient id="contact-rule" gradientUnits="userSpaceOnUse" x1="{rule_x}" y1="{rule_y}" x2="{content_width}" y2="{rule_y}">'
                         f'<stop stop-color="{decoration}" stop-opacity=".12"/><stop offset=".5" stop-color="{decoration}" stop-opacity=".7"/>'
                         f'<stop offset="1" stop-color="{decoration}" stop-opacity=".12"/></linearGradient></defs>'
-                        f'<path d="M{rule_x} {rule_y}H{width}" stroke="url(#contact-rule)"/>'
+                        f'<path d="M{rule_x} {rule_y}H{content_width}" stroke="url(#contact-rule)"/>'
                         f'<path d="M{rule_center-26} {rule_y}H{rule_center+26}" stroke="{decoration}" stroke-width="5" stroke-opacity=".08"/>'
                         f'<path d="M{rule_center-26} {rule_y}H{rule_center+26}" stroke="{decoration}" stroke-width="1.8" stroke-opacity=".95"/>')
                 svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img">'
@@ -110,7 +113,9 @@ def header_assets(avatar_svg, media):
 
 def header_picture():
     # Reuse the exact media selection order of the standalone carousel.
-    markup = carousel_picture().replace('tech-carousel', 'profile-header')
+    # Explicit user preference: keep the continuous rightward marquee even
+    # when the OS/browser requests reduced motion. Static exports remain available.
+    markup = carousel_picture(static_for_reduced_motion=False).replace('tech-carousel', 'profile-header')
     # Natural image dimensions follow the selected source. GitHub's own
     # max-width rule shrinks a composition only when the container needs it.
     markup = markup.replace(f' width="{STACK["width"]}"', '')

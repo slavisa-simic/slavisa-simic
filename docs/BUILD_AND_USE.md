@@ -19,7 +19,7 @@ Add `--offline` to reuse cached activity and the avatar. Cached media generation
 
 ## Add a technology
 
-Edit `config/tech-stack.json`. This is the authoritative personal stack: Java, Spring Boot, PostgreSQL, Docker, Python, and OpenAI Codex. REST APIs and Authentication are retained as unused `capabilities` metadata and are no longer displayed. Project languages are never imported as personal skills.
+Edit `config/tech-stack.json`. This is the authoritative personal stack: Java, Spring Boot, PostgreSQL, Docker, Python, and Codex. REST APIs and Authentication are retained as unused `capabilities` metadata and are no longer displayed. Project languages are never imported as personal skills.
 
 Add an entry to `technologies`, for example:
 
@@ -46,7 +46,7 @@ The existing GitHub Action rebuilds the carousel when the configuration, generat
 
 The header uses responsive SVG image compositions because GitHub strips custom layout CSS. The exact existing framed avatar SVG is embedded as image data; it is neither redrawn nor cropped. Below 769 px the portrait, name, role, and marquee stack vertically. The name and role are image text with a complete accessible alt description; activity stays selectable native text. Contact links remain independent, keyboard-accessible anchors. Their transparent alignment spacer collapses on mobile. This avoids a visible layout table border and broken float wrapping.
 
-The animated SVGs contain one linear SMIL translation and no JavaScript, external fonts, or external image requests. True alpha transparency and edge fades work over either GitHub theme. Reduced motion selects an unanimated full-stack grid. Local validation uses GitHub's Markdown API, current GitHub styles, and actual image-element playback. This revision has not been published or checked on the live profile; no GIF fallback is needed for the verified SVG image playback.
+The animated SVGs contain one linear SMIL translation and no JavaScript, external fonts, or external image requests. True alpha transparency and edge fades work over either GitHub theme. The header always selects the moving marquee, including when the system requests reduced motion, as explicitly requested. Static grid exports remain available as separate files; the README does not automatically select them. Local validation uses GitHub's Markdown API, current GitHub styles, and the actual README picture sources in all eight size/theme/motion combinations. No GIF fallback is needed for verified SVG image playback. `decoration_right_gutter` controls the extra desktop space placing the upper-right decoration farther outward.
 
 For an activity-only refresh, no third-party Python packages are needed:
 
