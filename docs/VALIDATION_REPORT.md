@@ -12,4 +12,10 @@ Checked on 3 November 2026 for the native profile redesign.
 - Seven updater tests cover paginated data and date boundaries, exclusion of profile automation/private repositories, no-op writes, API failure preservation, commit-text escaping, and the empty state.
 - Personal skills exclude Unity and C#. OpenAI Codex appears under AI Development Tools; Potamorph's hidden detail distinguishes direction/scope from AI implementation.
 
-Machine-readable reports and screenshots are regenerated under `assets/previews/profile/`. The published profile and scheduled workflow are checked separately after upload. Previous blueprint validation concerns the earlier design only.
+Machine-readable reports and screenshots are regenerated under `assets/previews/profile/`. Previous blueprint validation concerns the earlier design only.
+
+## Public verification
+
+The redesign is published on the [actual profile](https://github.com/slavisa-simic). An unauthenticated browser checked its real images and markup at 1440, 390, and 320 px, including mobile sources, both themes, reduced motion, native details, and exact project README destinations. No markup or network responses were substituted during this check.
+
+The first [activity workflow run](https://github.com/slavisa-simic/slavisa-simic/actions/runs/41700879653) completed successfully on 3 November 2026. Its checkout, Python setup, seven tests, public API fetch, and conditional commit step all passed. The six-hour schedule is installed. Public-browser evidence and the workflow result are retained locally in `assets/previews/profile/published-report.json` and `workflow-report.json`.
