@@ -1,7 +1,7 @@
 {
   "scope": "Featured public repositories only; profile automation excluded",
-  "window_start": "2026-10-05",
-  "window_end": "2026-11-03",
+  "window_start": "2026-10-06",
+  "window_end": "2026-11-04",
   "days": 30,
   "projects": [
     {
@@ -10,7 +10,7 @@
       "repository": "slavisa-simic/vigil",
       "stars": 0,
       "default_branch": "main",
-      "commits_30d": 15
+      "commits_30d": 13
     },
     {
       "id": "potamorph",
@@ -21,13 +21,9 @@
       "commits_30d": 15
     }
   ],
-  "total_commits": 30,
-  "active_days": 10,
+  "total_commits": 28,
+  "active_days": 9,
   "daily": [
-    {
-      "date": "2026-10-05",
-      "commits": 2
-    },
     {
       "date": "2026-10-06",
       "commits": 2
@@ -143,6 +139,10 @@
     {
       "date": "2026-11-03",
       "commits": 2
+    },
+    {
+      "date": "2026-11-04",
+      "commits": 0
     }
   ],
   "recent": [
@@ -171,5 +171,5 @@
       "message": "feat: add aquatic assaults, navigation combat, and research progression"
     }
   ],
-  "fetched_at": "2026-11-03T23:19:08Z"
+  "fetched_at": "2026-11-04T01:24:02Z"
 }
