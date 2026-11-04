@@ -40,7 +40,24 @@
       "details": "Java / Spring Boot API, PostgreSQL, React / TypeScript client, and Docker Compose. JWT authentication and role-based access control protect the incident workflow.",
       "logo": "assets/profile/source/vigil-logo.png",
       "accent": "#73a9f8",
-      "logo_sha256": "fce01136a01affc3419a4a3d025e1d4dd2b749cc01eabecbc6a91f7496eec90b"
+      "logo_sha256": "fce01136a01affc3419a4a3d025e1d4dd2b749cc01eabecbc6a91f7496eec90b",
+      "showcase": {
+        "image": "assets/profile/source/vigil-preview.png",
+        "kind": "Incident management platform",
+        "description": "A full-stack app for reporting and managing IT incidents, with role-based access and an audit log.",
+        "features": [
+          "RBAC",
+          "Audit log",
+          "REST API"
+        ],
+        "stack": [
+          "Java",
+          "Spring Boot",
+          "React / TypeScript",
+          "PostgreSQL",
+          "Docker"
+        ]
+      }
     },
     {
       "id": "potamorph",
@@ -52,7 +69,23 @@
       "details": "I set the direction and scope; Codex handled implementation and tooling. The resulting prototype, currently titled Border Defenders, uses Unity and C#. The repository retains phase briefs and validation reports.",
       "logo": "assets/profile/source/potamorph-logo.png",
       "accent": "#d99692",
-      "logo_sha256": "f8d4c988597ac86eed14ab94be0ad6e8020eca0806032b466430f223aa733cc7"
+      "logo_sha256": "f8d4c988597ac86eed14ab94be0ad6e8020eca0806032b466430f223aa733cc7",
+      "showcase": {
+        "image": "assets/profile/source/potamorph-preview.png",
+        "kind": "Tower-defense game",
+        "description": "A tower-defense prototype set on the Danube, with aquatic enemies, defense upgrades, and two maps.",
+        "features": [
+          "Tower defense",
+          "Upgrades",
+          "Two maps"
+        ],
+        "stack": [
+          "Unity",
+          "C#",
+          "UI Toolkit"
+        ],
+        "note": "Built with OpenAI Codex"
+      }
     }
   ]
 }

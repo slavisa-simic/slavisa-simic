@@ -122,20 +122,19 @@ class ActivityRefresh(TestCase):
         self.config['projects'][0]['repository']='slavisa-simic/slavisa-simic'
         with self.assertRaisesRegex(ValueError,'automation'):self.collect()
 
-    def test_commit_messages_cannot_inject_markup_or_links(self):
+    def test_recent_commit_details_are_not_published_in_project_showcase(self):
         data=self.collect();data['recent']=[{'message':'<img src=x> [fake](https://bad.example) & fix','project_name':'Vigil','date':'2026-11-03','url':'https://github.com/example/project/commit/123'}]
         readme=profile.render(data)
         self.assertNotIn('<img src=x>',readme)
-        self.assertIn('&#91;fake&#93;',readme)
-        self.assertIn('&amp; fix',readme)
-        self.assertEqual(readme.count('](https://github.com/example/project/commit/123)'),1)
+        self.assertNotIn('fake',readme)
+        self.assertNotIn('https://github.com/example/project/commit/123',readme)
         self.assertNotIn('{{',readme)
 
-    def test_empty_window_has_readable_zero_state(self):
+    def test_empty_activity_window_does_not_hide_project_showcase(self):
         data=self.collect()
         self.assertEqual(data['total_commits'],0)
-        self.assertIn('No project commits in this time window.',profile.render(data))
+        self.assertIn('All projects.',profile.render(data))
         self.assertTrue(all(p['commits_30d']==0 for p in data['projects']))
-        self.assertIn('hourly sync',profile.render(data))
+        self.assertNotIn('hourly sync',profile.render(data))
 
 if __name__=='__main__':main()

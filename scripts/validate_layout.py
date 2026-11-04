@@ -25,16 +25,16 @@ class Markup(HTMLParser):
 
 def main():
     readme=(ROOT/'README.md').read_text(encoding='utf-8');markup=Markup();markup.feed(readme)
-    assert markup.images==10,'Expected profile header, four title images, project carousel and workflow status'
+    assert markup.images==8+3*len(CONFIG['projects']),'Unexpected profile image count'
     for relative in markup.assets:
         assert relative.startswith(('assets/profile/generated/','assets/profile/badges/')),'Images must be stored in this repository'
         assert (ROOT/relative).is_file(),f'Missing image: {relative}'
     for project in CONFIG['projects']:
-        assert project['readme'] in markup.links,'Missing project README destination'
-        assert project['readme'].endswith('/blob/main/README.md'),'Project target must start at the README'
+        assert 'https://github.com/'+project['repository'] in markup.links,'Missing project repository destination'
         assert sha256((ROOT/project['logo']).read_bytes()).hexdigest()==project['logo_sha256'],'Official logo source has changed'
     assert CONFIG['carousel']['target'] in markup.links,'Carousel must open the project list'
     assert '<a name="projects-list"></a>' in readme,'Missing stable project list target'
+    assert '<details>' not in readme and 'title-projects-list' not in readme and 'badge.svg' not in readme,'Retired footer is still visible'
     assert readme.count(CONFIG['intro'])<=1,'Repeated introduction'
     assert '{{' not in readme,'Unresolved template field'
     assert f'{CONFIG["name"]} — Software Engineer.' in readme,'Identity needs an accessible text equivalent'
@@ -59,6 +59,8 @@ def main():
         assert record['bytes']<100_000,'Tech asset exceeds budget'
     for name,record in json.loads((SOURCE/'provenance.json').read_text()).items():
         assert sha256((SOURCE/name).read_bytes()).hexdigest()==record['sha256'],f'Source changed: {name}'
+    for name,record in json.loads((SOURCE/'preview-provenance.json').read_text()).items():
+        assert sha256((SOURCE/name).read_bytes()).hexdigest()==record['sha256'],f'Project preview changed: {name}'
     stats=json.loads((OUT/'activity.json').read_text(encoding='utf-8'))
     assert sum(d['commits'] for d in stats['daily'])==stats['total_commits']
     assert len([d for d in stats['daily'] if d['commits']])==stats['active_days']
@@ -106,6 +108,9 @@ def main():
         assert 'Unity' not in contents and 'Python' in contents
         doc=ET.fromstring(contents);ns={'s':'http://www.w3.org/2000/svg'}
         photo=doc.find('s:image',ns);name=doc.find('.//s:text',ns);tech=doc.find('s:svg',ns)
+        identity=doc.findall('s:g/s:text',ns)
+        assert len(identity)==3 and len({t.attrib['x'] for t in identity})==1,'All identity lines must share the left edge'
+        assert [int(t.attrib['font-weight']) for t in identity]==[700,500,400],'Identity needs a clear weight hierarchy'
         if '-mobile' in header.name:
             assert float(name.attrib['y'])>=float(photo.attrib['y'])+float(photo.attrib['height'])
             assert float(tech.attrib['y'])>float(name.attrib['y'])

@@ -8,7 +8,7 @@ import json
 import os
 import re
 import profile_avatar
-from tech_stack import header_assets,header_picture,picture,spacer
+from tech_stack import header_assets,header_picture,picture,about_picture,spacer
 from profile_common import ROOT,CONFIG,OUT,MEDIA,write_if_changed
 
 def api(path):
@@ -66,30 +66,30 @@ def render(data,avatar=None):
     avatar_name,avatar_svg=profile_avatar.frame(avatar,CONFIG['theme'])
     identity=(f'<p>{header_picture(avatar_svg)}</p>\n'
               f'<p>{spacer()}<a href="https://github.com/{CONFIG["owner"]}?tab=repositories">{picture("link-github", "GitHub Repositories", 160)}</a> '
-              f'<a href="{escape(CONFIG["linkedin"],quote=True)}">{picture("link-linkedin", "LinkedIn", 96)}</a></p>')
-    alt='Projects carousel: '+', '.join(p['name'] for p in CONFIG['projects'])+'. Open the projects list.'
+              f'<a href="{escape(CONFIG["linkedin"],quote=True)}">{picture("link-linkedin", "LinkedIn", 96)}</a></p>\n\n'
+              f'<p>{about_picture()}</p>')
+    alt='Projects carousel: '+', '.join(p['name'] for p in CONFIG['projects'])+'. Open the project table.'
     carousel=f'<p align="center"><a href="{CONFIG["carousel"]["target"]}">{media_picture("projects-carousel",alt,"100%")}</a></p>'
-    items=['<table><thead><tr><th>Project</th><th>Commits<br><sub>30 days</sub></th><th>Stars</th></tr></thead><tbody>'];notes=[]
-    by_id={p['id']:p for p in data['projects']}
+    items=['<table width="100%"><tbody>']
     for p in CONFIG['projects']:
-        live=by_id[p['id']]
-        items.append(f'<tr><td><a href="{p["readme"]}"><samp>{escape(p["name"])}</samp></a></td><td align="center"><samp>{live["commits_30d"]}</samp></td><td align="center"><samp>{live["stars"]}</samp></td></tr>')
-        notes.append(f'<p><strong>{escape(p["name"])}</strong><br>{escape(p["details"])}</p>')
-    sync=datetime.fromisoformat(data['fetched_at'].replace('Z','+00:00')).strftime('%d %b %Y, %H:%M:%S UTC')
-    projects=''.join(items)+'</tbody></table>\n'+f'<p><sub>GitHub API · hourly sync · last success {sync}</sub></p>\n<details><summary>'+compact_title('project-notes','Project notes',140)+'</summary>'+''.join(notes)+'<p><a href="assets/profile/generated/projects-carousel.png">Static project preview</a></p></details>'
-    recent=[]
-    for commit in data['recent']:
-        message=commit['message']
-        if len(message)>72:message=message[:69].rstrip()+'…'
-        message=escape(message).replace('|','&#124;').replace('[','&#91;').replace(']','&#93;')
-        recent.append(f"- [{message}]({commit['url']})<br><sub>{commit['project_name']} · {commit['date'][:10]}</sub>")
-    rows='\n'.join(recent) if recent else 'No project commits in this time window.'
+        card_alt=p['name']+' — '+p['showcase']['kind']+'. '+p['showcase']['description']+' Stack: '+', '.join(p['showcase']['stack'])+'.'
+        items.append('<tr><td width="10000">'+project_picture('project-'+p['id'],card_alt)+'<p align="right">'
+                     +f'<a href="https://github.com/{p["repository"]}">{picture("project-repository",p["name"]+" GitHub repository",144)}</a> '
+                     +picture('project-demo','Demo — not available yet',112)+'</p></td></tr>')
+    projects=''.join(items)+'</tbody></table>'
     template=(ROOT/'src/README.template.md').read_text(encoding='utf-8')
-    content=template.replace('{{IDENTITY}}',identity).replace('{{CAROUSEL}}',carousel).replace('{{PROJECTS}}',projects).replace('{{RECENT}}',rows)
-    for key,slug,label,level in [('PROJECTS_TITLE','projects','Projects',None),('PROJECT_LIST_TITLE','projects-list','Projects list',3)]:
-        content=content.replace('{{'+key+'}}',title(slug,label,level))
-    content=content.replace('{{RECENT_TITLE}}',compact_title('recent-changes','Recent changes',158))
-    return content
+    return (template.replace('{{IDENTITY}}',identity).replace('{{CAROUSEL}}',carousel)
+            .replace('{{PROJECTS}}',projects).replace('{{PROJECTS_TITLE}}',title('projects','Projects',None))
+            .replace('{{PROJECT_TABLE_TITLE}}','<p>'+project_picture('project-table-title','All projects. '+str(len(CONFIG['projects']))+' projects.')+'</p>')).rstrip()+'\n'
+
+
+def project_picture(name,alt):
+    base='assets/profile/generated/'+name
+    return (f'<picture><source media="(max-width: 768px) and (prefers-color-scheme: light)" srcset="{base}-mobile-light.svg">'
+            f'<source media="(max-width: 768px)" srcset="{base}-mobile.svg">'
+            f'<source media="(prefers-color-scheme: light)" srcset="{base}-light.svg">'
+            f'<img src="{base}.svg" width="100%" alt="{escape(alt,quote=True)}"></picture>')
+
 
 def refresh(offline=False):
     # Fetch the entire new snapshot before replacing any valid content.

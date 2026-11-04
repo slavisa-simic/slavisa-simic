@@ -42,9 +42,6 @@ def draw_slide(project,index,mobile):
     d=ImageDraw.Draw(image)
     p=CONFIG['theme']
     d.rectangle((0,body,w,h),fill=p['background']);d.line((0,body,w,body),fill=p['line'])
-    label(d,(x,body+14),'Explore projects',18 if mobile else 19,p['secondary'],450)
-    ax=x+(168 if mobile else 178);ay=body+23
-    d.line((ax,ay-6,ax,ay+7),fill='#a8b8cc',width=2);d.line((ax-5,ay+2,ax,ay+7,ax+5,ay+2),fill='#a8b8cc',width=2)
     d.rectangle((1,1,w-2,h-2),outline=p['line'],width=2)
     return image,{'file':project['logo'],'source_sha256':hashlib.sha256((ROOT/project['logo']).read_bytes()).hexdigest(),'crop':list(bounds),'position':list(xy),'size':list(logo.size),'background':surface,'operations':['crop near-transparent outer padding','proportional resize','alpha composite']}
 
@@ -68,16 +65,16 @@ def build_carousel():
         for i,slide in enumerate([*slides,slides[0]]):svg.append(f'<image href="{uri(slide.crop((0,0,w,body)))}" x="{i*w}" width="{w}" height="{body}"/>')
         svg.append(f'<animateTransform attributeName="transform" type="translate" values="{";".join(values)}" keyTimes="{";".join(f"{t:.8f}" for t in times)}" keySplines="{";".join(splines)}" calcMode="spline" dur="{duration}s" repeatCount="indefinite"/></g></g>')
         svg.append(f'<image href="{uri(slides[0].crop((0,body,w,h)))}" y="{body}" width="{w}" height="{footer}"/>')
-        dot_y=body+25;dot_start=w-93;dot_gap=36
+        dot_y=body+23;dot_gap=36;dot_start=(w-((count-1)*dot_gap+24))/2
         switches=[0]+[(i*(hold+transition)+hold+transition/2)/duration for i in range(count)]+[1]
         for i in range(count):
             x=dot_start+i*dot_gap
             states=[1 if i==0 else 0]+[1 if (j+1)%count==i else 0 for j in range(count)]+[1 if i==0 else 0]
-            svg.append(f'<rect x="{x}" y="{dot_y}" width="22" height="3" rx="1.5" fill="#46566a"/><rect x="{x}" y="{dot_y}" width="22" height="3" rx="1.5" fill="#edf2f7" opacity="{states[0]}"><animate attributeName="opacity" values="{";".join(map(str,states))}" keyTimes="{";".join(f"{t:.8f}" for t in switches)}" calcMode="discrete" dur="{duration}s" repeatCount="indefinite"/></rect>')
+            svg.append(f'<rect x="{x}" y="{dot_y}" width="24" height="4" rx="2" fill="#46566a"/><rect id="indicator-{i}" x="{x}" y="{dot_y}" width="24" height="4" rx="2" fill="#edf2f7" opacity="{states[0]}"><animate attributeName="opacity" values="{";".join(map(str,states))}" keyTimes="{";".join(f"{t:.8f}" for t in switches)}" calcMode="discrete" dur="{duration}s" repeatCount="indefinite"/></rect>')
         svg.append(f'<rect x="1" y="1" width="{w-2}" height="{h-2}" fill="none" stroke="{CONFIG["theme"]["line"]}" stroke-width="2"/></svg>')
         target=MEDIA/f'{name}.svg';target.write_text(''.join(svg),encoding='utf-8',newline='\n')
         static=slides[0].copy();d=ImageDraw.Draw(static)
-        for i in range(count):d.rounded_rectangle((dot_start+i*dot_gap,dot_y,dot_start+i*dot_gap+22,dot_y+3),1,fill='#edf2f7' if i==0 else '#46566a')
+        for i in range(count):d.rounded_rectangle((dot_start+i*dot_gap,dot_y,dot_start+i*dot_gap+24,dot_y+4),2,fill='#edf2f7' if i==0 else '#46566a')
         static.save(MEDIA/f'{name}.png',optimize=True)
         report[name]={'format':'svg','motion':'slide','width':w,'height':h,'bytes':target.stat().st_size,'duration_ms':round(duration*1000),'hold_ms':spec['hold_ms'],'transition_ms':spec['transition_ms'],'projects':[p['id'] for p in CONFIG['projects']],'sha256':hashlib.sha256(target.read_bytes()).hexdigest(),'logos':logos}
         # Reduced motion keeps automatic content changes, with no moving transition.

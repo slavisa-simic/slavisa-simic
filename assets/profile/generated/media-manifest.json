@@ -4,7 +4,7 @@
     "motion": "slide",
     "width": 1000,
     "height": 380,
-    "bytes": 372388,
+    "bytes": 369270,
     "duration_ms": 6800,
     "hold_ms": 3000,
     "transition_ms": 400,
@@ -12,7 +12,7 @@
       "vigil",
       "potamorph"
     ],
-    "sha256": "4feec54931230602f440e7be0118bf9ac8fa7b80a979f30d7c53bfafc8ab75bf",
+    "sha256": "81f58741d975ae38110fc379b57bb39d094e50f698ddac7a69d91a0d20882c1d",
     "logos": [
       {
         "file": "assets/profile/source/vigil-logo.png",
@@ -69,7 +69,7 @@
     "motion": "cut",
     "width": 1000,
     "height": 380,
-    "bytes": 372221,
+    "bytes": 369103,
     "duration_ms": 6000,
     "hold_ms": 3000,
     "transition_ms": 0,
@@ -77,7 +77,7 @@
       "vigil",
       "potamorph"
     ],
-    "sha256": "02a8124028eb4104a07456d18906d7596037af6376fdccb92c5db4bce2b985f3",
+    "sha256": "657c20ba76f7ab8772971aa1ec1fe2077f6b73bf9fca01f48ec112f2d7404267",
     "logos": [
       {
         "file": "assets/profile/source/vigil-logo.png",
@@ -134,7 +134,7 @@
     "motion": "slide",
     "width": 480,
     "height": 450,
-    "bytes": 258784,
+    "bytes": 256114,
     "duration_ms": 6800,
     "hold_ms": 3000,
     "transition_ms": 400,
@@ -142,7 +142,7 @@
       "vigil",
       "potamorph"
     ],
-    "sha256": "867d0e3a585fab058040431caa81185064a93ec7269c0b771d130187fa0eac3c",
+    "sha256": "fa889d5c07c5012bbab2c8a5c44650ed3292fef0cf51e109ff9c7c2030fe8126",
     "logos": [
       {
         "file": "assets/profile/source/vigil-logo.png",
@@ -199,7 +199,7 @@
     "motion": "cut",
     "width": 480,
     "height": 450,
-    "bytes": 258618,
+    "bytes": 255948,
     "duration_ms": 6000,
     "hold_ms": 3000,
     "transition_ms": 0,
@@ -207,7 +207,7 @@
       "vigil",
       "potamorph"
     ],
-    "sha256": "5b78add36921c139b646cf93ef4f636d9d63cc02fe61764031011ba03f41fd7e",
+    "sha256": "f69957941d312d2c4c4eabc0b138e930d32d29dd60736d1b02dda4bedba1ce63",
     "logos": [
       {
         "file": "assets/profile/source/vigil-logo.png",

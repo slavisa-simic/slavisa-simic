@@ -50,5 +50,7 @@ def main():
     MEDIA.mkdir(parents=True,exist_ok=True);(OUT/'build').mkdir(exist_ok=True)
     build_titles()
     build_carousel()
+    from build_project_table import build_project_table
+    build_project_table()
 
 if __name__=='__main__':main()

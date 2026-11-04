@@ -13,7 +13,7 @@ try{
   await page.goto(`${server.origin}/assets/profile/generated/${variant}.svg`);
   const width=page.viewportSize().width;const frames=[];
   for(const time of reduced?[0,2.9,3,3.2,5.9,6.1]:[0,2.9,3.2,3.5,6.3,7]){
-   const state=await page.evaluate(time=>{const s=document.documentElement;s.pauseAnimations();s.setCurrentTime(time);return {time,x:document.querySelector('#track').transform.animVal.getItem(0).matrix.e};},time);frames.push(state);
+   const state=await page.evaluate(time=>{const s=document.documentElement;s.pauseAnimations();s.setCurrentTime(time);return {time,x:document.querySelector('#track').transform.animVal.getItem(0).matrix.e,indicators:[...document.querySelectorAll('[id^="indicator-"]')].map(el=>Number(getComputedStyle(el).opacity))};},time);frames.push(state);
    if([0,3.2,3.5].includes(time))await page.screenshot({path:path.join(out,`${variant}-${time}.png`)});
   }
   if(Math.abs(frames[0].x)>0.01||Math.abs(frames[1].x)>0.01)throw new Error('First project is not held for three seconds');
@@ -21,6 +21,14 @@ try{
   else if(!(frames[2].x<0&&frames[2].x>-width))throw new Error('Carousel does not slide horizontally');
   if(Math.abs(frames[3].x+width)>0.01||Math.abs(frames[4].x+width)>0.01)throw new Error('Second project is not held');
   if(Math.abs(frames[5].x)>0.01)throw new Error('Carousel does not loop back to the first project');
+  for(const [frame,active] of [[frames[0],0],[frames[3],1],[frames[5],0]]){
+   if(frame.indicators.length!==config.projects.length||frame.indicators.some((opacity,i)=>opacity!==(i===active?1:0)))throw new Error('Footer indicators do not match the active project');
+  }
+  const centered=await page.locator('[id^="indicator-"]').evaluateAll(items=>{
+   const start=Number(items[0].getAttribute('x'));const last=items.at(-1);
+   return (start+Number(last.getAttribute('x'))+Number(last.getAttribute('width')))/2===Number(document.documentElement.getAttribute('width'))/2;
+  });
+  if(!centered)throw new Error('Footer indicators must be centered');
   report.carousels.push({variant,frames});
  }
  await page.route('**/carousel-test.html',route=>route.fulfill({contentType:'text/html',body:`<body style="margin:0"><img src="${server.origin}/assets/profile/generated/projects-carousel.svg?embedded-playback" width="1000"></body>`}));

@@ -1,4 +1,4 @@
-<!-- Generated from config/profile.json, config/tech-stack.json and public project activity. -->
+<!-- Generated from config/profile.json and config/tech-stack.json. -->
 {{IDENTITY}}
 
 {{PROJECTS_TITLE}}
@@ -7,15 +7,6 @@
 
 <a name="projects-list"></a>
 
-{{PROJECT_LIST_TITLE}}
+{{PROJECT_TABLE_TITLE}}
 
 {{PROJECTS}}
-
-<details>
-<summary>{{RECENT_TITLE}}</summary>
-
-{{RECENT}}
-
-</details>
-
-<p><a href="https://github.com/slavisa-simic/slavisa-simic/actions/workflows/profile.yml"><img src="https://github.com/slavisa-simic/slavisa-simic/actions/workflows/profile.yml/badge.svg" alt="Hourly stats refresh"></a></p>

@@ -12,7 +12,7 @@ STACK = json.loads((ROOT / 'config/tech-stack.json').read_text(encoding='utf-8')
 def header_base(avatar_svg):
     # Change the image URL whenever its identity, stack, theme, or layout changes.
     # GitHub's raw-image cache otherwise keeps serving the preceding artwork.
-    key = (avatar_svg + json.dumps(STACK, sort_keys=True) + CONFIG['name']
+    key = (avatar_svg + json.dumps(STACK, sort_keys=True) + CONFIG['name'] + CONFIG['intro']
            + json.dumps(CONFIG['theme'], sort_keys=True) + Path(__file__).read_text(encoding='utf-8'))
     return 'profile-header-' + hashlib.sha256(key.encode()).hexdigest()[:16]
 
@@ -63,14 +63,14 @@ def header_assets(avatar_svg, media):
                 suffix = ('-mobile' if mobile else '') + ('-light' if light else '') + ('-reduced' if reduced else '')
                 carousel = (media / f'tech-carousel{suffix}.svg').read_text(encoding='utf-8')
                 # Nested SVG keeps the clip, alpha mask and animation self-contained.
-                carousel = carousel.replace('<svg ', f'<svg x="{0 if mobile else 208}" y="{202 if mobile else 100}" ', 1)
+                carousel = carousel.replace('<svg ', f'<svg x="{0 if mobile else 208}" y="{238 if mobile else 138}" ', 1)
                 tech_height = STACK['height']
                 if reduced:
                     import xml.etree.ElementTree as ET
                     tech_height = int(ET.fromstring(carousel).attrib['height'])
                 content_width = STACK['mobile_width'] if mobile else STACK['width'] + 208
                 width = content_width + (0 if mobile else STACK.get('decoration_right_gutter', 0))
-                height = (202 if mobile else 100) + tech_height + 20
+                height = (238 if mobile else 138) + tech_height + 20
                 ink = '#1f2328' if light else '#edf0f4'
                 secondary = '#57606a' if light else '#c3c8d0'
                 name_y, role_y = (150, 179) if mobile else (43, 73)
@@ -102,24 +102,65 @@ def header_assets(avatar_svg, media):
                        + ornaments + f'<g fill="none">{divider}</g>'
                        f'<image href="{avatar_uri}" x="0" y="{0 if mobile else 10}" width="{size}" height="{size}"/>'
                        '<g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif">'
-                       f'<text x="{text_x}" y="{name_y}" font-size="{28 if mobile else 32}" font-weight="600" fill="{ink}">{escape(CONFIG["name"])}</text>'
-                       f'<text x="{text_x}" y="{role_y}" font-size="16" fill="{secondary}">Software Engineer</text></g>'
+                       f'<text x="{text_x}" y="{name_y}" font-size="{28 if mobile else 32}" font-weight="700" fill="{ink}">{escape(CONFIG["name"])}</text>'
+                       f'<text x="{text_x}" y="{role_y}" font-size="16" font-weight="500" fill="{secondary}">Software Engineer</text>'
+                       f'<text x="{text_x}" y="{role_y+37}" font-size="{14 if mobile else 15}" font-weight="400" fill="{secondary}">Backend &amp; full-stack development.</text></g>'
                        + carousel + rule + '</svg>')
                 files[media / f'{base}{suffix}.svg'] = svg
-    # Center the independent native links under the information block. The
-    # lower-left decoration belongs on this footer row, beside the contacts.
-    footer_width = 208 + (STACK['width'] - (160 + 96 + 4)) / 2
+    files.update(about_assets(media))
+    # The native links share the identity column on desktop and start at zero
+    # in the stacked composition. Switch before the desktop SVG needs scaling.
+    footer_width = 208
     for mobile in (False, True):
         for light in (False, True):
             color = '#57606a' if light else '#edf0f4'
             suffix = ('-mobile' if mobile else '') + ('-light' if light else '')
-            ornament = '' if mobile else (
-                f'<g fill="none" stroke="{color}" stroke-width=".75" stroke-opacity=".25">'
-                '<path d="M1 18V40H91M10 34H43"/></g>'
-                f'<path d="M24 40H42" stroke="{color}" stroke-opacity=".65"/>')
+            ornament = ''
             files[media / f'header-spacer{suffix}.svg'] = (
                 f'<svg xmlns="http://www.w3.org/2000/svg" width="{1 if mobile else footer_width}" height="44">{ornament}</svg>')
     return files
+
+
+def about_assets(media):
+    files = {}
+    for mobile in (False, True):
+        for light in (False, True):
+            width, height = (288, 120) if mobile else (856, 64)
+            ink = '#1f2328' if light else CONFIG['theme']['text']
+            secondary = '#57606a' if light else CONFIG['theme']['secondary']
+            line = '#d0d7de' if light else CONFIG['theme']['line']
+            surface = '#f6f8fa' if light else CONFIG['theme']['surface']
+            red = '#b35b57' if light else CONFIG['theme']['red']
+            # Wrap the short description against the compact mobile canvas.
+            words = CONFIG['intro'].split(); lines = []; current = ''
+            for word in words:
+                candidate = (current + ' ' + word).strip()
+                if mobile and len(candidate) > 33:
+                    lines.append(current); current = word
+                else:
+                    current = candidate
+            if current: lines.append(current)
+            text = ''.join(f'<tspan x="{18 if mobile else 244}" y="{68+i*22 if mobile else 38}">{escape(value)}</tspan>' for i, value in enumerate(lines))
+            suffix = ('-mobile' if mobile else '') + ('-light' if light else '')
+            files[media / f'about-me{suffix}.svg'] = (
+                f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img">'
+                f'<title>About Me</title><desc>{escape(CONFIG["intro"])}</desc>'
+                f'<rect x=".5" y=".5" width="{width-1}" height="{height-1}" fill="{surface}" stroke="{line}"/>'
+                f'<path d="M16 0H0V14M{width-16} {height}H{width}V{height-14}" fill="none" stroke="{ink}" stroke-opacity=".75"/>'
+                f'<path d="M27 23l-7 7 7 7m21-14 7 7-7 7m-8-16-6 19" fill="none" stroke="{red}" stroke-width="1.6"/>'
+                f'<g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif">'
+                f'<text x="76" y="37" font-size="20" font-weight="600" fill="{ink}">About Me</text>'
+                + ('' if mobile else f'<path d="M214 17v30" stroke="{red}"/>')
+                + f'<text font-size="{14 if mobile else 15}" fill="{secondary}">{text}</text></g></svg>')
+    return files
+
+
+def about_picture():
+    base = 'assets/profile/generated/about-me'
+    return (f'<picture><source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="{base}-mobile-light.svg">'
+            f'<source media="(max-width: 600px)" srcset="{base}-mobile.svg">'
+            f'<source media="(prefers-color-scheme: light)" srcset="{base}-light.svg">'
+            f'<img src="{base}.svg" width="100%" alt="{escape("About Me. " + CONFIG["intro"], quote=True)}"></picture>')
 
 
 def header_picture(avatar_svg):
@@ -130,15 +171,15 @@ def header_picture(avatar_svg):
     # Natural image dimensions follow the selected source. GitHub's own
     # max-width rule shrinks a composition only when the container needs it.
     markup = markup.replace(f' width="{STACK["width"]}"', '')
-    markup = markup.replace('(max-width: 600px)', '(max-width: 768px)')
+    markup = markup.replace('(max-width: 600px)', '(max-width: 960px)')
     original = escape('Technology stack: ' + description(), quote=True)
-    alt = escape(CONFIG['name'] + ' — Software Engineer. Technology stack: ' + description(), quote=True)
+    alt = escape(CONFIG['name'] + ' — Software Engineer. Backend & full-stack development. Technology stack: ' + description(), quote=True)
     return markup.replace(f'alt="{original}"', f'alt="{alt}"')
 
 
 def spacer():
     base = 'assets/profile/generated/header-spacer'
-    return (f'<picture><source media="(max-width: 768px) and (prefers-color-scheme: light)" srcset="{base}-mobile-light.svg">'
-            f'<source media="(max-width: 768px)" srcset="{base}-mobile.svg">'
+    return (f'<picture><source media="(max-width: 960px) and (prefers-color-scheme: light)" srcset="{base}-mobile-light.svg">'
+            f'<source media="(max-width: 960px)" srcset="{base}-mobile.svg">'
             f'<source media="(prefers-color-scheme: light)" srcset="{base}-light.svg">'
             f'<img src="{base}.svg" height="44" alt=""></picture>')
