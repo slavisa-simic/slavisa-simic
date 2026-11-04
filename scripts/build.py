@@ -20,6 +20,7 @@ def main():
     run(sys.executable,'-m','unittest','discover','-s','tests')
     if args.preview:
         run('node','scripts/preview_profile.mjs')
+        run('node','scripts/verify_section_animation.mjs')
         run('node','scripts/preview_activity.mjs')
         run('node','scripts/verify_profile_animation.mjs')
         run('node','scripts/verify_tech_animation.mjs')

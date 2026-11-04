@@ -20,6 +20,7 @@ on:
       - 'scripts/tech_stack.py'
       - 'scripts/build_tech_carousel.py'
       - 'scripts/build_profile_assets.py'
+      - 'scripts/verify_section_animation.mjs'
       - 'scripts/build_carousel.py'
       - 'scripts/build_project_table.py'
       - 'scripts/prepare_badges.py'

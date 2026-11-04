@@ -59,7 +59,9 @@ def media_picture(name,alt,width='100%'):
 def title(slug,label,level=2):
     base='assets/profile/generated/title-'+slug
     tag=f'h{level}' if level else 'p'
-    return f'<{tag}><picture><source media="(max-width: 600px)" srcset="{base}-mobile.png"><img src="{base}.png" width="100%" alt="{label}"></picture></{tag}>'
+    extension='png'
+    if slug in ('projects','github-activity'):base+='-animated';extension='svg'
+    return f'<{tag}><picture><source media="(max-width: 600px)" srcset="{base}-mobile.{extension}"><img src="{base}.{extension}" width="100%" alt="{label}"></picture></{tag}>'
 
 def compact_title(slug,label,width):
     path=f'assets/profile/generated/title-{slug}.png'
@@ -82,9 +84,9 @@ def render(data,avatar=None):
         note=f'<p><sub>{escape(spec["note"])}</sub></p>' if spec.get('note') else ''
         items.append('<tr><td width="25%" align="center" valign="middle">'
                      +f'<img src="assets/profile/generated/project-{p["id"]}-preview.png" width="200" align="middle" alt="{escape(p["name"]+" project screenshot",quote=True)}">'
-                     +'</td><td width="35%" valign="top">'
-                     +f'<h3>{escape(p["name"])}</h3><p><sub>{escape(spec["kind"])}</sub></p>'
-                     +f'<p>{escape(spec["description"])}</p></td><td width="22%" valign="middle">'
+                     +'</td><td width="35%" align="center" valign="middle">'
+                     +f'<p><strong>{escape(p["name"])}</strong></p><p><sub>{escape(spec["kind"])}</sub></p>'
+                     +f'<p>{escape(spec["description"])}</p></td><td width="22%" align="center" valign="middle">'
                      +f'<p><strong>Tech stack</strong></p><p>{badges}</p>'+note
                      +'</td><td width="18%" align="center" valign="middle"><p>'
                      +f'<a href="https://github.com/{p["repository"]}">{picture("project-repository",p["name"]+" GitHub repository",144)}</a></p><p>'

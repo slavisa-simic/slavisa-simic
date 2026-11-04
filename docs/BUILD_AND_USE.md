@@ -36,7 +36,7 @@ Run py scripts/build_tech_carousel.py after adding a technology. New pinned icon
 
 The three identity lines use weights 700, 500, and 400. Contacts align with their left edge. Below 961 px the identity stacks before the desktop SVG would need scaling.
 
-The Projects section retains its original title image, followed by the carousel and a native four-column table. Columns contain the centered screenshot; selectable heading, category, and description; technology badges and note; and vertically stacked Repository/Demo actions. Screenshot cells use native horizontal/vertical centering. The layout prioritizes desktop and permits horizontal table scrolling on narrow screens. There is no All projects heading, feature-tag row, or colored left accent. Repository links are separate native anchors; Demo images have no href. Captures are proportionally resized without manufacturing a new UI or gameplay scene.
+The Projects section retains its original title image, followed by the carousel and a native four-column table. Columns contain the centered screenshot; selectable project name, category, and description; technology badges and note; and vertically stacked Repository/Demo actions. All cells use native horizontal/vertical centering. Project names use bold paragraphs to avoid the extra top margin GitHub applies to headings inside table cells. The layout prioritizes desktop and permits horizontal table scrolling on narrow screens. There is no All projects heading, feature-tag row, or colored left accent. Repository links are separate native anchors; Demo images have no href. Captures are proportionally resized without manufacturing a new UI or gameplay scene.
 
 The project carousel holds each card for three seconds and uses 400 ms slides. Reduced motion keeps three-second content switches. The technology marquee continues moving in both system motion modes, per the user's earlier preference. The carousel links to the stable projects-list anchor above the new table.
 
@@ -47,3 +47,5 @@ assets/previews/profile/ contains ignored desktop/mobile/light screenshots and b
 `npm run preview:activity` separately verifies desktop/mobile activity images, animated GIF playback in both system motion settings, SVG bounds, data totals, and animation looping. Its local HTML, screenshots, and validation report are in `assets/previews/activity/`.
 
 The published profile repository is https://github.com/slavisa-simic/slavisa-simic. Build commands only update the local checkout and export archives.
+
+The Projects and GitHub Activity title images use a six-second light sweep along their technical divider; About Me uses a matching perimeter highlight. Text stays still. Animated SVG sources are selected in both system motion settings, with the original static exports retained. Run `node scripts/verify_section_animation.mjs` after the profile preview to verify playback and seamless loops.

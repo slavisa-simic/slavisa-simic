@@ -49,7 +49,7 @@ try{
   check(carousel.source.endsWith(width<=600?'projects-carousel-mobile.svg':'projects-carousel.svg'),'Wrong carousel variant');
   for(const p of config.projects){
    check(await page.locator(`article table a[href="https://github.com/${p.repository}"]`).count()===1,'Missing project repository link');
-   const row=page.locator('article tbody tr').filter({has:page.getByRole('heading',{name:p.name,exact:true})});
+   const row=page.locator('article tbody tr').filter({has:page.getByText(p.name,{exact:true})});
    check(await row.count()===1,'Missing native project heading');
    check(await row.locator(':scope > td').count()===4,'Each project needs image, description, stack, and actions columns');
    check(await row.locator(':scope > td').nth(1).innerText().then(t=>t.includes(p.showcase.description)),'Description must be in the second column');
@@ -58,6 +58,15 @@ try{
    const centered=await imageCell.evaluate(cell=>{const cellBox=cell.getBoundingClientRect();const photo=cell.querySelector('img').getBoundingClientRect();return {dx:Math.abs(photo.x+photo.width/2-cellBox.x-cellBox.width/2),dy:Math.abs(photo.y+photo.height/2-cellBox.y-cellBox.height/2)};});
    if(width>=1024)check(centered.dx<=1&&centered.dy<=1,'Project screenshot must be centered on both axes: '+JSON.stringify(centered));
    (state.imageAlignment??=[]).push({project:p.id,...centered});
+   for(const column of [1,2]){
+    const alignment=await row.locator(':scope > td').nth(column).evaluate(cell=>{
+     const box=cell.getBoundingClientRect(),children=[...cell.children].map(e=>e.getBoundingClientRect());
+     return {textAlign:getComputedStyle(cell).textAlign,verticalAlign:getComputedStyle(cell).verticalAlign,
+             dy:Math.abs((Math.min(...children.map(b=>b.top))+Math.max(...children.map(b=>b.bottom))-box.top-box.bottom)/2)};
+    });
+    check(['center','-webkit-center'].includes(alignment.textAlign)&&alignment.verticalAlign==='middle'&&alignment.dy<=1.1,'Project copy and stack must be centered on both axes: '+JSON.stringify(alignment));
+    (state.contentAlignment??=[]).push({project:p.id,column,...alignment});
+   }
    const actions=row.locator(':scope > td').nth(3);
    const repoBox=await actions.locator('a').boundingBox();
    const demoBox=await actions.locator('img[alt="Demo — not available yet"]').boundingBox();

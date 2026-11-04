@@ -32,7 +32,7 @@ def main():
         assert (ROOT/relative).is_file(),f'Missing image: {relative}'
     for project in CONFIG['projects']:
         assert 'https://github.com/'+project['repository'] in markup.links,'Missing project repository destination'
-        assert f'<h3>{project["name"]}</h3>' in readme and project['showcase']['description'] in readme,'Project copy must be native text'
+        assert f'<strong>{project["name"]}</strong>' in readme and project['showcase']['description'] in readme,'Project copy must be native text'
         assert sha256((ROOT/project['logo']).read_bytes()).hexdigest()==project['logo_sha256'],'Official logo source has changed'
     assert CONFIG['carousel']['target'] in markup.links,'Carousel must open the project list'
     assert '<a name="projects-list"></a>' in readme,'Missing stable project list target'

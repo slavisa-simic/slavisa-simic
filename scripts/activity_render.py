@@ -144,8 +144,8 @@ def card(data, mobile=False, static=False):
 
 def readme_section(config):
     base = 'assets/profile/generated/'
-    title = (f'<p><picture><source media="(max-width: 600px)" srcset="{base}title-github-activity-mobile.png">'
-             f'<img src="{base}title-github-activity.png" width="100%" alt="GitHub Activity"></picture></p>')
+    title = (f'<p><picture><source media="(max-width: 600px)" srcset="{base}title-github-activity-animated-mobile.svg">'
+             f'<img src="{base}title-github-activity-animated.svg" width="100%" alt="GitHub Activity"></picture></p>')
     image = (f'<p><picture><source media="(max-width: 600px)" srcset="{base}activity-commits-mobile.gif">'
              f'<img src="{base}activity-commits.gif" width="100%" alt="Repository Commit Activity — daily commits colored by project"></picture></p>')
     links = ' · '.join(f'<a href="https://github.com/{escape(p["repo"],quote=True)}">{escape(p["name"])}</a>'

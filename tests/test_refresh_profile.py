@@ -133,7 +133,7 @@ class ActivityRefresh(TestCase):
     def test_empty_activity_window_does_not_hide_project_showcase(self):
         data=self.collect()
         self.assertEqual(data['total_commits'],0)
-        self.assertIn('<h3>Vigil</h3>',profile.render(data))
+        self.assertIn('<strong>Vigil</strong>',profile.render(data))
         self.assertTrue(all(p['commits_30d']==0 for p in data['projects']))
         self.assertNotIn('hourly sync',profile.render(data))
 

@@ -3,7 +3,7 @@ from PIL import Image,ImageDraw,ImageFont
 from io import BytesIO
 from functools import lru_cache
 import base64
-from profile_common import ROOT,CONFIG,OUT,MEDIA
+from profile_common import ROOT,CONFIG,OUT,MEDIA,write_if_changed
 
 LANCZOS=Image.Resampling.LANCZOS
 @lru_cache(maxsize=64)
@@ -37,6 +37,20 @@ def build_titles(only=None):
             d.line((start,h*scale//2,end,h*scale//2),fill=p['line'],width=scale)
             d.rectangle((end-3*scale,h*scale//2-2*scale,end+scale,h*scale//2+2*scale),fill=p['silver'])
             image.save(MEDIA/f'title-{slug}{"-mobile" if mobile else ""}.png',optimize=True)
+            if slug in ('projects','github-activity'):
+                # Preserve the exact existing title pixels; animate only its divider.
+                left=start/scale;right=end/scale;center=h/2
+                payload=(f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img">'
+                         f'<title>{title}</title>'
+                         f'<defs><clipPath id="rule"><rect x="{left:.2f}" y="{center-3}" width="{right-left:.2f}" height="6"/></clipPath>'
+                         f'<linearGradient id="sweep"><stop stop-color="{p["blue"]}" stop-opacity="0"/>'
+                         f'<stop offset=".6" stop-color="{p["silver"]}"/><stop offset="1" stop-color="{p["blue"]}" stop-opacity="0"/></linearGradient></defs>'
+                         f'<image href="{uri(image)}" width="{w}" height="{h}"/>'
+                         f'<g clip-path="url(#rule)"><rect x="{left-90:.2f}" y="{center-1}" width="90" height="2" fill="url(#sweep)">'
+                         f'<animate attributeName="x" from="{left-90:.2f}" to="{right:.2f}" dur="6s" repeatCount="indefinite"/></rect></g>'
+                         f'<path d="M{w-32} {h-1}H{w-1}" stroke="{p["silver"]}" stroke-opacity="0">'
+                         '<animate attributeName="stroke-opacity" values="0;.35;0" dur="6s" repeatCount="indefinite"/></path></svg>')
+                write_if_changed(MEDIA/f'title-{slug}-animated{"-mobile" if mobile else ""}.svg',payload)
     for slug,title,w in [('ai-tools','AI Development Tools',222),('project-notes','Project notes',140),('recent-changes','Recent changes',158)]:
         if only is not None and slug not in only:continue
         h=30;image=Image.new('RGB',(w*scale,h*scale),p['surface']);d=ImageDraw.Draw(image)

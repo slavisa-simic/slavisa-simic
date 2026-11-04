@@ -152,11 +152,18 @@ def about_assets(media):
                 f'<text x="76" y="37" font-size="20" font-weight="600" fill="{ink}">About Me</text>'
                 + ('' if mobile else f'<path d="M214 17v30" stroke="{red}"/>')
                 + f'<text font-size="{14 if mobile else 15}" fill="{secondary}">{text}</text></g></svg>')
+            # An understated perimeter highlight shares the section titles' six-second rhythm.
+            blue = '#5c7da3' if light else CONFIG['theme']['blue']
+            route = f'M18 {height-1}H{width-1}V1H1V{height-1}H18'
+            motion = (f'<path d="{route}" pathLength="1000" fill="none" stroke="{blue}" stroke-width="1.5" '
+                      'stroke-opacity=".85" stroke-dasharray="65 935" stroke-dashoffset="0">'
+                      '<animate attributeName="stroke-dashoffset" from="0" to="-1000" dur="6s" repeatCount="indefinite"/></path>')
+            files[media / f'about-me-animated{suffix}.svg'] = files[media / f'about-me{suffix}.svg'].replace('</svg>',motion+'</svg>')
     return files
 
 
 def about_picture():
-    base = 'assets/profile/generated/about-me'
+    base = 'assets/profile/generated/about-me-animated'
     return (f'<picture><source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="{base}-mobile-light.svg">'
             f'<source media="(max-width: 600px)" srcset="{base}-mobile.svg">'
             f'<source media="(prefers-color-scheme: light)" srcset="{base}-light.svg">'
