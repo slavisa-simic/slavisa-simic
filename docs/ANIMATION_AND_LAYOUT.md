@@ -20,7 +20,7 @@ The project carousel retains the existing card styles and original logo composit
 
 The table below the carousel replaces Projects list, commit/star statistics, the sync timestamp, project notes, recent changes, and the workflow badge.
 
-One native Projects heading groups both the carousel and the table. There is no separate All projects title. Each table row has a screenshot column and a text column containing a native project heading, category, description, technology badges, and optional note. Project copy is selectable and reflows using GitHub's normal typography. Feature tags and colored left accents are removed. Repository links open the matching repository root; the visually muted Demo artwork has no anchor.
+One native Projects heading groups both the carousel and the table. There is no separate All projects title. Each row has four columns: screenshot; native project heading, category, and description; technology badges and optional note; and vertically stacked Repository/Demo actions. Screenshot cells center their image horizontally and vertically. Project copy is selectable and uses GitHub's normal typography. Feature tags and colored left accents are removed. Repository links open the matching repository root; the visually muted Demo artwork has no anchor. The layout prioritizes desktop; narrow screens may scroll the table horizontally.
 
 Vigil uses its actual sign-in screen. Potamorph uses the Industrial Port capture from its project README. Source images, SHA-256 hashes, and source URLs are in assets/profile/source/preview-provenance.json. No cloud deployments or features are claimed from the supplied visual reference.
 

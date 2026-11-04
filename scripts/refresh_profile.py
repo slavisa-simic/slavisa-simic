@@ -78,12 +78,14 @@ def render(data,avatar=None):
         spec=p['showcase']
         badges=' '.join(f'<img src="assets/profile/badges/{BADGE_FILES[technology]}.svg" height="24" alt="{escape(technology,quote=True)}">' for technology in spec['stack'])
         note=f'<p><sub>{escape(spec["note"])}</sub></p>' if spec.get('note') else ''
-        items.append('<tr><td width="28%" valign="top">'
-                     +f'<img src="assets/profile/generated/project-{p["id"]}-preview.png" width="100%" alt="{escape(p["name"]+" project screenshot",quote=True)}">'
-                     +'</td><td width="72%" valign="top">'
+        items.append('<tr><td width="25%" align="center" valign="middle">'
+                     +f'<img src="assets/profile/generated/project-{p["id"]}-preview.png" width="200" align="middle" alt="{escape(p["name"]+" project screenshot",quote=True)}">'
+                     +'</td><td width="35%" valign="top">'
                      +f'<h3>{escape(p["name"])}</h3><p><sub>{escape(spec["kind"])}</sub></p>'
-                     +f'<p>{escape(spec["description"])}</p><p><strong>Tech stack</strong></p><p>{badges}</p>'+note+'<p>'
-                     +f'<a href="https://github.com/{p["repository"]}">{picture("project-repository",p["name"]+" GitHub repository",144)}</a> '
+                     +f'<p>{escape(spec["description"])}</p></td><td width="22%" valign="middle">'
+                     +f'<p><strong>Tech stack</strong></p><p>{badges}</p>'+note
+                     +'</td><td width="18%" align="center" valign="middle"><p>'
+                     +f'<a href="https://github.com/{p["repository"]}">{picture("project-repository",p["name"]+" GitHub repository",144)}</a></p><p>'
                      +picture('project-demo','Demo — not available yet',112)+'</p></td></tr>')
     projects=''.join(items)+'</tbody></table>'
     template=(ROOT/'src/README.template.md').read_text(encoding='utf-8')

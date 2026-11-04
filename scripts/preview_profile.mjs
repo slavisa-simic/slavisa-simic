@@ -36,7 +36,8 @@ try{
   await page.setViewportSize({width,height:width===844?390:1000});await page.goto(`${server.origin}/assets/previews/profile/dark.html`);
   await page.waitForFunction(()=>[...document.querySelectorAll('article img')].every(i=>i.complete&&i.naturalWidth>0));
   const state=await page.locator('article').evaluate(a=>({width:innerWidth,overflow:document.documentElement.scrollWidth>innerWidth,images:[...a.querySelectorAll('img')].map(i=>({source:i.currentSrc,alt:i.alt,width:i.clientWidth,height:i.clientHeight,href:i.closest('a')?.href})),tables:[...a.querySelectorAll('table')].map(t=>({width:t.clientWidth,scrollWidth:t.scrollWidth})),visibleText:a.innerText}));
-  check(!state.overflow,`Page overflow at ${width}`);check(state.tables.every(t=>t.scrollWidth<=t.width+1),`Table overflow at ${width}`);
+  check(!state.overflow,`Page overflow at ${width}`);
+  if(width>=1024)check(state.tables.every(t=>t.scrollWidth<=t.width+1),`Desktop table overflow at ${width}`);
   const identity=state.images.find(i=>i.alt.startsWith(config.name+' — Software Engineer.'));
   check(identity&&!identity.alt.includes('Backend Developer'),'Incorrect responsive identity');
   check(state.images.length===6+config.projects.reduce((n,p)=>n+3+p.showcase.stack.length,0),'Unexpected profile image count');
@@ -49,6 +50,17 @@ try{
    check(await page.locator(`article a[href="https://github.com/${p.repository}"]`).count()===1,'Missing project repository link');
    const row=page.locator('article tbody tr').filter({has:page.getByRole('heading',{name:p.name,exact:true})});
    check(await row.count()===1,'Missing native project heading');
+   check(await row.locator(':scope > td').count()===4,'Each project needs image, description, stack, and actions columns');
+   check(await row.locator(':scope > td').nth(1).innerText().then(t=>t.includes(p.showcase.description)),'Description must be in the second column');
+   check(await row.locator(':scope > td').nth(2).innerText().then(t=>t.includes('Tech stack')),'Technology stack must be in the third column');
+   const imageCell=row.locator(':scope > td').first();
+   const centered=await imageCell.evaluate(cell=>{const cellBox=cell.getBoundingClientRect();const photo=cell.querySelector('img').getBoundingClientRect();return {dx:Math.abs(photo.x+photo.width/2-cellBox.x-cellBox.width/2),dy:Math.abs(photo.y+photo.height/2-cellBox.y-cellBox.height/2)};});
+   if(width>=1024)check(centered.dx<=1&&centered.dy<=1,'Project screenshot must be centered on both axes: '+JSON.stringify(centered));
+   (state.imageAlignment??=[]).push({project:p.id,...centered});
+   const actions=row.locator(':scope > td').nth(3);
+   const repoBox=await actions.locator('a').boundingBox();
+   const demoBox=await actions.locator('img[alt="Demo — not available yet"]').boundingBox();
+   check(demoBox.y>=repoBox.y+repoBox.height,'Project actions must stack vertically in the fourth column');
    const copy=await row.innerText();
    check(copy.includes(p.showcase.kind)&&copy.includes(p.showcase.description),'Project descriptions must be real text');
    for(const technology of p.showcase.stack)check(await row.locator(`img[alt="${technology}"]`).count()===1,'Missing technology badge: '+technology);
