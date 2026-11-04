@@ -40,9 +40,9 @@ try{
   if(width>=1024)check(state.tables.every(t=>t.scrollWidth<=t.width+1),`Desktop table overflow at ${width}`);
   const identity=state.images.find(i=>i.alt.startsWith(config.name+' — Software Engineer.'));
   check(identity&&!identity.alt.includes('Backend Developer'),'Incorrect responsive identity');
-  check(state.images.length===6+config.projects.reduce((n,p)=>n+3+p.showcase.stack.length,0),'Unexpected profile image count');
+  check(state.images.length===7+config.projects.reduce((n,p)=>n+3+p.showcase.stack.length,0),'Unexpected profile image count');
   check(state.images[0]===identity,'Header must appear first');
-  check(await page.getByRole('heading',{name:'Projects',exact:true}).count()===1,'Missing native Projects heading');
+  check(await page.locator('article img[alt="Projects"]').count()===1,'Missing original Projects title image');
   check(!state.visibleText.includes('All projects'),'Duplicate project heading must be removed');
   const carousel=state.images.find(i=>i.alt.startsWith('Projects carousel:'));check(carousel?.href.endsWith(config.carousel.target),'Carousel target is incorrect');check(carousel.width>=44&&carousel.height>=44,'Carousel target is too small');
   check(carousel.source.endsWith(width<=600?'projects-carousel-mobile.svg':'projects-carousel.svg'),'Wrong carousel variant');
@@ -89,10 +89,10 @@ try{
   for(const link of projectLinks){await link.click();await link.focus();await page.keyboard.press('Enter');}
   const clicks=await page.evaluate(()=>window.links);check(clicks.slice(0,2).every(h=>h.endsWith(config.carousel.target))&&JSON.stringify(clicks.slice(2))===JSON.stringify([...config.projects.map(p=>`https://github.com/${p.repository}`),...contacts].flatMap(url=>[url,url])),'Keyboard or pointer navigation failed');
   await page.evaluate(()=>document.activeElement?.blur());
-  if(width===390||width===1440){await page.evaluate(()=>window.scrollTo(0,0));const article=await page.locator('article').boundingBox();const projects=await page.getByRole('heading',{name:'Projects',exact:true}).boundingBox();await page.screenshot({path:path.join(out,width===390?'header-mobile.png':'header-desktop.png'),clip:{x:article.x,y:article.y,width:article.width,height:projects.y-article.y-12}});}
+  if(width===390||width===1440){await page.evaluate(()=>window.scrollTo(0,0));const article=await page.locator('article').boundingBox();const projects=await page.locator('article img[alt="Projects"]').boundingBox();await page.screenshot({path:path.join(out,width===390?'header-mobile.png':'header-desktop.png'),clip:{x:article.x,y:article.y,width:article.width,height:projects.y-article.y-12}});}
   await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>document.querySelector('img[alt^="Projects carousel:"]').currentSrc.endsWith('-reduced.svg'));
   await page.waitForFunction(()=>!document.querySelector('article img').currentSrc.endsWith('-reduced.svg'));
-  if(width===390||width===1440){await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:path.join(out,width===390?'mobile.png':'desktop.png'),fullPage:true});const article=await page.locator('article').boundingBox();const projects=await page.getByRole('heading',{name:'Projects',exact:true}).boundingBox();await page.screenshot({path:path.join(out,width===390?'header-mobile-reduced.png':'header-desktop-reduced.png'),clip:{x:article.x,y:article.y,width:article.width,height:projects.y-article.y-12}});}
+  if(width===390||width===1440){await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:path.join(out,width===390?'mobile.png':'desktop.png'),fullPage:true});const article=await page.locator('article').boundingBox();const projects=await page.locator('article img[alt="Projects"]').boundingBox();await page.screenshot({path:path.join(out,width===390?'header-mobile-reduced.png':'header-desktop-reduced.png'),clip:{x:article.x,y:article.y,width:article.width,height:projects.y-article.y-12}});}
   state.reducedMotion='Technology marquee keeps moving right per user preference; project carousel keeps its original non-sliding switches';report.viewports.push(state);await page.emulateMedia({reducedMotion:'no-preference'});
  }
  await page.setViewportSize({width:1440,height:1000});await page.emulateMedia({colorScheme:'light',reducedMotion:'reduce'});await page.goto(`${server.origin}/assets/previews/profile/light.html`);await page.waitForFunction(()=>[...document.querySelectorAll('article img')].every(i=>i.complete&&i.naturalWidth>0));await page.screenshot({path:path.join(out,'light.png'),fullPage:true});

@@ -4,7 +4,7 @@
 
 <p><picture><source media="(max-width: 600px) and (prefers-color-scheme: light)" srcset="assets/profile/generated/about-me-mobile-light.svg"><source media="(max-width: 600px)" srcset="assets/profile/generated/about-me-mobile.svg"><source media="(prefers-color-scheme: light)" srcset="assets/profile/generated/about-me-light.svg"><img src="assets/profile/generated/about-me.svg" width="100%" alt="About Me. I build backend services and full-stack applications."></picture></p>
 
-<h2>Projects</h2>
+<p><picture><source media="(max-width: 600px)" srcset="assets/profile/generated/title-projects-mobile.png"><img src="assets/profile/generated/title-projects.png" width="100%" alt="Projects"></picture></p>
 
 <p align="center"><a href="#projects-list"><picture><source media="(max-width: 600px) and (prefers-reduced-motion: reduce)" srcset="assets/profile/generated/projects-carousel-mobile-reduced.svg"><source media="(prefers-reduced-motion: reduce)" srcset="assets/profile/generated/projects-carousel-reduced.svg"><source media="(max-width: 600px)" srcset="assets/profile/generated/projects-carousel-mobile.svg"><img src="assets/profile/generated/projects-carousel.svg" width="100%" alt="Projects carousel: Vigil, Potamorph. Open the project table."></picture></a></p>
 

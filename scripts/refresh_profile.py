@@ -90,7 +90,7 @@ def render(data,avatar=None):
     projects=''.join(items)+'</tbody></table>'
     template=(ROOT/'src/README.template.md').read_text(encoding='utf-8')
     return (template.replace('{{IDENTITY}}',identity).replace('{{CAROUSEL}}',carousel)
-            .replace('{{PROJECTS}}',projects).replace('{{PROJECTS_TITLE}}','<h2>Projects</h2>')).rstrip()+'\n'
+            .replace('{{PROJECTS}}',projects).replace('{{PROJECTS_TITLE}}',title('projects','Projects',None))).rstrip()+'\n'
 
 
 def refresh(offline=False):
