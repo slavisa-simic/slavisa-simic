@@ -16,9 +16,11 @@ def main():
     run(sys.executable,'scripts/build_profile_assets.py')
     run(sys.executable,'scripts/build_tech_carousel.py')
     run(sys.executable,'scripts/refresh_profile.py',*(['--offline'] if args.offline else []))
+    run(sys.executable,'scripts/build_activity.py',*(['--offline'] if args.offline else []))
     run(sys.executable,'-m','unittest','discover','-s','tests')
     if args.preview:
         run('node','scripts/preview_profile.mjs')
+        run('node','scripts/preview_activity.mjs')
         run('node','scripts/verify_profile_animation.mjs')
         run('node','scripts/verify_tech_animation.mjs')
     run(sys.executable,'scripts/validate_layout.py')

@@ -4,6 +4,8 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {root,launch,serve} from './lib.mjs';
 const config=JSON.parse(await fs.readFile(path.join(root,'config/profile.json'),'utf8'));
+const activityConfig=JSON.parse(await fs.readFile(path.join(root,'config/activity.json'),'utf8'));
+const activityCount=activityConfig.repositories.filter(p=>p.enabled).length;
 const out=path.join(root,'assets/previews/profile');const vendor=path.join(out,'vendor');await fs.mkdir(vendor,{recursive:true});
 const readme=await fs.readFile(path.join(root,'README.md'),'utf8');const hash=crypto.createHash('sha256').update(readme).digest('hex');
 const headers={'User-Agent':'slavisa-native-profile-preview',Accept:'text/html'};
@@ -40,14 +42,14 @@ try{
   if(width>=1024)check(state.tables.every(t=>t.scrollWidth<=t.width+1),`Desktop table overflow at ${width}`);
   const identity=state.images.find(i=>i.alt.startsWith(config.name+' — Software Engineer.'));
   check(identity&&!identity.alt.includes('Backend Developer'),'Incorrect responsive identity');
-  check(state.images.length===7+config.projects.reduce((n,p)=>n+3+p.showcase.stack.length,0),'Unexpected profile image count');
+  check(state.images.length===7+config.projects.reduce((n,p)=>n+3+p.showcase.stack.length,0)+activityCount+(activityCount<3?1:0),'Unexpected profile image count');
   check(state.images[0]===identity,'Header must appear first');
   check(await page.locator('article img[alt="Projects"]').count()===1,'Missing original Projects title image');
   check(!state.visibleText.includes('All projects'),'Duplicate project heading must be removed');
   const carousel=state.images.find(i=>i.alt.startsWith('Projects carousel:'));check(carousel?.href.endsWith(config.carousel.target),'Carousel target is incorrect');check(carousel.width>=44&&carousel.height>=44,'Carousel target is too small');
   check(carousel.source.endsWith(width<=600?'projects-carousel-mobile.svg':'projects-carousel.svg'),'Wrong carousel variant');
   for(const p of config.projects){
-   check(await page.locator(`article a[href="https://github.com/${p.repository}"]`).count()===1,'Missing project repository link');
+   check(await page.locator(`article table a[href="https://github.com/${p.repository}"]`).count()===1,'Missing project repository link');
    const row=page.locator('article tbody tr').filter({has:page.getByRole('heading',{name:p.name,exact:true})});
    check(await row.count()===1,'Missing native project heading');
    check(await row.locator(':scope > td').count()===4,'Each project needs image, description, stack, and actions columns');
@@ -85,7 +87,7 @@ try{
   check(state.images.some(i=>i.alt==='About Me. '+config.intro),'Missing simple About Me description');
   await page.evaluate(()=>{window.links=[];document.querySelector('article').addEventListener('click',e=>{const a=e.target.closest('a');if(a){e.preventDefault();window.links.push(a.href);}});});
   const contacts=[`https://github.com/${config.owner}?tab=repositories`,config.linkedin];
-  const projectLinks=[page.locator('article a').filter({has:page.locator('img[alt^="Projects carousel:"]')}),...[...config.projects.map(p=>`https://github.com/${p.repository}`),...contacts].map(url=>page.locator(`article a[href="${url}"]`))];
+  const projectLinks=[page.locator('article a').filter({has:page.locator('img[alt^="Projects carousel:"]')}),...config.projects.map(p=>page.locator(`article table a[href="https://github.com/${p.repository}"]`)),...contacts.map(url=>page.locator(`article a[href="${url}"]`))];
   for(const link of projectLinks){await link.click();await link.focus();await page.keyboard.press('Enter');}
   const clicks=await page.evaluate(()=>window.links);check(clicks.slice(0,2).every(h=>h.endsWith(config.carousel.target))&&JSON.stringify(clicks.slice(2))===JSON.stringify([...config.projects.map(p=>`https://github.com/${p.repository}`),...contacts].flatMap(url=>[url,url])),'Keyboard or pointer navigation failed');
   await page.evaluate(()=>document.activeElement?.blur());

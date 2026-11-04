@@ -1,0 +1,57 @@
+name: Update Repository Districts
+
+on:
+  schedule:
+    - cron: '43 5 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/activity.yml'
+      - 'config/activity.json'
+      - 'scripts/activity_data.py'
+      - 'scripts/activity_render.py'
+      - 'scripts/build_activity.py'
+      - 'tests/test_activity.py'
+
+permissions:
+  contents: write
+
+# Serialize with the existing profile refresh, which also writes the README.
+concurrency:
+  group: profile-activity
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: main
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
+        with:
+          python-version: '3.13'
+      - name: Test collection, data integrity, and rendering
+        run: python -m unittest discover -s tests -p test_activity.py
+      - name: Fetch real commits and generate activity assets
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python scripts/build_activity.py
+      - name: Verify deterministic offline rebuild
+        run: |
+          python scripts/build_activity.py --offline
+          python -m unittest discover -s tests -p test_activity.py
+      - name: Commit changed activity files only
+        run: |
+          git add README.md assets/profile/activity/commits.json
+          git add --all -- 'assets/profile/generated/activity-*.svg'
+          if git diff --cached --quiet; then
+            echo "Repository activity is unchanged."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Refresh repository commit districts'
+          git push origin HEAD:main

@@ -8,3 +8,5 @@
 <a name="projects-list"></a>
 
 {{PROJECTS}}
+
+{{ACTIVITY}}

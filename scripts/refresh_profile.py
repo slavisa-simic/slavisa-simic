@@ -11,6 +11,8 @@ import profile_avatar
 from tech_stack import header_assets,header_picture,picture,about_picture,spacer
 from profile_common import ROOT,CONFIG,OUT,MEDIA,write_if_changed
 from prepare_badges import BADGES
+from activity_render import readme_section
+from build_activity import load_config as load_activity_config
 
 BADGE_FILES={name:slug for slug,name,_,_ in BADGES}
 
@@ -90,7 +92,8 @@ def render(data,avatar=None):
     projects=''.join(items)+'</tbody></table>'
     template=(ROOT/'src/README.template.md').read_text(encoding='utf-8')
     return (template.replace('{{IDENTITY}}',identity).replace('{{CAROUSEL}}',carousel)
-            .replace('{{PROJECTS}}',projects).replace('{{PROJECTS_TITLE}}',title('projects','Projects',None))).rstrip()+'\n'
+            .replace('{{PROJECTS}}',projects).replace('{{PROJECTS_TITLE}}',title('projects','Projects',None))
+            .replace('{{ACTIVITY}}',readme_section(load_activity_config()))).rstrip()+'\n'
 
 
 def refresh(offline=False):

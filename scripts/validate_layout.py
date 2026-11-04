@@ -9,6 +9,7 @@ import numpy as np
 from PIL import Image
 from profile_common import ROOT,CONFIG,OUT,MEDIA,SOURCE
 from tech_stack import STACK,description
+from build_activity import load_config as load_activity_config
 
 class Markup(HTMLParser):
     def __init__(self):super().__init__();self.assets=set();self.links=[];self.images=0
@@ -25,9 +26,10 @@ class Markup(HTMLParser):
 
 def main():
     readme=(ROOT/'README.md').read_text(encoding='utf-8');markup=Markup();markup.feed(readme)
-    assert markup.images==7+sum(3+len(p['showcase']['stack']) for p in CONFIG['projects']),'Unexpected profile image count'
+    connected=sum(p['enabled'] for p in load_activity_config()['repositories'])
+    assert markup.images==7+sum(3+len(p['showcase']['stack']) for p in CONFIG['projects'])+connected+(connected<3),'Unexpected profile image count'
     for relative in markup.assets:
-        assert relative.startswith(('assets/profile/generated/','assets/profile/badges/')),'Images must be stored in this repository'
+        assert relative.startswith(('assets/profile/generated/','assets/profile/badges/')) or relative=='assets/profile/activity/commits.json','Assets must be stored in this repository'
         assert (ROOT/relative).is_file(),f'Missing image: {relative}'
     for project in CONFIG['projects']:
         assert 'https://github.com/'+project['repository'] in markup.links,'Missing project repository destination'

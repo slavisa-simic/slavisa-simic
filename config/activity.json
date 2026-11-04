@@ -1,0 +1,21 @@
+{
+  "periodDays": 365,
+  "maxProjects": 3,
+  "timezone": "UTC",
+  "author": {
+    "logins": ["slavisa-simic"],
+    "verifiedEmails": [],
+    "includeBots": false,
+    "excludedLogins": ["github-actions[bot]", "dependabot[bot]", "renovate[bot]"],
+    "excludedEmails": [],
+    "excludedMessagePatterns": ["(?i)^(chore\\(deps\\)?:|\\[automated\\])"]
+  },
+  "repositories": [
+    {
+      "name": "Vigil",
+      "repo": "slavisa-simic/vigil",
+      "color": "#59A8E8",
+      "enabled": true
+    }
+  ]
+}

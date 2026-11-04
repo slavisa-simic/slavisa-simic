@@ -21,7 +21,7 @@ def archive(destination,files):
 def main():
     out=ROOT/'dist';out.mkdir(exist_ok=True)
     parser=Assets();parser.feed((ROOT/'README.md').read_text(encoding='utf-8'))
-    ready=[ROOT/'README.md',ROOT/'docs/SOURCES.md',ROOT/'assets/profile/icons/Devicon-LICENSE',ROOT/'assets/profile/icons/Simple-Icons-LICENSE',*[ROOT/p for p in parser.paths]]
+    ready=[ROOT/'README.md',ROOT/'docs/SOURCES.md',ROOT/'docs/REPOSITORY_DISTRICTS.md',ROOT/'assets/profile/icons/Devicon-LICENSE',ROOT/'assets/profile/icons/Simple-Icons-LICENSE',*[ROOT/p for p in parser.paths]]
     archive(out/'profile-ready.zip',ready)
     source=ready+[ROOT/p for p in ('.gitignore','.gitattributes','package.json','package-lock.json','requirements.txt')]
     for folder in ('config','src','scripts','docs','tests','design-system','.github'):
