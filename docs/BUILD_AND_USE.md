@@ -49,4 +49,6 @@ assets/previews/profile/ contains ignored desktop/mobile/light screenshots and b
 
 The published profile repository is https://github.com/slavisa-simic/slavisa-simic. Build commands only update the local checkout and export archives.
 
+Both update workflows publish their committed snapshots through `scripts/push_snapshot.py`. GitHub's `remote: fatal error in commit_refs` response triggers at most two retries, after 5 and 15 seconds. Other push failures stop immediately; persistent failures still fail the job and retain the original Git diagnostics. Pushes use Git's normal fast-forward protection.
+
 The Projects and GitHub Activity title images use a six-second light sweep along their technical divider; About Me uses a matching perimeter highlight. Text stays still. Animated SVG sources are selected in both system motion settings. Run `node scripts/verify_section_animation.mjs` after the profile preview to verify playback and seamless loops.

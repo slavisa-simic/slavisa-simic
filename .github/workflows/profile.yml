@@ -16,6 +16,7 @@ on:
       - 'src/README.template.md'
       - 'scripts/profile_common.py'
       - 'scripts/refresh_profile.py'
+      - 'scripts/push_snapshot.py'
       - 'scripts/profile_avatar.py'
       - 'scripts/tech_stack.py'
       - 'scripts/build_tech_carousel.py'
@@ -70,4 +71,4 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git commit -m 'Refresh profile avatar'
-          git push origin HEAD:main
+          python scripts/push_snapshot.py
