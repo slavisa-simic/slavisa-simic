@@ -20,8 +20,8 @@ The project carousel retains the existing card styles and original logo composit
 
 The table below the carousel replaces Projects list, commit/star statistics, the sync timestamp, project notes, recent changes, and the workflow badge.
 
-Each configured project has a real project capture, a short factual description, feature labels, and its technology stack. Desktop rows place the capture, description, and stack side by side; mobile artwork stacks them. The table uses GitHub's native row borders. Native Repository links sit beneath each row and open that project's repository root. The visually muted Demo artwork has no anchor and cannot navigate.
+One native Projects heading groups both the carousel and the table. There is no separate All projects title. Each table row has a screenshot column and a text column containing a native project heading, category, description, technology badges, and optional note. Project copy is selectable and reflows using GitHub's normal typography. Feature tags and colored left accents are removed. Repository links open the matching repository root; the visually muted Demo artwork has no anchor.
 
 Vigil uses its actual sign-in screen. Potamorph uses the Industrial Port capture from its project README. Source images, SHA-256 hashes, and source URLs are in assets/profile/source/preview-provenance.json. No cloud deployments or features are claimed from the supplied visual reference.
 
-Project artwork is self-contained SVG with embedded PNG captures. Repository buttons stay separate so they work as native keyboard-accessible links. The hourly workflow rebuilds these assets from bundled sources.
+Only the screenshots, cached technology badges, and action artwork are images. Project text is ordinary HTML in the README. Badge SVGs are cached from Shields.io and do not require a live badge-server request when viewing the profile. The hourly workflow regenerates thumbnails and verifies the badge cache; it cannot recreate the retired static project cards.

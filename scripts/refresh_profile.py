@@ -10,6 +10,9 @@ import re
 import profile_avatar
 from tech_stack import header_assets,header_picture,picture,about_picture,spacer
 from profile_common import ROOT,CONFIG,OUT,MEDIA,write_if_changed
+from prepare_badges import BADGES
+
+BADGE_FILES={name:slug for slug,name,_,_ in BADGES}
 
 def api(path):
     headers={'User-Agent':'slavisa-profile-activity','Accept':'application/vnd.github+json'}
@@ -72,23 +75,20 @@ def render(data,avatar=None):
     carousel=f'<p align="center"><a href="{CONFIG["carousel"]["target"]}">{media_picture("projects-carousel",alt,"100%")}</a></p>'
     items=['<table width="100%"><tbody>']
     for p in CONFIG['projects']:
-        card_alt=p['name']+' — '+p['showcase']['kind']+'. '+p['showcase']['description']+' Stack: '+', '.join(p['showcase']['stack'])+'.'
-        items.append('<tr><td width="10000">'+project_picture('project-'+p['id'],card_alt)+'<p align="right">'
+        spec=p['showcase']
+        badges=' '.join(f'<img src="assets/profile/badges/{BADGE_FILES[technology]}.svg" height="24" alt="{escape(technology,quote=True)}">' for technology in spec['stack'])
+        note=f'<p><sub>{escape(spec["note"])}</sub></p>' if spec.get('note') else ''
+        items.append('<tr><td width="28%" valign="top">'
+                     +f'<img src="assets/profile/generated/project-{p["id"]}-preview.png" width="100%" alt="{escape(p["name"]+" project screenshot",quote=True)}">'
+                     +'</td><td width="72%" valign="top">'
+                     +f'<h3>{escape(p["name"])}</h3><p><sub>{escape(spec["kind"])}</sub></p>'
+                     +f'<p>{escape(spec["description"])}</p><p><strong>Tech stack</strong></p><p>{badges}</p>'+note+'<p>'
                      +f'<a href="https://github.com/{p["repository"]}">{picture("project-repository",p["name"]+" GitHub repository",144)}</a> '
                      +picture('project-demo','Demo — not available yet',112)+'</p></td></tr>')
     projects=''.join(items)+'</tbody></table>'
     template=(ROOT/'src/README.template.md').read_text(encoding='utf-8')
     return (template.replace('{{IDENTITY}}',identity).replace('{{CAROUSEL}}',carousel)
-            .replace('{{PROJECTS}}',projects).replace('{{PROJECTS_TITLE}}',title('projects','Projects',None))
-            .replace('{{PROJECT_TABLE_TITLE}}','<p>'+project_picture('project-table-title','All projects. '+str(len(CONFIG['projects']))+' projects.')+'</p>')).rstrip()+'\n'
-
-
-def project_picture(name,alt):
-    base='assets/profile/generated/'+name
-    return (f'<picture><source media="(max-width: 768px) and (prefers-color-scheme: light)" srcset="{base}-mobile-light.svg">'
-            f'<source media="(max-width: 768px)" srcset="{base}-mobile.svg">'
-            f'<source media="(prefers-color-scheme: light)" srcset="{base}-light.svg">'
-            f'<img src="{base}.svg" width="100%" alt="{escape(alt,quote=True)}"></picture>')
+            .replace('{{PROJECTS}}',projects).replace('{{PROJECTS_TITLE}}','<h2>Projects</h2>')).rstrip()+'\n'
 
 
 def refresh(offline=False):

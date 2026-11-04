@@ -7,6 +7,4 @@
 
 <a name="projects-list"></a>
 
-{{PROJECT_TABLE_TITLE}}
-
 {{PROJECTS}}

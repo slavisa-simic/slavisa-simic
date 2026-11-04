@@ -25,15 +25,17 @@ class Markup(HTMLParser):
 
 def main():
     readme=(ROOT/'README.md').read_text(encoding='utf-8');markup=Markup();markup.feed(readme)
-    assert markup.images==8+3*len(CONFIG['projects']),'Unexpected profile image count'
+    assert markup.images==6+sum(3+len(p['showcase']['stack']) for p in CONFIG['projects']),'Unexpected profile image count'
     for relative in markup.assets:
         assert relative.startswith(('assets/profile/generated/','assets/profile/badges/')),'Images must be stored in this repository'
         assert (ROOT/relative).is_file(),f'Missing image: {relative}'
     for project in CONFIG['projects']:
         assert 'https://github.com/'+project['repository'] in markup.links,'Missing project repository destination'
+        assert f'<h3>{project["name"]}</h3>' in readme and project['showcase']['description'] in readme,'Project copy must be native text'
         assert sha256((ROOT/project['logo']).read_bytes()).hexdigest()==project['logo_sha256'],'Official logo source has changed'
     assert CONFIG['carousel']['target'] in markup.links,'Carousel must open the project list'
     assert '<a name="projects-list"></a>' in readme,'Missing stable project list target'
+    assert readme.count('<h2>Projects</h2>')==1 and 'All projects' not in readme,'Use one native Projects section'
     assert '<details>' not in readme and 'title-projects-list' not in readme and 'badge.svg' not in readme,'Retired footer is still visible'
     assert readme.count(CONFIG['intro'])<=1,'Repeated introduction'
     assert '{{' not in readme,'Unresolved template field'

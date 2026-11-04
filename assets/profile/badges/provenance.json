@@ -9,6 +9,16 @@
     "url": "https://img.shields.io/badge/Spring%20Boot-1a232e?style=flat-square&logo=springboot&logoColor=6DB33F",
     "sha256": "3225ea50db0a8f736b5010f68547fe324d8b562c6adae537545c39ff28c749f9"
   },
+  "react": {
+    "name": "React",
+    "url": "https://img.shields.io/badge/React-1a232e?style=flat-square&logo=react&logoColor=61DAFB",
+    "sha256": "507eb1d1401e733f05b088e3334157af42a6ac39d951dad543699481b51223ac"
+  },
+  "typescript": {
+    "name": "TypeScript",
+    "url": "https://img.shields.io/badge/TypeScript-1a232e?style=flat-square&logo=typescript&logoColor=3178C6",
+    "sha256": "ddd46445f2938c94d72b823dcc5c1a45e79451a2380755a014bb0ca0b984c65f"
+  },
   "postgresql": {
     "name": "PostgreSQL",
     "url": "https://img.shields.io/badge/PostgreSQL-1a232e?style=flat-square&logo=postgresql&logoColor=73A7D3",
@@ -18,6 +28,21 @@
     "name": "Docker",
     "url": "https://img.shields.io/badge/Docker-1a232e?style=flat-square&logo=docker&logoColor=2496ED",
     "sha256": "ea3342d2f89f94b379bfe1cda4cfe3c8e117322b60d93ea2fb5f9d5b843b0558"
+  },
+  "unity": {
+    "name": "Unity",
+    "url": "https://img.shields.io/badge/Unity-1a232e?style=flat-square&logo=unity&logoColor=FFFFFF",
+    "sha256": "782bd84251524f4157312a5cc8b5b56dfd6ccda9ccddfeb2fb9c4564c72e0454"
+  },
+  "csharp": {
+    "name": "C#",
+    "url": "https://img.shields.io/badge/C%23-1a232e?style=flat-square",
+    "sha256": "97fcf683c676a6d4eab759e965258c2bf7402556ab871c4d2db3aef0092ee30a"
+  },
+  "ui-toolkit": {
+    "name": "UI Toolkit",
+    "url": "https://img.shields.io/badge/UI%20Toolkit-1a232e?style=flat-square&logo=unity&logoColor=FFFFFF",
+    "sha256": "a7cb3bc304404a145fe350a367000c907094416a4073adc6a714ab536bb828f5"
   },
   "codex": {
     "name": "OpenAI Codex",

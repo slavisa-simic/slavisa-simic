@@ -22,6 +22,8 @@ on:
       - 'scripts/build_profile_assets.py'
       - 'scripts/build_carousel.py'
       - 'scripts/build_project_table.py'
+      - 'scripts/prepare_badges.py'
+      - 'assets/profile/badges/**'
       - 'assets/profile/source/**'
       - 'tests/**'
 
@@ -48,6 +50,8 @@ jobs:
       - name: Test profile refresh
         run: python -m unittest discover -s tests
       - name: Build project visuals
+        run: python scripts/prepare_badges.py
+      - name: Build project artwork
         run: python scripts/build_profile_assets.py
       - name: Build technology carousel
         run: python scripts/build_tech_carousel.py
@@ -57,7 +61,7 @@ jobs:
         run: python scripts/refresh_profile.py
       - name: Commit changed snapshot
         run: |
-          git add README.md assets/profile/activity.json assets/profile/avatar.json assets/profile/generated assets/profile/icons
+          git add README.md assets/profile/activity.json assets/profile/avatar.json assets/profile/generated assets/profile/icons assets/profile/badges
           if git diff --cached --quiet; then
             echo "Profile snapshot is unchanged."
             exit 0

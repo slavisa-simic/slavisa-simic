@@ -1,17 +1,14 @@
 # Profile layout validation
 
-Validated locally through GitHub-rendered Markdown and current GitHub styles. The cached avatar and activity snapshot were reused. Changes remain in the local checkout.
+Validated locally with GitHub-rendered Markdown and current GitHub styles. The activity and avatar snapshots were reused. These changes are local.
 
-- The name, Software Engineer, and backend/full-stack line share one left edge and use weights 700, 500, and 400. There is no accent rule beside the third line.
-- Native contact buttons align with the identity text column on desktop and with the stacked text on smaller screens. The header stacks at 960 px before its artwork would need scaling.
-- The new project table contains Vigil and Potamorph, including real project captures, factual descriptions, feature labels, and actual technology stacks. The table fills the content width.
-- Each Repository link opens the matching repository root. Pointer and keyboard navigation pass. Each Demo image has no enclosing anchor and cannot navigate.
-- Projects list, commit/star statistics, the sync timestamp, project notes, recent changes, and the workflow badge are absent from the visible README.
-- Nine checked widths pass without horizontal overflow or missing images: 320, 375, 390, 600, 601, 768, 844, 1024, and 1440 px. Light/dark variants and enlarged native text also pass.
-- Fifteen unit tests pass, including cached rebuild stability, activity boundaries, avatar replacement, failure preservation, and the hidden activity presentation.
-- All four project carousel variants pass their hold, transition, loop, image playback, and centered active-indicator checks. The original proportional logo composites remain exact.
-- The technology marquee passes constant rightward speed, seamless repeating pixels, transparency, and actual README image playback in all eight size/theme/system-motion combinations.
-- Source capture hashes, avatar bytes, icon caches, embedded assets, and media budgets pass validation. Git diff whitespace checks pass.
-- The hourly workflow rebuilds project rows, project carousel assets, and the technology marquee before refreshing the avatar.
+- Project names, categories, descriptions, the Tech stack label, and the Codex note are native HTML text. Browser selection retrieves each complete project description at all tested widths.
+- A single native Projects heading contains the carousel and table. The All projects heading, feature tags, colored left accents, and flattened project-card SVGs are removed.
+- Each project has its real screenshot and cached technology badges. Vigil has Java, Spring Boot, React, TypeScript, PostgreSQL, and Docker. Potamorph has Unity, C#, and UI Toolkit.
+- Nine widths pass without page or table overflow: 320, 375, 390, 600, 601, 768, 844, 1024, and 1440 px. Native text and badge rows reflow naturally. The table fills the content width; light/dark modes and enlarged native text pass.
+- Repository links open the correct repository roots with both pointer and keyboard input. Demo placeholders remain unlinked. Header contacts still align with the identity text column.
+- Fifteen unit tests pass. Asset validation checks original logo composites, avatar bytes, screenshot source hashes, badges, embedded resources, and media budgets.
+- All four project carousel variants retain their three-second holds, transitions, loop, actual image playback, and synchronized centered indicators. The technology marquee passes speed, seamless loops, transparency, and actual README image playback in all eight size/theme/system-motion combinations.
+- The workflow caches badges and regenerates screenshots without recreating static text cards. Git diff whitespace checks pass.
 
-Review screenshots and reports are under assets/previews/profile/ (ignored by Git): desktop.png, mobile.png, light.png, browser-report.json, animation-report.json, tech-animation-report.json, and validation-report.json. Source captures and provenance are bundled under assets/profile/source/.
+Review screenshots and reports are under assets/previews/profile/ (ignored by Git): desktop.png, mobile.png, light.png, browser-report.json, animation-report.json, tech-animation-report.json, and validation-report.json. Original project capture provenance is under assets/profile/source/; badge provenance is under assets/profile/badges/.

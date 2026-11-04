@@ -45,15 +45,11 @@
         "image": "assets/profile/source/vigil-preview.png",
         "kind": "Incident management platform",
         "description": "A full-stack app for reporting and managing IT incidents, with role-based access and an audit log.",
-        "features": [
-          "RBAC",
-          "Audit log",
-          "REST API"
-        ],
         "stack": [
           "Java",
           "Spring Boot",
-          "React / TypeScript",
+          "React",
+          "TypeScript",
           "PostgreSQL",
           "Docker"
         ]
@@ -74,11 +70,6 @@
         "image": "assets/profile/source/potamorph-preview.png",
         "kind": "Tower-defense game",
         "description": "A tower-defense prototype set on the Danube, with aquatic enemies, defense upgrades, and two maps.",
-        "features": [
-          "Tower defense",
-          "Upgrades",
-          "Two maps"
-        ],
         "stack": [
           "Unity",
           "C#",

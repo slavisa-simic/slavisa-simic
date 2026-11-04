@@ -19,12 +19,13 @@ Browser previews use GitHub's Markdown API and current GitHub styles. The render
 
 ## Edit
 
-- config/profile.json: identity, theme, projects, project showcase descriptions, source captures, feature labels, technology stacks, and carousel timing.
+- config/profile.json: identity, theme, projects, native descriptions, source captures, technology stacks, and carousel timing.
 - config/tech-stack.json: the personal technology list, pinned vendor icon URLs, marquee dimensions, and timing. Project stacks remain separate from personal skills.
 - src/README.template.md: the visible README structure.
 - scripts/tech_stack.py: responsive header, typography, contact alignment spacer, and About Me artwork.
 - scripts/build_carousel.py: existing project card styles, animation, and centered indicators.
-- scripts/build_project_table.py: responsive project rows, table heading/count, repository button artwork, and inactive Demo artwork.
+- scripts/build_project_table.py: screenshot thumbnails, repository button artwork, inactive Demo artwork, and retirement of old static cards.
+- scripts/prepare_badges.py: locally cached Shields.io technology badges and their source checksums.
 - scripts/refresh_profile.py: native markup, real repository destinations, avatar updates, and the retained activity collector.
 - assets/profile/source/preview-provenance.json: original project-capture sources and checksums.
 
@@ -34,7 +35,7 @@ Run py scripts/build_tech_carousel.py after adding a technology. New pinned icon
 
 The three identity lines use weights 700, 500, and 400. Contacts align with their left edge. Below 961 px the identity stacks before the desktop SVG would need scaling.
 
-GitHub strips custom CSS, so project-row presentation uses responsive self-contained SVGs inside a native table. Essential content has complete alt descriptions. Repository links are separate native anchors; Demo images have no href. Captures are proportionally resized without manufacturing a new UI or gameplay scene.
+The Projects section has one native heading, followed by the carousel and a native two-column table. Each project keeps a screenshot in one column and selectable HTML headings, categories, descriptions, technology badges, and notes in the other. Copy wraps naturally as the table narrows. There is no All projects heading, feature-tag row, or colored left accent. Repository links are separate native anchors; Demo images have no href. Captures are proportionally resized without manufacturing a new UI or gameplay scene.
 
 The project carousel holds each card for three seconds and uses 400 ms slides. Reduced motion keeps three-second content switches. The technology marquee continues moving in both system motion modes, per the user's earlier preference. The carousel links to the stable projects-list anchor above the new table.
 
