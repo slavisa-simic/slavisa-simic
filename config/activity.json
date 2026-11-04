@@ -16,6 +16,12 @@
       "repo": "slavisa-simic/vigil",
       "color": "#59A8E8",
       "enabled": true
+    },
+    {
+      "name": "Potamorph",
+      "repo": "slavisa-simic/tower-defense-ai",
+      "color": "#D4777A",
+      "enabled": true
     }
   ]
 }

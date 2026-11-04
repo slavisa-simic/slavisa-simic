@@ -1,6 +1,6 @@
 # Build and update the GitHub profile
 
-The profile contains the responsive identity and technology marquee, native contact links, About Me strip, project carousel, project table, and Repository Districts activity section. [Repository Districts](REPOSITORY_DISTRICTS.md) documents its independent configuration, data scope, daily updates, and previews. Only Vigil is initially connected to the visualization.
+The profile contains the responsive identity and technology marquee, native contact links, About Me strip, project carousel, project table, and Commit Activity activity section. [Commit Activity](COMMIT_ACTIVITY.md) documents its independent configuration, data scope, daily updates, and previews. Vigil (blue) and Potamorph (red) share one activity card.
 
 ## Rebuild
 
@@ -13,7 +13,7 @@ npx playwright install chromium
 py scripts/build.py --offline --preview --package
 ```
 
-Remove --offline to fetch fresh activity and the current avatar. Offline builds reuse their cached snapshots. The original 30-day featured-project snapshot remains hidden; the separate Repository Districts collector displays author-filtered commits over 365 days. Local commands do not commit or push.
+Remove --offline to fetch fresh activity and the current avatar. Offline builds reuse their cached snapshots. The original 30-day featured-project snapshot remains hidden; the separate Commit Activity collector displays author-filtered commits over 365 days. Local commands do not commit or push.
 
 Browser previews use GitHub's Markdown API and current GitHub styles. The renderer can reuse installed Playwright Chromium or PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH. Verification covers responsive layout, native links, inactive Demo placeholders, theme variants, and both carousels.
 
@@ -21,7 +21,7 @@ Browser previews use GitHub's Markdown API and current GitHub styles. The render
 
 - config/profile.json: identity, theme, projects, native descriptions, source captures, technology stacks, and carousel timing.
 - config/tech-stack.json: the personal technology list, pinned vendor icon URLs, marquee dimensions, and timing. Project stacks remain separate from personal skills.
-- config/activity.json: the three available repository districts, period, timezone, author identity mappings, and automation exclusions.
+- config/activity.json: up to three projects on one shared timeline, period, timezone, author identity mappings, and automation exclusions.
 - src/README.template.md: the visible README structure.
 - scripts/tech_stack.py: responsive header, typography, contact alignment spacer, and About Me artwork.
 - scripts/build_carousel.py: existing project card styles, animation, and centered indicators.
@@ -44,6 +44,6 @@ The project carousel holds each card for three seconds and uses 400 ms slides. R
 
 assets/previews/profile/ contains ignored desktop/mobile/light screenshots and browser, animation, and asset validation reports. dist/profile-ready.zip contains the README and required display assets; dist/profile-source.zip includes the reproducible source pipeline. Preserve the assets/profile paths.
 
-`npm run preview:activity` separately verifies desktop/mobile activity images, reduced-motion selection, SVG bounds, data totals, and animation looping. Its local HTML, screenshots, and validation report are in `assets/previews/activity/`.
+`npm run preview:activity` separately verifies desktop/mobile activity images, animated GIF playback in both system motion settings, SVG bounds, data totals, and animation looping. Its local HTML, screenshots, and validation report are in `assets/previews/activity/`.
 
 The published profile repository is https://github.com/slavisa-simic/slavisa-simic. Build commands only update the local checkout and export archives.

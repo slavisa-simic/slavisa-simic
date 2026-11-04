@@ -14,7 +14,7 @@ import time
 
 def validate_config(config):
     if config.get('maxProjects') != 3:
-        raise ValueError('Repository Districts has exactly three available slots')
+        raise ValueError('Commit Activity supports up to three projects')
     if type(config.get('periodDays')) is not int or not 1 <= config['periodDays'] <= 3660:
         raise ValueError('periodDays must be an integer from 1 to 3660')
     ZoneInfo(config['timezone'])
@@ -50,7 +50,7 @@ def api(path):
     """Credentials are sent only to the fixed GitHub API origin. Fail closed on errors."""
     if not path.startswith('/repos/'):
         raise ValueError('Only repository API endpoints are allowed')
-    headers = {'User-Agent': 'repository-districts', 'Accept': 'application/vnd.github+json',
+    headers = {'User-Agent': 'repository-commit-activity', 'Accept': 'application/vnd.github+json',
                'X-GitHub-Api-Version': '2026-03-10'}
     token = os.environ.get('GITHUB_TOKEN') or os.environ.get('GH_TOKEN')
     if token:

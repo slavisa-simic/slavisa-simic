@@ -95,13 +95,14 @@ class Activity(TestCase):
         self.assertEqual((stats['totalCommits'], stats['activeDays']), (101, 2))
         self.assertEqual(len(snapshot['projects'][0]['daily']), 365)
 
-    def test_only_vigil_is_initially_enabled_and_empty_slots_have_no_data(self):
-        self.assertEqual([r['repo'] for r in self.config['repositories'] if r['enabled']], ['slavisa-simic/vigil'])
+    def test_single_card_and_matching_title_without_empty_project_panels(self):
         section = render.readme_section(self.config)
-        self.assertNotIn('Potamorph', section)
-        image = render.slots(self.config)
-        self.assertEqual(image.count('Unconfigured</text>'), 2)
-        self.assertNotIn('data-commits', image)
+        self.assertEqual(section.count('<img '), 2)
+        self.assertEqual(section.count('alt="GitHub Activity"'), 1)
+        self.assertEqual(section.count('src="assets/profile/generated/activity-commits.gif"'), 1)
+        self.assertNotIn('district', section.lower())
+        self.assertNotIn('Unconfigured', section)
+        self.assertNotIn('prefers-reduced-motion', section)
 
     def test_three_independent_repositories_share_height_scale_and_links(self):
         config = copy.deepcopy(self.config)
@@ -114,14 +115,17 @@ class Activity(TestCase):
                 return [commit(1)]
             if '/second/' in path:
                 return [commit(2), commit(3)]
-            return []
+            return [commit(4), commit(5), commit(6)]
         snapshot = data.collect(config, NOW, request)
         self.assertEqual(len(snapshot['projects']), 3)
-        self.assertEqual([p['statistics']['totalCommits'] for p in snapshot['projects']], [1, 2, 0])
-        self.assertIsNone(render.slots(config))
+        self.assertEqual([p['statistics']['totalCommits'] for p in snapshot['projects']], [1, 2, 3])
         for repo in config['repositories']:
             self.assertIn('https://github.com/'+repo['repo'], render.readme_section(config))
-        self.assertIn('data-height="32.000000"', render.district(snapshot['projects'][0], snapshot, peak=2))
+        tree = ET.fromstring(render.card(snapshot))
+        segments = tree.findall('.//{http://www.w3.org/2000/svg}g[@data-project]')
+        self.assertEqual([int(s.attrib['data-commits']) for s in segments], [1, 2, 3])
+        self.assertAlmostEqual(sum(float(s.attrib['data-height']) for s in segments),64,places=5)
+        self.assertEqual(len(tree.findall('.//{http://www.w3.org/2000/svg}g[@data-date]')),365)
         config['repositories'][1]['enabled'] = False
         self.assertEqual([p['slot'] for p in self.collect([], config)['projects']], [1, 3])
 
@@ -136,7 +140,7 @@ class Activity(TestCase):
         self.assertEqual((stats['totalCommits'], stats['activeDays']), (0, 0))
         self.assertIsNone(stats['lastCommitDate'])
         self.assertEqual(stats['mostActiveMonths'], [])
-        self.assertNotIn('data-height="64.', render.district(snapshot['projects'][0], snapshot))
+        self.assertNotIn('data-height="64.', render.card(snapshot))
 
     def test_private_and_api_errors_never_become_zero_activity(self):
         with self.assertRaisesRegex(ValueError, 'Private'):
@@ -159,7 +163,7 @@ class Activity(TestCase):
         self.config['repositories'][0]['enabled'] = False
         snapshot = data.collect(self.config, NOW, lambda _: self.fail('Disabled project made an API request'))
         self.assertEqual(snapshot['projects'], [])
-        self.assertNotIn('data-commits', render.slots(self.config))
+        self.assertNotIn('data-commits=', render.card(snapshot))
 
     def test_snapshot_metrics_and_scope_are_validated(self):
         snapshot = self.collect([commit(1)])
@@ -175,11 +179,11 @@ class Activity(TestCase):
         snapshot = self.collect([commit(1)])
         for mobile in (False, True):
             for static in (False, True):
-                image = render.district(snapshot['projects'][0], snapshot, mobile, static)
+                image = render.card(snapshot, mobile, static)
                 tree = ET.fromstring(image)
                 cells = tree.findall('.//{http://www.w3.org/2000/svg}g[@data-date]')
                 self.assertEqual(len(cells), 365)
-                self.assertEqual(sum(int(c.attrib['data-commits']) for c in cells), 1)
+                self.assertEqual(sum(int(c.attrib['data-total-commits']) for c in cells), 1)
                 self.assertEqual('repeatCount="indefinite"' in image, not static)
                 self.assertNotIn('<script', image)
                 self.assertLess(len(image.encode()), 180_000)
@@ -192,6 +196,7 @@ class Activity(TestCase):
             media = root/'generated'
             with patch.multiple(build, ROOT=root, MEDIA=media, SNAPSHOT=snapshot), \
                  patch.object(build, 'load_config', return_value=self.config), \
+                 patch.object(build, 'export_animations', return_value=[]), \
                  patch.object(build, 'collect', return_value=self.collect([commit(1)])):
                 self.assertTrue(build.build()['changedFiles'])
                 before = {p: (p.read_bytes(), p.stat().st_mtime_ns) for p in root.rglob('*') if p.is_file()}

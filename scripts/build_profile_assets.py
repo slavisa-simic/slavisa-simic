@@ -19,10 +19,11 @@ def label(draw,position,value,size,color,weight=500,anchor='lt',mono=False):
 def uri(image):
     data=BytesIO();image.save(data,format='PNG',optimize=True)
     return 'data:image/png;base64,'+base64.b64encode(data.getvalue()).decode()
-def build_titles():
+def build_titles(only=None):
     p=CONFIG['theme'];scale=3
-    titles=[('projects','Projects'),('projects-list','Projects list'),('tech-stack','Tech stack')]
+    titles=[('projects','Projects'),('projects-list','Projects list'),('tech-stack','Tech stack'),('github-activity','GitHub Activity')]
     for slug,title in titles:
+        if only is not None and slug not in only:continue
         for mobile in (False,True):
             w,h=(360,46) if mobile else (860,50)
             image=Image.new('RGB',(w*scale,h*scale),p['surface']);d=ImageDraw.Draw(image)
@@ -37,6 +38,7 @@ def build_titles():
             d.rectangle((end-3*scale,h*scale//2-2*scale,end+scale,h*scale//2+2*scale),fill=p['silver'])
             image.save(MEDIA/f'title-{slug}{"-mobile" if mobile else ""}.png',optimize=True)
     for slug,title,w in [('ai-tools','AI Development Tools',222),('project-notes','Project notes',140),('recent-changes','Recent changes',158)]:
+        if only is not None and slug not in only:continue
         h=30;image=Image.new('RGB',(w*scale,h*scale),p['surface']);d=ImageDraw.Draw(image)
         d.rectangle((0,0,w*scale-1,h*scale-1),outline=p['line'],width=scale)
         d.line((0,0,16*scale,0),fill=p['blue'],width=scale)

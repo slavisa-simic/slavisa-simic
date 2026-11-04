@@ -1,5 +1,5 @@
-"""Deterministic isometric SVG images, readable with or without SMIL support."""
-from datetime import date
+"""One shared isometric commit timeline with project-colored, additive daily columns."""
+from datetime import date, timedelta
 from html import escape
 import math
 
@@ -7,6 +7,7 @@ BACKGROUND = '#101113'
 LINE = '#292c32'
 TEXT = '#edf0f4'
 MUTED = '#a4aab5'
+LOOP_SECONDS = 6
 
 
 def text(x, y, value, size=14, color=MUTED, **attrs):
@@ -19,157 +20,134 @@ def mix(color, factor):
 
 
 def point(col, row, height=0):
-    # True 30-degree isometric ground plane; vertical height is data-only.
-    return (384 + (col - row) * 18, 20 + (col + row) * 18 / math.sqrt(3) - height)
+    return (384 + (col-row)*18, 20 + (col+row)*18/math.sqrt(3) - height)
 
 
 def points(values):
     return ' '.join(f'{x:.2f},{y:.2f}' for x, y in values)
 
 
-def polygon(values, fill, stroke=LINE, **attrs):
-    extra = ''.join(f' {key.replace("_", "-")}="{value}"' for key, value in attrs.items())
-    return f'<polygon points="{points(values)}" fill="{fill}" stroke="{stroke}" stroke-width="0.7"{extra}/>'
+def polygon(values, fill, stroke=LINE):
+    return f'<polygon points="{points(values)}" fill="{fill}" stroke="{stroke}" stroke-width=".7"/>'
 
 
 def month_label(months):
     if not months:
         return '—'
-    first = date.fromisoformat(months[0] + '-01').strftime('%b %Y')
-    return first + (f' (+{len(months)-1} tied)' if len(months) > 1 else '')
+    first = date.fromisoformat(months[0]+'-01').strftime('%b %Y')
+    return first + (f' (+{len(months)-1})' if len(months)>1 else '')
 
 
-def district(project, data, mobile=False, static=False, peak=None):
-    width, height = (480, 640) if mobile else (1000, 790)
-    accent = project['color']
-    stats = project['statistics']
-    peak = max(1, peak or stats['maxDailyCommits'])
+def timeline(data):
+    start = date.fromisoformat(data['windowStart'])
+    return [{'date': (start+timedelta(days=i)).isoformat(),
+             'counts': [p['daily'][i]['commits'] for p in data['projects']]}
+            for i in range(data['periodDays'])]
+
+
+def card(data, mobile=False, static=False):
+    projects = data['projects']
+    days = timeline(data)
+    peak = max(1, max(sum(day['counts']) for day in days))
+    width = 480 if mobile else 1000
+    height = (460+100*len(projects)) if mobile else (702+42*len(projects))
+    margin = 24 if mobile else 36
     rows = 14
-    columns = math.ceil(data['periodDays'] / rows)
-    # Fit every configured period using the same scale for all project districts.
-    fit = min(1, 42 / (columns + rows + 4))
-    scale = fit * (.50 if mobile else 1)
-    map_y = 200 if mobile else 190
-    map_x = width/2 - scale * (384 + (columns-rows)*9)
-    title = f"{project['name']} — Repository Commit Activity"
-    description = (f"{data['windowStart']} through {data['windowEnd']}, {data['timezone']}. "
-                   f"{stats['totalCommits']} commits on {stats['activeDays']} active days. "
-                   'Each tile is one calendar day. Read 14 days down each strip, then the next strip. '
-                   f'Column height is linear, 64 units at {peak} commits/day. '
-                   f"Most active months: {', '.join(stats['mostActiveMonths']) or 'none'}. "
-                   f"Latest author date in this period: {stats['lastCommitDate'] or 'none'}. "
-                   'These are repository commits, not official GitHub profile contributions.')
-    svg = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
-           f'<title id="title">{escape(title)}</title><desc id="desc">{escape(description)}</desc>',
-           '<defs><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#22262c" stroke-width="0.6"/></pattern></defs>',
+    columns = math.ceil(data['periodDays']/rows)
+    scale = min(1, 42/(columns+rows+4)) * (.5 if mobile else 1)
+    map_x = width/2 - scale*(384+(columns-rows)*9)
+    map_y = 155
+    summary = '; '.join(f"{p['name']}: {p['statistics']['totalCommits']} commits, {p['statistics']['activeDays']} active days" for p in projects)
+    svg = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" font-family="Inter,Segoe UI,Arial,sans-serif" role="img" aria-labelledby="title desc">',
+           '<title id="title">Repository Commit Activity</title>',
+           f'<desc id="desc">{escape(summary)}. {data["windowStart"]} through {data["windowEnd"]}, {escape(data["timezone"])}. One tile per calendar day; colored segments add to the daily total. Height is linear, 64 units at {peak} commits/day. Author-filtered repository commits, not GitHub profile contributions.</desc>',
+           '<defs><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#22262c" stroke-width=".6"/></pattern></defs>',
            f'<rect x=".5" y=".5" width="{width-1}" height="{height-1}" fill="{BACKGROUND}" stroke="{LINE}"/>',
            f'<rect x="1" y="1" width="{width-2}" height="{height-2}" fill="url(#grid)" opacity=".32"/>',
-           f'<path d="M1 25V1H60M{width-60} {height-1}H{width-1}V{height-25}" fill="none" stroke="{accent}" stroke-opacity=".65"/>']
-    margin = 24 if mobile else 36
-    svg += [text(margin, 34, 'REPOSITORY DISTRICTS', 12, MUTED, letter_spacing='2'),
-            text(width-margin, 34, f"{project['slot']:02} / 03", 12, MUTED, text_anchor='end'),
-            text(margin, 77 if mobile else 82, project['name'], 32 if mobile else 36, TEXT, font_weight='600'),
-            text(width-margin, 76 if mobile else 80, '● CONNECTED', 11, accent, text_anchor='end'),
-            text(margin, 108 if mobile else 111, 'Repository Commit Activity', 16, '#c3c8d0'),
-            text(margin if mobile else width-margin, 137 if mobile else 109,
-                 project['repo'], 12, text_anchor='start' if mobile else 'end')]
-    # The font stack is image-contained; no remote fonts, CSS, scripts, or external assets.
-    svg.append(text(margin, 160 if mobile else 139,
-                    f"{data['windowStart']} — {data['windowEnd']} · {data['timezone']}", 12))
+           '<path d="M1 25V1H55" fill="none" stroke="#59A8E8"/>',
+           f'<path d="M{width-55} {height-1}H{width-1}V{height-25}" fill="none" stroke="#CC8A88"/>',
+           text(margin, 42, 'Repository Commit Activity', 22 if mobile else 26, TEXT, font_weight='550'),
+           text(margin, 69, f"{data['windowStart']} — {data['windowEnd']} · {data['timezone']}", 12)]
+    for i, project in enumerate(projects):
+        x = margin+i*(145 if mobile else 190)
+        svg += [f'<rect x="{x}" y="91" width="8" height="8" fill="{project["color"]}"/>',
+                text(x+16, 99, project['name'], 13, '#c3c8d0')]
     svg.append(f'<g transform="translate({map_x:.2f} {map_y}) scale({scale:.4f})">')
-    a, b, c, d = [point(*p) for p in [(-1, -1), (columns+1, -1), (columns+1, rows+1), (-1, rows+1)]]
-    down = lambda p: (p[0], p[1]+6)
-    svg += [polygon([d, c, down(c), down(d)], '#121820'),
-            polygon([b, c, down(c), down(b)], '#19232d'),
-            polygon([a, b, c, d], '#151a20', '#3a434e')]
-    # Circuit routing lives outside the data footprint.
-    for offset in (0, .28, .56):
-        trace = [point(-.8+offset, rows+.4), point(columns*.34, rows+.4),
-                 point(columns*.34+.7, rows+.85), point(columns+.65, rows+.85)]
-        svg.append(f'<polyline points="{points(trace)}" fill="none" stroke="{accent}" stroke-opacity=".20" stroke-width=".9"/>')
-    trace = [point(-.65, -0.65), point(columns+.65, -.65), point(columns+.65, rows+.65)]
-    svg.append(f'<polyline points="{points(trace)}" fill="none" stroke="{accent}" stroke-opacity=".4" stroke-width="1.2">')
-    if not static:
-        svg.append('<animate attributeName="stroke-opacity" values=".25;.6;.25" dur="9s" repeatCount="indefinite"/>')
-    svg.append('</polyline>')
-    # Back-to-front painter order prevents incorrect face overlap.
-    cells = [(i // rows, i % rows, day) for i, day in enumerate(project['daily'])]
-    for col, row, day in sorted(cells, key=lambda cell: (sum(cell[:2]), cell[0])):
-        count = day['commits']
-        h = 64 * count / peak
-        pad = .13
-        corners = [(col+pad, row+pad), (col+1-pad, row+pad),
-                   (col+1-pad, row+1-pad), (col+pad, row+1-pad)]
-        top = [point(x, y, h) for x, y in corners]
-        floor = [point(x, y) for x, y in corners]
-        svg.append(f'<g data-date="{day["date"]}" data-commits="{count}" data-height="{h:.6f}"><title>{day["date"]}: {count} commits</title>')
-        if count:
-            svg += [polygon([top[3], top[2], floor[2], floor[3]], mix(accent, .40), mix(accent, .54)),
-                    polygon([top[1], top[2], floor[2], floor[1]], mix(accent, .58), mix(accent, .68)),
-                    polygon(top, mix(accent, .76 + .24*count/peak), mix(accent, .95))]
-            if not static and count == stats['maxDailyCommits']:
-                svg.append(f'<polygon points="{points(top)}" fill="white" opacity="0"><animate attributeName="opacity" values="0;.12;0" dur="9s" repeatCount="indefinite"/></polygon>')
-        else:
-            svg.append(polygon(top, '#1c232b', '#303943'))
+    a, b, c, d = [point(*p) for p in [(-1,-1), (columns+1,-1), (columns+1,rows+1), (-1,rows+1)]]
+    down = lambda p: (p[0],p[1]+6)
+    svg += [polygon([d,c,down(c),down(d)], '#121820'),
+            polygon([b,c,down(c),down(b)], '#19232d'),
+            polygon([a,b,c,d], '#151a20', '#3a434e')]
+    for i, project in enumerate(projects):
+        offset = .2+i*.24
+        route = [point(-1+offset,-1+offset), point(columns+1-offset,-1+offset),
+                 point(columns+1-offset,rows+1-offset), point(-1+offset,rows+1-offset)]
+        path = 'M'+'L'.join(f'{x:.2f} {y:.2f}' for x,y in route)+'Z'
+        svg.append(f'<path d="{path}" fill="none" stroke="{project["color"]}" stroke-opacity=".22" stroke-width="1.2"/>')
+        if not static:
+            svg.append(f'<path d="{path}" pathLength="1000" fill="none" stroke="{project["color"]}" stroke-width="3" stroke-linecap="round" stroke-dasharray="80 920" stroke-dashoffset="{i*330}" opacity=".95"><animate attributeName="stroke-dashoffset" from="{i*330}" to="{i*330-1000}" dur="6s" repeatCount="indefinite"/></path>')
+    cells = [(i//rows,i%rows,day) for i,day in enumerate(days)]
+    for col,row,day in sorted(cells,key=lambda cell:(cell[0]+cell[1],cell[0])):
+        total = sum(day['counts'])
+        svg.append(f'<g data-date="{day["date"]}" data-total-commits="{total}"><title>{day["date"]}: {total} commits</title>')
+        corners = [(col+.13,row+.13),(col+.87,row+.13),(col+.87,row+.87),(col+.13,row+.87)]
+        floor = [point(x,y) for x,y in corners]
+        if not total:
+            svg.append(polygon(floor,'#1c232b','#303943'))
+        cumulative = 0
+        for project,count in zip(projects,day['counts']):
+            if not count:
+                continue
+            low = 64*cumulative/peak
+            high = 64*(cumulative+count)/peak
+            bottom = [point(x,y,low) for x,y in corners]
+            top = [point(x,y,high) for x,y in corners]
+            color = project['color']
+            svg.append(f'<g data-project="{escape(project["repo"],quote=True)}" data-commits="{count}" data-height="{high-low:.6f}">')
+            svg += [polygon([top[3],top[2],bottom[2],bottom[3]],mix(color,.45),mix(color,.65)),
+                    polygon([top[1],top[2],bottom[2],bottom[1]],mix(color,.65),mix(color,.83)),
+                    polygon(top,color,mix(color,.98))]
+            if not static:
+                svg.append(f'<polygon points="{points(top)}" fill="white" opacity=".04"><animate attributeName="opacity" values=".04;.32;.04" dur="6s" repeatCount="indefinite"/></polygon>')
+            svg.append('</g>')
+            cumulative += count
         svg.append('</g>')
-    # Date guides follow the far edge; the partially filled last strip has no extra days.
-    for col in range(0, columns, max(1, math.ceil(columns/6))):
-        index = col*rows
-        x, y = point(col, -1.55)
-        svg.append(text(round(x, 1), round(y, 1), project['daily'][index]['date'][5:], 12, MUTED, text_anchor='middle'))
-    svg += ['</g>']
-    legend_y = 447 if mobile else 664
-    svg.append(text(margin, legend_y, f"1 tile = 1 day · 14-day strips · {project['branch']} branch", 12))
-    svg.append(text(margin, legend_y+22, f'Height: linear · 0–{peak} commits/day', 12))
-    # Four real metrics, with a 2×2 arrangement on phones.
-    footer_y = 509 if mobile else 731
-    entries = [('COMMITS', stats['totalCommits']), ('ACTIVE DAYS', stats['activeDays']),
-               ('MOST ACTIVE MONTH', month_label(stats['mostActiveMonths'])),
-               ('LAST COMMIT¹', stats['lastCommitDate'] or '—')]
-    svg.append(f'<path d="M{margin} {footer_y-29}H{width-margin}" stroke="{LINE}"/>')
-    for i, (label, value) in enumerate(entries):
-        x = margin + (i%2)*(width/2) if mobile else margin + i*232
-        y = footer_y + (i//2)*57 if mobile else footer_y
-        svg.append(text(x, y, label, 10 if mobile else 11, MUTED, letter_spacing='1'))
-        svg.append(text(x, y+25, value, 20 if i<2 else 16, TEXT, font_weight='500'))
+    for col in range(0,columns,max(1,math.ceil(columns/6))):
+        x,y = point(col,-1.55)
+        svg.append(text(round(x,1),round(y,1),days[col*rows]['date'][5:],12,MUTED,text_anchor='middle'))
+    svg.append('</g>')
+    svg.append(text(margin,406 if mobile else 627,f'1 day / tile · 0–{peak} commits/day',12))
+    if mobile:
+        for i,p in enumerate(projects):
+            y = 451+i*100
+            stats = p['statistics']
+            svg += [f'<path d="M{margin} {y-20}H{width-margin}" stroke="{LINE}"/>',
+                    text(margin,y,p['name'],16,p['color'],font_weight='550'),
+                    text(width-margin,y,f"{stats['totalCommits']} commits · {stats['activeDays']} active days",12,TEXT,text_anchor='end'),
+                    text(margin,y+28,'PEAK MONTH',10),text(270,y+28,'LAST COMMIT',10),
+                    text(margin,y+49,month_label(stats['mostActiveMonths']),15,TEXT),
+                    text(270,y+49,stats['lastCommitDate'] or '—',15,TEXT)]
+    else:
+        svg.append(f'<path d="M{margin} 649H{width-margin}" stroke="{LINE}"/>')
+        for x,label in [(36,'PROJECT'),(280,'COMMITS'),(425,'ACTIVE DAYS'),(600,'PEAK MONTH'),(810,'LAST COMMIT')]:
+            svg.append(text(x,674,label,11))
+        for i,p in enumerate(projects):
+            y = 707+i*42
+            stats = p['statistics']
+            for x,value,color in [(36,p['name'],p['color']),(280,stats['totalCommits'],TEXT),
+                                   (425,stats['activeDays'],TEXT),(600,month_label(stats['mostActiveMonths']),TEXT),
+                                   (810,stats['lastCommitDate'] or '—',TEXT)]:
+                svg.append(text(x,y,value,16,color))
     svg.append('</svg>')
-    result = ''.join(svg)
-    return result.replace('<svg xmlns=', '<svg font-family="Inter,Segoe UI,Arial,sans-serif" xmlns=', 1)
-
-
-def slots(config, mobile=False):
-    occupied = {i for i, repo in enumerate(config['repositories'], 1) if repo['enabled']}
-    empty = [i for i in range(1, 4) if i not in occupied]
-    if not empty:
-        return None
-    width, height = (480, 68) if mobile else (1000, 68)
-    svg = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" font-family="Segoe UI,Arial,sans-serif"><title>Unconfigured repository slots; no activity data</title>']
-    for index, slot in enumerate(empty):
-        x = index * width/len(empty)
-        svg += [f'<rect x="{x+1}" y="1" width="{width/len(empty)-8}" height="60" fill="{BACKGROUND}" stroke="{LINE}" stroke-dasharray="4 5"/>',
-                text(x+16, 26, f'DISTRICT {slot:02}', 11, MUTED, letter_spacing='1'),
-                text(x+16, 46, 'Unconfigured', 13, '#777f8b')]
-    return ''.join(svg) + '</svg>'
+    return ''.join(svg)
 
 
 def readme_section(config):
-    lines = ['<!-- repository-districts:start -->', '<h2>GitHub Activity</h2>',
-             '<p><sub>Repository Commit Activity · authored commits, not GitHub profile contributions.</sub></p>']
-    for repo in config['repositories']:
-        if not repo['enabled']:
-            continue
-        stem = 'assets/profile/generated/activity-' + repo['repo'].replace('/', '--').lower()
-        alt = escape(f"{repo['name']} — Repository Commit Activity. Daily commit towers and period statistics.", quote=True)
-        lines.append(f'<p><a href="https://github.com/{escape(repo["repo"], quote=True)}"><picture>'
-                     f'<source media="(max-width: 600px) and (prefers-reduced-motion: reduce)" srcset="{stem}-mobile-static.svg">'
-                     f'<source media="(prefers-reduced-motion: reduce)" srcset="{stem}-static.svg">'
-                     f'<source media="(max-width: 600px)" srcset="{stem}-mobile.svg">'
-                     f'<img src="{stem}.svg" width="100%" alt="{alt}"></picture></a></p>')
-    if len([repo for repo in config['repositories'] if repo['enabled']]) < 3:
-        lines.append('<p><picture><source media="(max-width: 600px)" srcset="assets/profile/generated/activity-slots-mobile.svg">'
-                     '<img src="assets/profile/generated/activity-slots.svg" width="100%" alt="Unconfigured repository districts — no activity data"></picture></p>')
-    lines += ['<p><sub>¹ Last authored commit within the displayed period. Most active month uses partial months at period boundaries; ties are counted. Each strip reads 14 days back to front, then continues right. Today is partial. '
-              '<a href="docs/REPOSITORY_DISTRICTS.md">Data scope &amp; configuration</a> · '
-              '<a href="assets/profile/activity/commits.json">Daily data &amp; commit SHAs</a></sub></p>',
-              '<!-- repository-districts:end -->']
-    return '\n\n'.join(lines)
+    base = 'assets/profile/generated/'
+    title = (f'<p><picture><source media="(max-width: 600px)" srcset="{base}title-github-activity-mobile.png">'
+             f'<img src="{base}title-github-activity.png" width="100%" alt="GitHub Activity"></picture></p>')
+    image = (f'<p><picture><source media="(max-width: 600px)" srcset="{base}activity-commits-mobile.gif">'
+             f'<img src="{base}activity-commits.gif" width="100%" alt="Repository Commit Activity — daily commits colored by project"></picture></p>')
+    links = ' · '.join(f'<a href="https://github.com/{escape(p["repo"],quote=True)}">{escape(p["name"])}</a>'
+                       for p in config['repositories'] if p['enabled'])
+    return '\n\n'.join(['<!-- commit-activity:start -->',title,image,f'<p><sub>{links}</sub></p>','<!-- commit-activity:end -->'])

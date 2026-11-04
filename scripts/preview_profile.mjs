@@ -4,8 +4,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {root,launch,serve} from './lib.mjs';
 const config=JSON.parse(await fs.readFile(path.join(root,'config/profile.json'),'utf8'));
-const activityConfig=JSON.parse(await fs.readFile(path.join(root,'config/activity.json'),'utf8'));
-const activityCount=activityConfig.repositories.filter(p=>p.enabled).length;
+const activityImageCount=2;
 const out=path.join(root,'assets/previews/profile');const vendor=path.join(out,'vendor');await fs.mkdir(vendor,{recursive:true});
 const readme=await fs.readFile(path.join(root,'README.md'),'utf8');const hash=crypto.createHash('sha256').update(readme).digest('hex');
 const headers={'User-Agent':'slavisa-native-profile-preview',Accept:'text/html'};
@@ -42,7 +41,7 @@ try{
   if(width>=1024)check(state.tables.every(t=>t.scrollWidth<=t.width+1),`Desktop table overflow at ${width}`);
   const identity=state.images.find(i=>i.alt.startsWith(config.name+' — Software Engineer.'));
   check(identity&&!identity.alt.includes('Backend Developer'),'Incorrect responsive identity');
-  check(state.images.length===7+config.projects.reduce((n,p)=>n+3+p.showcase.stack.length,0)+activityCount+(activityCount<3?1:0),'Unexpected profile image count');
+  check(state.images.length===7+config.projects.reduce((n,p)=>n+3+p.showcase.stack.length,0)+activityImageCount,'Unexpected profile image count');
   check(state.images[0]===identity,'Header must appear first');
   check(await page.locator('article img[alt="Projects"]').count()===1,'Missing original Projects title image');
   check(!state.visibleText.includes('All projects'),'Duplicate project heading must be removed');
