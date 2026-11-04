@@ -43,10 +43,5 @@
     "name": "UI Toolkit",
     "url": "https://img.shields.io/badge/UI%20Toolkit-1a232e?style=flat-square&logo=unity&logoColor=FFFFFF",
     "sha256": "a7cb3bc304404a145fe350a367000c907094416a4073adc6a714ab536bb828f5"
-  },
-  "codex": {
-    "name": "OpenAI Codex",
-    "url": "https://img.shields.io/badge/OpenAI%20Codex-1a232e?style=flat-square",
-    "sha256": "d924f3fba1045660344b5f47bba5bdeb63e7b7809ed8795ed0b9a8b09e6c0f8f"
   }
 }

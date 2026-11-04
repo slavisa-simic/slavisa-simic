@@ -30,7 +30,6 @@ const browser=await launch();const server=await serve();
 const report={readme_sha256:hash,checked_at:new Date().toISOString(),renderer:cache,viewports:[],images:{}};
 for(const match of readme.matchAll(/\b(?:src|srcset)="(assets\/[^"]+)"/g))report.images[match[1]]=crypto.createHash('sha256').update(await fs.readFile(path.join(root,match[1]))).digest('hex');
 function check(condition,message){if(!condition)throw new Error(message);}
-const data=JSON.parse(await fs.readFile(path.join(root,'assets/profile/activity.json'),'utf8'));
 try{
  const context=await browser.newContext({deviceScaleFactor:1,colorScheme:'dark',reducedMotion:'no-preference'});const page=await context.newPage();
  for(const width of [320,375,390,600,601,768,844,1024,1440]){

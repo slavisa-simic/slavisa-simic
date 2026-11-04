@@ -128,8 +128,6 @@ def carousel(mobile=False, light=False, reduced=False):
         color = t.get('light_color', t.get('color')) if light else t.get('color')
         items.append(image_tag(icon_uri(t['id'], color), x - size / 2, y + 8, size, size))
         items.append(image_tag(label_image(t['name'], spec['label_size'], ink, slot), x - slot / 2, y + 47, slot, 20))
-        if t['category'] == 'ai_tool':
-            items.append(image_tag(label_image('AI tool', 10, ink, slot, 16), x - slot / 2, y + 65, slot, 16))
     if reduced:
         svg.extend(items)
     else:

@@ -13,7 +13,7 @@ npx playwright install chromium
 py scripts/build.py --offline --preview --package
 ```
 
-Remove --offline to fetch fresh activity and the current avatar. Offline builds reuse their cached snapshots. The original 30-day featured-project snapshot remains hidden; the separate Commit Activity collector displays author-filtered commits over 365 days. Local commands do not commit or push.
+Remove --offline to fetch fresh commit activity and the current avatar. Offline builds reuse their cached snapshots. Commit Activity displays author-filtered commits over 365 days. Local commands do not commit or push.
 
 Browser previews use GitHub's Markdown API and current GitHub styles. The renderer can reuse installed Playwright Chromium or PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH. Verification covers responsive layout, native links, inactive Demo placeholders, theme variants, and both carousels.
 
@@ -25,9 +25,10 @@ Browser previews use GitHub's Markdown API and current GitHub styles. The render
 - src/README.template.md: the visible README structure.
 - scripts/tech_stack.py: responsive header, typography, contact alignment spacer, and About Me artwork.
 - scripts/build_carousel.py: existing project card styles, animation, and centered indicators.
-- scripts/build_project_table.py: screenshot thumbnails, repository button artwork, inactive Demo artwork, and retirement of old static cards.
+- scripts/build_project_table.py: screenshot thumbnails, repository button artwork, and inactive Demo artwork.
 - scripts/prepare_badges.py: locally cached Shields.io technology badges and their source checksums.
-- scripts/refresh_profile.py: native markup, real repository destinations, avatar updates, and the retained activity collector.
+- scripts/refresh_profile.py: native markup, real repository destinations, and avatar updates.
+- scripts/build_activity.py: the independent commit collector and activity card exports.
 - assets/profile/source/preview-provenance.json: original project-capture sources and checksums.
 
 Run py scripts/build_tech_carousel.py after adding a technology. New pinned icon URLs are cached once; --check-cache verifies the cache offline. The existing hourly workflow rebuilds both project visuals and the marquee before refreshing the avatar. Adding a showcase row requires a bundled capture and a showcase object on the configured project.
@@ -48,4 +49,4 @@ assets/previews/profile/ contains ignored desktop/mobile/light screenshots and b
 
 The published profile repository is https://github.com/slavisa-simic/slavisa-simic. Build commands only update the local checkout and export archives.
 
-The Projects and GitHub Activity title images use a six-second light sweep along their technical divider; About Me uses a matching perimeter highlight. Text stays still. Animated SVG sources are selected in both system motion settings, with the original static exports retained. Run `node scripts/verify_section_animation.mjs` after the profile preview to verify playback and seamless loops.
+The Projects and GitHub Activity title images use a six-second light sweep along their technical divider; About Me uses a matching perimeter highlight. Text stays still. Animated SVG sources are selected in both system motion settings. Run `node scripts/verify_section_animation.mjs` after the profile preview to verify playback and seamless loops.

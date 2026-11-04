@@ -9,7 +9,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--preview',action='store_true')
     parser.add_argument('--package',action='store_true')
-    parser.add_argument('--offline',action='store_true',help='Reuse the last valid activity snapshot')
+    parser.add_argument('--offline',action='store_true',help='Reuse the cached avatar and commit activity')
     args=parser.parse_args()
     run(sys.executable,'scripts/prepare_profile_sources.py')
     run(sys.executable,'scripts/prepare_badges.py')

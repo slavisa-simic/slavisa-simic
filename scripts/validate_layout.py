@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 import numpy as np
 from PIL import Image
 from profile_common import ROOT,CONFIG,OUT,MEDIA,SOURCE
-from tech_stack import STACK,description
+from tech_stack import description
 
 class Markup(HTMLParser):
     def __init__(self):super().__init__();self.assets=set();self.links=[];self.images=0
@@ -64,13 +64,8 @@ def main():
         assert sha256((SOURCE/name).read_bytes()).hexdigest()==record['sha256'],f'Source changed: {name}'
     for name,record in json.loads((SOURCE/'preview-provenance.json').read_text()).items():
         assert sha256((SOURCE/name).read_bytes()).hexdigest()==record['sha256'],f'Project preview changed: {name}'
-    stats=json.loads((OUT/'activity.json').read_text(encoding='utf-8'))
-    assert sum(d['commits'] for d in stats['daily'])==stats['total_commits']
-    assert len([d for d in stats['daily'] if d['commits']])==stats['active_days']
-    assert len(stats['recent'])<=CONFIG['recent_limit']
-    assert sum(p['commits_30d'] for p in stats['projects'])==stats['total_commits']
     for badge in json.loads((OUT/'badges/provenance.json').read_text()).values():assert badge['url'].startswith('https://img.shields.io/badge/')
-    report={'status':'passed','assets':len(markup.assets),'activity_commits':stats['total_commits'],'carousel_variants':{}}
+    report={'status':'passed','assets':len(markup.assets),'carousel_variants':{}}
     manifest=json.loads((MEDIA/'media-manifest.json').read_text())
     for name,expected in manifest.items():
         svg=ET.parse(MEDIA/f'{name}.svg');ns={'s':'http://www.w3.org/2000/svg'}

@@ -2,14 +2,6 @@ node_modules/
 .venv/
 __pycache__/
 *.pyc
-assets/blueprint/build/
 assets/profile/build/
-assets/previews/blueprint/vendor/
 dist/
-design-explorations/
-assets/generated/
 assets/previews/
-assets/source/system-core.png
-assets/source/vigil-node.png
-assets/source/potamorph-node.png
-assets/source/fonts/Oxanium*

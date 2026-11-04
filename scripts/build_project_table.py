@@ -26,11 +26,6 @@ def build_project_table():
         photo = Image.open(ROOT / project['showcase']['image']).convert('RGB')
         photo = ImageOps.contain(photo, (600, 338), Image.Resampling.LANCZOS)
         photo.save(MEDIA / f'project-{project["id"]}-preview.png', optimize=True)
-        # Retire only the generated static cards replaced by native README text.
-        for suffix in ('', '-light', '-mobile', '-mobile-light'):
-            (MEDIA / f'project-{project["id"]}{suffix}.svg').unlink(missing_ok=True)
-    for suffix in ('', '-light', '-mobile', '-mobile-light'):
-        (MEDIA / f'project-table-title{suffix}.svg').unlink(missing_ok=True)
     for light in (False, True):
         p = palette(light); suffix = '-light' if light else ''
         for disabled in (False, True):

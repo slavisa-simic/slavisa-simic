@@ -4,7 +4,6 @@ from zipfile import ZipFile,ZIP_DEFLATED
 from html.parser import HTMLParser
 import hashlib
 import json
-import re
 ROOT=Path(__file__).resolve().parents[1]
 
 class Assets(HTMLParser):
@@ -24,11 +23,10 @@ def main():
     ready=[ROOT/'README.md',ROOT/'docs/SOURCES.md',ROOT/'docs/COMMIT_ACTIVITY.md',ROOT/'assets/profile/icons/Devicon-LICENSE',ROOT/'assets/profile/icons/Simple-Icons-LICENSE',*[ROOT/p for p in parser.paths]]
     archive(out/'profile-ready.zip',ready)
     source=ready+[ROOT/p for p in ('.gitignore','.gitattributes','package.json','package-lock.json','requirements.txt')]
-    for folder in ('config','src','scripts','docs','tests','design-system','.github'):
+    for folder in ('config','src','scripts','docs','tests','.github'):
         source.extend(p for p in (ROOT/folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts)
     source.extend(p for p in (ROOT/'assets/profile').rglob('*') if p.is_file() and 'build' not in p.relative_to(ROOT/'assets/profile').parts)
-    source.extend(p for p in (ROOT/'assets/source/fonts').glob('*') if p.is_file() and not p.name.startswith('Oxanium'))
-    source.append(ROOT/'assets/source/personal-logo.png')
+    source.extend(p for p in (ROOT/'assets/source/fonts').glob('*') if p.is_file())
     archive(out/'profile-source.zip',source)
     # Verify both archives are readable and that all README images are included.
     for name in ('profile-ready.zip','profile-source.zip'):

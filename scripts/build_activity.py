@@ -1,5 +1,4 @@
 """Generate one shared Commit Activity card. Never publishes."""
-from pathlib import Path
 import argparse
 import json
 import os
@@ -29,8 +28,8 @@ def generate(config, data):
             files[MEDIA / name] = card(data, mobile, static)
     readme = (ROOT / 'README.md').read_text(encoding='utf-8')
     section = readme_section(config)
-    pattern = r'<!-- (?:repository-districts|commit-activity):start -->.*?<!-- (?:repository-districts|commit-activity):end -->'
-    if '<!-- repository-districts:start -->' in readme or '<!-- commit-activity:start -->' in readme:
+    pattern = r'<!-- commit-activity:start -->.*?<!-- commit-activity:end -->'
+    if '<!-- commit-activity:start -->' in readme:
         readme, count = re.subn(pattern, lambda _: section, readme, flags=re.S)
         if count != 1:
             raise ValueError('Expected exactly one Commit Activity section')
@@ -76,11 +75,6 @@ def build(offline=False):
         os.replace(temporary, path)
         changed.append(str(path.relative_to(ROOT)))
     changed.extend(export_animations())
-    # Retire only assets owned by this generator, after the new set is complete.
-    for path in MEDIA.glob('activity-*.svg'):
-        if path not in files:
-            path.unlink()
-            changed.append(str(path.relative_to(ROOT)))
     return {'changedFiles': changed, 'window': [data['windowStart'], data['windowEnd']],
             'projects': {p['repo']: p['statistics'] for p in data['projects']}}
 

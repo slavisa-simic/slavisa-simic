@@ -56,18 +56,18 @@ jobs:
         run: python scripts/build_profile_assets.py
       - name: Build technology carousel
         run: python scripts/build_tech_carousel.py
-      - name: Fetch public activity and current avatar
+      - name: Fetch current avatar and render README
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python scripts/refresh_profile.py
       - name: Commit changed snapshot
         run: |
-          git add README.md assets/profile/activity.json assets/profile/avatar.json assets/profile/generated assets/profile/icons assets/profile/badges
+          git add README.md assets/profile/avatar.json assets/profile/generated assets/profile/icons assets/profile/badges
           if git diff --cached --quiet; then
             echo "Profile snapshot is unchanged."
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'Refresh public activity and profile avatar'
+          git commit -m 'Refresh profile avatar'
           git push origin HEAD:main

@@ -4,7 +4,7 @@ from urllib.parse import quote,urlencode
 import hashlib,json
 from profile_common import ROOT
 
-BADGES=[('java','Java','openjdk','ED8B00'),('spring-boot','Spring Boot','springboot','6DB33F'),('react','React','react','61DAFB'),('typescript','TypeScript','typescript','3178C6'),('postgresql','PostgreSQL','postgresql','73A7D3'),('docker','Docker','docker','2496ED'),('unity','Unity','unity','FFFFFF'),('csharp','C#',None,None),('ui-toolkit','UI Toolkit','unity','FFFFFF'),('codex','OpenAI Codex',None,None)]
+BADGES=[('java','Java','openjdk','ED8B00'),('spring-boot','Spring Boot','springboot','6DB33F'),('react','React','react','61DAFB'),('typescript','TypeScript','typescript','3178C6'),('postgresql','PostgreSQL','postgresql','73A7D3'),('docker','Docker','docker','2496ED'),('unity','Unity','unity','FFFFFF'),('csharp','C#',None,None),('ui-toolkit','UI Toolkit','unity','FFFFFF')]
 
 def main():
     out=ROOT/'assets/profile/badges';out.mkdir(parents=True,exist_ok=True);manifest={}

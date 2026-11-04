@@ -8,7 +8,6 @@
   "label_size": 12,
   "edge_fade": 14,
   "decoration_right_gutter": 48,
-  "capabilities": ["REST APIs", "Authentication"],
   "technologies": [
     {
       "id": "java",

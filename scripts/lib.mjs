@@ -5,7 +5,6 @@ import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 
 export const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const config = JSON.parse(await fs.readFile(path.join(root, 'config/network.json'), 'utf8'));
 export async function launch() {
   let executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH;
   if (!executablePath) {

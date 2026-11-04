@@ -3,7 +3,7 @@ from PIL import Image,ImageDraw,ImageOps
 from html import escape
 import hashlib
 import json
-from profile_common import ROOT,CONFIG,OUT,MEDIA
+from profile_common import ROOT,CONFIG,MEDIA
 
 def draw_slide(project,index,mobile):
     # Import authored typography without importing this module back from the builder.
@@ -55,7 +55,6 @@ def build_carousel():
         slides=[];logos=[]
         for i,project in enumerate(CONFIG['projects']):
             slide,record=draw_slide(project,i,mobile);slides.append(slide);logos.append(record)
-            slide.save(OUT/'build'/f'carousel-{project["id"]}{"-mobile" if mobile else ""}.png',optimize=True)
         w,h=slides[0].size;footer=48;body=h-footer
         title='Projects carousel — '+', '.join(p['name'] for p in CONFIG['projects'])
         svg=[f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img"><title>{escape(title)}</title><desc>One project at a time. Each project is held for three seconds. Open the carousel to reach the projects list.</desc><defs><clipPath id="frame"><rect width="{w}" height="{h}"/></clipPath></defs><g clip-path="url(#frame)"><g id="track">']

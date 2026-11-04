@@ -1,20 +1,14 @@
 {
   "owner": "slavisa-simic",
   "name": "Slaviša Simić",
-  "roles": [
-    "Software Engineer"
-  ],
   "intro": "I build backend services and full-stack applications.",
   "linkedin": "https://www.linkedin.com/in/slavi%C5%A1a-simi%C4%87-1879bb438/",
-  "activity_days": 30,
-  "recent_limit": 3,
   "theme": {
     "background": "#101113",
     "surface": "#141619",
     "line": "#292c32",
     "text": "#edf0f4",
     "secondary": "#c3c8d0",
-    "muted": "#a4aab5",
     "silver": "#b9bfc8",
     "blue": "#82a9d5",
     "red": "#cc8a88"
@@ -34,10 +28,6 @@
       "id": "vigil",
       "name": "Vigil",
       "repository": "slavisa-simic/vigil",
-      "readme": "https://github.com/slavisa-simic/vigil/blob/main/README.md",
-      "caption": "Incident management, from report to resolution.",
-      "details_title": "Stack & architecture",
-      "details": "Java / Spring Boot API, PostgreSQL, React / TypeScript client, and Docker Compose. JWT authentication and role-based access control protect the incident workflow.",
       "logo": "assets/profile/source/vigil-logo.png",
       "accent": "#73a9f8",
       "logo_sha256": "fce01136a01affc3419a4a3d025e1d4dd2b749cc01eabecbc6a91f7496eec90b",
@@ -59,10 +49,6 @@
       "id": "potamorph",
       "name": "Potamorph",
       "repository": "slavisa-simic/tower-defense-ai",
-      "readme": "https://github.com/slavisa-simic/tower-defense-ai/blob/main/README.md",
-      "caption": "AI-assisted development, from a brief to a working prototype.",
-      "details_title": "Behind the build",
-      "details": "I set the direction and scope; Codex handled implementation and tooling. The resulting prototype, currently titled Border Defenders, uses Unity and C#. The repository retains phase briefs and validation reports.",
       "logo": "assets/profile/source/potamorph-logo.png",
       "accent": "#d99692",
       "logo_sha256": "f8d4c988597ac86eed14ab94be0ad6e8020eca0806032b466430f223aa733cc7",
