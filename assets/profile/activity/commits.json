@@ -6,8 +6,8 @@
   "scope": "Unique commits reachable from the selected branch, authored by configured identities; merge commits included",
   "timezone": "UTC",
   "periodDays": 365,
-  "windowStart": "2025-11-05",
-  "windowEnd": "2026-11-04",
+  "windowStart": "2025-11-06",
+  "windowEnd": "2026-11-05",
   "projects": [
     {
       "name": "Vigil",
@@ -130,10 +130,6 @@
         }
       ],
       "daily": [
-        {
-          "date": "2025-11-05",
-          "commits": 0
-        },
         {
           "date": "2025-11-06",
           "commits": 0
@@ -1589,6 +1585,10 @@
         {
           "date": "2026-11-04",
           "commits": 0
+        },
+        {
+          "date": "2026-11-05",
+          "commits": 0
         }
       ],
       "statistics": {
@@ -1688,10 +1688,6 @@
         }
       ],
       "daily": [
-        {
-          "date": "2025-11-05",
-          "commits": 0
-        },
         {
           "date": "2025-11-06",
           "commits": 0
@@ -3146,6 +3142,10 @@
         },
         {
           "date": "2026-11-04",
+          "commits": 0
+        },
+        {
+          "date": "2026-11-05",
           "commits": 0
         }
       ],
