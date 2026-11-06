@@ -6,8 +6,8 @@
   "scope": "Unique commits reachable from the selected branch, authored by configured identities; merge commits included",
   "timezone": "UTC",
   "periodDays": 365,
-  "windowStart": "2025-11-06",
-  "windowEnd": "2026-11-05",
+  "windowStart": "2025-11-07",
+  "windowEnd": "2026-11-06",
   "projects": [
     {
       "name": "Vigil",
@@ -16,124 +16,155 @@
       "enabled": true,
       "slot": 1,
       "branch": "main",
-      "headSha": "d53911015121bf59455ca638ba4bc268b3a35878",
+      "headSha": "f6416ad0bfcd23868b2b2e86863a6241b5809b01",
       "commits": [
         {
-          "sha": "6811836ab7d7619e9e3a852bc61b35f53eca5724",
+          "sha": "b68193f8a537c4da39d84657008afe0f356cd362",
           "date": "2026-09-29",
           "authoredAt": "2026-09-29T14:44:08+00:00"
         },
         {
-          "sha": "a4647d843d162ab1e340f4e11476ff962f16b40b",
+          "sha": "f2a937b029444d40b0f8686c0992b4026b598afc",
           "date": "2026-09-29",
           "authoredAt": "2026-09-29T16:13:54+00:00"
         },
         {
-          "sha": "75c7edd8d9654bf25078643ed6650d9ea3b8f5d7",
-          "date": "2026-10-01",
-          "authoredAt": "2026-10-01T11:44:57+00:00"
-        },
-        {
-          "sha": "e2f69627de23d351b6736a114ce2811d2cc44c17",
+          "sha": "282f0e92bfc0cc9f3d3862bf4311ed6943f3d743",
           "date": "2026-10-01",
           "authoredAt": "2026-10-01T16:29:15+00:00"
         },
         {
-          "sha": "655f218dd70f7cc220ea71407b48d76d7d5ec49f",
-          "date": "2026-10-04",
-          "authoredAt": "2026-10-04T12:47:36+00:00"
+          "sha": "ad4c853ac13fe3a7e97f920810a1c1c03f0a93ab",
+          "date": "2026-10-01",
+          "authoredAt": "2026-10-01T11:44:57+00:00"
         },
         {
-          "sha": "f6e7efdf40032e8876769c51f4e20137fa1c976f",
-          "date": "2026-10-04",
-          "authoredAt": "2026-10-04T12:48:49+00:00"
-        },
-        {
-          "sha": "f9563457c732f7cce2199321762e3339c7cb2043",
+          "sha": "13edf91a20b72c9063789b6539de6d3460c30441",
           "date": "2026-10-04",
           "authoredAt": "2026-10-04T22:54:24+00:00"
         },
         {
-          "sha": "1aaebf6fbb374b3405b991389b8cde002424057d",
-          "date": "2026-10-05",
-          "authoredAt": "2026-10-05T15:01:31+00:00"
+          "sha": "575ca1d7fc34c9a5bcd1693b6b02265b8775a5ff",
+          "date": "2026-10-04",
+          "authoredAt": "2026-10-04T12:47:36+00:00"
         },
         {
-          "sha": "dea9113e3283823ad7d2ea1177fa83c9920c6925",
+          "sha": "84ce39966654c93b2e4d45ba8d306c9aa2fb2528",
+          "date": "2026-10-04",
+          "authoredAt": "2026-10-04T12:48:49+00:00"
+        },
+        {
+          "sha": "6a05b4b0f5bf1141b334d0d076af38ace7234c2c",
           "date": "2026-10-05",
           "authoredAt": "2026-10-05T15:51:45+00:00"
         },
         {
-          "sha": "3c5eba14e23e1fb5e40171b8314d8232b60f7c8f",
-          "date": "2026-10-06",
-          "authoredAt": "2026-10-06T11:37:45+00:00"
+          "sha": "a22bc950fb87f4097ee4c83b6cf92cf60017be86",
+          "date": "2026-10-05",
+          "authoredAt": "2026-10-05T15:01:31+00:00"
         },
         {
-          "sha": "aeeac0c26707d49f3eebe48becc7e544d19840cd",
+          "sha": "04477ec3bf1da6bfa172340b4c61684f70a2647a",
           "date": "2026-10-06",
           "authoredAt": "2026-10-06T14:00:00+00:00"
         },
         {
-          "sha": "1aa94be0572be20fbfc6d086d1125531daa3dbce",
-          "date": "2026-10-08",
-          "authoredAt": "2026-10-08T15:19:41+00:00"
+          "sha": "500788724626a58f19eb85a876180c68b20999de",
+          "date": "2026-10-06",
+          "authoredAt": "2026-10-06T11:37:45+00:00"
         },
         {
-          "sha": "cf578c4cd6a14b42eb6e8f93167a9f7069e77ee7",
+          "sha": "bd00aa30afafd3d3f5af6935e092c3df5ff2764c",
           "date": "2026-10-08",
           "authoredAt": "2026-10-08T13:36:27+00:00"
         },
         {
-          "sha": "824b4337c8a80eabe0872734f3b7dc09091249d6",
+          "sha": "ffb5e2fad0e4e28650dfd8be63bca6aacd3539b1",
+          "date": "2026-10-08",
+          "authoredAt": "2026-10-08T15:19:41+00:00"
+        },
+        {
+          "sha": "bf57396a5952b263238e5d586c1a075c703e3d0d",
           "date": "2026-10-19",
           "authoredAt": "2026-10-19T22:00:47+00:00"
         },
         {
-          "sha": "6ee369fd7f42c2bc624f772aed54f12b635ce5aa",
+          "sha": "3e1aad732feac941911a39771d4edeb610c18940",
           "date": "2026-10-21",
           "authoredAt": "2026-10-21T08:34:00+00:00"
         },
         {
-          "sha": "9be8d9603c060b86f3b6357d7eb4b842fec1b453",
+          "sha": "4c251559a8010d7388be61fc45f0f0819a00a1d2",
           "date": "2026-10-21",
           "authoredAt": "2026-10-21T19:27:14+00:00"
         },
         {
-          "sha": "08a30d2ba9cdbecfb17d7d660bdb6bb603f2fe90",
+          "sha": "086350c5f35364e9de6b2112ab98bb61aae18f10",
           "date": "2026-10-22",
           "authoredAt": "2026-10-22T14:46:30+00:00"
         },
         {
-          "sha": "83ce756d5949470a62acbc7c34df061edf5a67fd",
+          "sha": "85eb8351e6c349d259ae4e3bd55a97a941d688d9",
           "date": "2026-10-22",
           "authoredAt": "2026-10-22T14:46:37+00:00"
         },
         {
-          "sha": "e48bb00e7af2ae7281fa9c00a24512d7b52e1a3c",
+          "sha": "9504fbcaa3ef31f558023e56dbbd9a54f0ad7b91",
           "date": "2026-10-22",
           "authoredAt": "2026-10-22T14:46:49+00:00"
         },
         {
-          "sha": "ed223357cfc5ba7888e307e9e8a5975d9f7c5355",
+          "sha": "fe4b8f367108009a0b3977bcdccb3711e338ba62",
           "date": "2026-10-22",
           "authoredAt": "2026-10-22T14:46:50+00:00"
         },
         {
-          "sha": "eec962e9794608725b4745d3c65b082665838162",
+          "sha": "15a7436176adfb7a082339de50f483bcc384520a",
           "date": "2026-10-23",
           "authoredAt": "2026-10-23T15:33:49+00:00"
         },
         {
-          "sha": "d53911015121bf59455ca638ba4bc268b3a35878",
+          "sha": "39e9873ef6ac0204b1c40e2bbe09d25d91c41203",
           "date": "2026-10-25",
           "authoredAt": "2026-10-25T00:28:14+00:00"
+        },
+        {
+          "sha": "6de145f5b78ccb7f2bc20654fff8d99c7bce64cc",
+          "date": "2026-11-04",
+          "authoredAt": "2026-11-04T20:50:29+00:00"
+        },
+        {
+          "sha": "b50e59ec6d58b20e618bff3bd48f702bee2c4efe",
+          "date": "2026-11-04",
+          "authoredAt": "2026-11-04T18:21:19+00:00"
+        },
+        {
+          "sha": "df066536ecd17ff401d04c520670f84668775577",
+          "date": "2026-11-04",
+          "authoredAt": "2026-11-04T18:21:20+00:00"
+        },
+        {
+          "sha": "3142e8935580257753b551cf78134f704635d463",
+          "date": "2026-11-05",
+          "authoredAt": "2026-11-05T19:50:10+00:00"
+        },
+        {
+          "sha": "d2265b4349d412800cbf2aff328e313538ad8963",
+          "date": "2026-11-05",
+          "authoredAt": "2026-11-05T19:50:22+00:00"
+        },
+        {
+          "sha": "f4963545aba4ba3378053da54c8af37577de3a56",
+          "date": "2026-11-05",
+          "authoredAt": "2026-11-05T19:50:23+00:00"
+        },
+        {
+          "sha": "f6416ad0bfcd23868b2b2e86863a6241b5809b01",
+          "date": "2026-11-05",
+          "authoredAt": "2026-11-05T19:50:23+00:00"
         }
       ],
       "daily": [
-        {
-          "date": "2025-11-06",
-          "commits": 0
-        },
         {
           "date": "2025-11-07",
           "commits": 0
@@ -1584,21 +1615,25 @@
         },
         {
           "date": "2026-11-04",
-          "commits": 0
+          "commits": 3
         },
         {
           "date": "2026-11-05",
+          "commits": 4
+        },
+        {
+          "date": "2026-11-06",
           "commits": 0
         }
       ],
       "statistics": {
-        "totalCommits": 22,
-        "activeDays": 11,
+        "totalCommits": 29,
+        "activeDays": 13,
         "mostActiveMonths": [
           "2026-10"
         ],
         "mostActiveMonthCommits": 20,
-        "lastCommitDate": "2026-10-25",
+        "lastCommitDate": "2026-11-05",
         "maxDailyCommits": 4
       }
     },
@@ -1688,10 +1723,6 @@
         }
       ],
       "daily": [
-        {
-          "date": "2025-11-06",
-          "commits": 0
-        },
         {
           "date": "2025-11-07",
           "commits": 0
@@ -3146,6 +3177,10 @@
         },
         {
           "date": "2026-11-05",
+          "commits": 0
+        },
+        {
+          "date": "2026-11-06",
           "commits": 0
         }
       ],
