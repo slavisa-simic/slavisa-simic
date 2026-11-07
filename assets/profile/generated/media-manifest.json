@@ -4,7 +4,7 @@
     "motion": "slide",
     "width": 1000,
     "height": 380,
-    "bytes": 290664,
+    "bytes": 292052,
     "duration_ms": 6800,
     "hold_ms": 3000,
     "transition_ms": 400,
@@ -12,7 +12,7 @@
       "linoryx",
       "potamorph"
     ],
-    "sha256": "47a3c7148e449394fa5be50da546b8257da4749d0f115baad7aecbabf1a5e110",
+    "sha256": "9ad1db7a26f7186230e80d8d98d8d89e03d7a0505d2f55cdf30c426ad0e6722e",
     "logos": [
       {
         "file": "assets/profile/source/linoryx-logo.png",
@@ -69,7 +69,7 @@
     "motion": "cut",
     "width": 1000,
     "height": 380,
-    "bytes": 290497,
+    "bytes": 291885,
     "duration_ms": 6000,
     "hold_ms": 3000,
     "transition_ms": 0,
@@ -77,7 +77,7 @@
       "linoryx",
       "potamorph"
     ],
-    "sha256": "f31d80903054532aa009f46820f78c5e4cd4ba22242365a9bc74309a2a9126ee",
+    "sha256": "8b229f74ee8c8be40b7a610724c759fbf9469dc0706623d21b3adb719b62f893",
     "logos": [
       {
         "file": "assets/profile/source/linoryx-logo.png",
@@ -134,7 +134,7 @@
     "motion": "slide",
     "width": 480,
     "height": 450,
-    "bytes": 204244,
+    "bytes": 205468,
     "duration_ms": 6800,
     "hold_ms": 3000,
     "transition_ms": 400,
@@ -142,7 +142,7 @@
       "linoryx",
       "potamorph"
     ],
-    "sha256": "a44721226ee62fc0c83c2602c2c18005d0dce80d9742f86712d814cd0103cf90",
+    "sha256": "8180a3cc9e433628d978665593f122364e72efe755c19b989bf1bb108cdf4da0",
     "logos": [
       {
         "file": "assets/profile/source/linoryx-logo.png",
@@ -199,7 +199,7 @@
     "motion": "cut",
     "width": 480,
     "height": 450,
-    "bytes": 204078,
+    "bytes": 205302,
     "duration_ms": 6000,
     "hold_ms": 3000,
     "transition_ms": 0,
@@ -207,7 +207,7 @@
       "linoryx",
       "potamorph"
     ],
-    "sha256": "03d06fcd4e33a8702f6cadca1e427c5f28a527d411bd00b0536a9679d142669b",
+    "sha256": "86fe35aaa70222ecb944a5c640869f844c2190c0213e38b40806388d8a941aaa",
     "logos": [
       {
         "file": "assets/profile/source/linoryx-logo.png",
