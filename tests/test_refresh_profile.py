@@ -78,7 +78,7 @@ class ProfileRefresh(TestCase):
 
     def test_project_showcase_renders_without_activity_snapshot(self):
         readme=profile.render()
-        self.assertIn('<strong>Vigil</strong>',readme)
+        self.assertIn('<strong>Linoryx</strong>',readme)
         self.assertIn('<!-- commit-activity:start -->',readme)
         self.assertNotIn('{{',readme)
         self.assertNotIn('hourly sync',readme)

@@ -4,34 +4,34 @@
     "motion": "slide",
     "width": 1000,
     "height": 380,
-    "bytes": 370578,
+    "bytes": 290664,
     "duration_ms": 6800,
     "hold_ms": 3000,
     "transition_ms": 400,
     "projects": [
-      "vigil",
+      "linoryx",
       "potamorph"
     ],
-    "sha256": "7dae602381b448f1714a53012c5cc2349b23b33fdce6e9a299aa2276dfd06262",
+    "sha256": "47a3c7148e449394fa5be50da546b8257da4749d0f115baad7aecbabf1a5e110",
     "logos": [
       {
-        "file": "assets/profile/source/vigil-logo.png",
-        "source_sha256": "fce01136a01affc3419a4a3d025e1d4dd2b749cc01eabecbc6a91f7496eec90b",
+        "file": "assets/profile/source/linoryx-logo.png",
+        "source_sha256": "93001d41499aedf948589ea3f146b7dc7bf4c57ebca0b5dbeafc2cae30a9476e",
         "crop": [
-          257,
-          202,
-          1010,
-          1101
+          120,
+          37,
+          904,
+          975
         ],
         "position": [
-          662,
+          663,
           33
         ],
         "size": [
-          228,
+          227,
           272
         ],
-        "background": "#edf4fd",
+        "background": "#F7F5F2",
         "operations": [
           "crop near-transparent outer padding",
           "proportional resize",
@@ -69,34 +69,34 @@
     "motion": "cut",
     "width": 1000,
     "height": 380,
-    "bytes": 370411,
+    "bytes": 290497,
     "duration_ms": 6000,
     "hold_ms": 3000,
     "transition_ms": 0,
     "projects": [
-      "vigil",
+      "linoryx",
       "potamorph"
     ],
-    "sha256": "fc86e1463ff31f605e45e9e89c0ad767d686e65fad3f324836ecabac032adcfc",
+    "sha256": "f31d80903054532aa009f46820f78c5e4cd4ba22242365a9bc74309a2a9126ee",
     "logos": [
       {
-        "file": "assets/profile/source/vigil-logo.png",
-        "source_sha256": "fce01136a01affc3419a4a3d025e1d4dd2b749cc01eabecbc6a91f7496eec90b",
+        "file": "assets/profile/source/linoryx-logo.png",
+        "source_sha256": "93001d41499aedf948589ea3f146b7dc7bf4c57ebca0b5dbeafc2cae30a9476e",
         "crop": [
-          257,
-          202,
-          1010,
-          1101
+          120,
+          37,
+          904,
+          975
         ],
         "position": [
-          662,
+          663,
           33
         ],
         "size": [
-          228,
+          227,
           272
         ],
-        "background": "#edf4fd",
+        "background": "#F7F5F2",
         "operations": [
           "crop near-transparent outer padding",
           "proportional resize",
@@ -134,34 +134,34 @@
     "motion": "slide",
     "width": 480,
     "height": 450,
-    "bytes": 257370,
+    "bytes": 204244,
     "duration_ms": 6800,
     "hold_ms": 3000,
     "transition_ms": 400,
     "projects": [
-      "vigil",
+      "linoryx",
       "potamorph"
     ],
-    "sha256": "0e13eb2c08753b1208f7b4b93d7f9ab2f243edcecbbc9c4530d50ce628277bd8",
+    "sha256": "a44721226ee62fc0c83c2602c2c18005d0dce80d9742f86712d814cd0103cf90",
     "logos": [
       {
-        "file": "assets/profile/source/vigil-logo.png",
-        "source_sha256": "fce01136a01affc3419a4a3d025e1d4dd2b749cc01eabecbc6a91f7496eec90b",
+        "file": "assets/profile/source/linoryx-logo.png",
+        "source_sha256": "93001d41499aedf948589ea3f146b7dc7bf4c57ebca0b5dbeafc2cae30a9476e",
         "crop": [
-          257,
-          202,
-          1010,
-          1101
+          120,
+          37,
+          904,
+          975
         ],
         "position": [
-          146,
+          147,
           157
         ],
         "size": [
-          188,
+          187,
           224
         ],
-        "background": "#edf4fd",
+        "background": "#F7F5F2",
         "operations": [
           "crop near-transparent outer padding",
           "proportional resize",
@@ -199,34 +199,34 @@
     "motion": "cut",
     "width": 480,
     "height": 450,
-    "bytes": 257204,
+    "bytes": 204078,
     "duration_ms": 6000,
     "hold_ms": 3000,
     "transition_ms": 0,
     "projects": [
-      "vigil",
+      "linoryx",
       "potamorph"
     ],
-    "sha256": "2baf4e66032dde20967b8f04c5d8523aa6b684db30ad6b09a41a6349bf091c1b",
+    "sha256": "03d06fcd4e33a8702f6cadca1e427c5f28a527d411bd00b0536a9679d142669b",
     "logos": [
       {
-        "file": "assets/profile/source/vigil-logo.png",
-        "source_sha256": "fce01136a01affc3419a4a3d025e1d4dd2b749cc01eabecbc6a91f7496eec90b",
+        "file": "assets/profile/source/linoryx-logo.png",
+        "source_sha256": "93001d41499aedf948589ea3f146b7dc7bf4c57ebca0b5dbeafc2cae30a9476e",
         "crop": [
-          257,
-          202,
-          1010,
-          1101
+          120,
+          37,
+          904,
+          975
         ],
         "position": [
-          146,
+          147,
           157
         ],
         "size": [
-          188,
+          187,
           224
         ],
-        "background": "#edf4fd",
+        "background": "#F7F5F2",
         "operations": [
           "crop near-transparent outer padding",
           "proportional resize",

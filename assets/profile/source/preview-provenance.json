@@ -1,18 +1,12 @@
 {
-  "vigil-preview.png": {
-    "source": "https://github.com/slavisa-simic/vigil/blob/main/docs/readme/sign-in.png",
-    "sha256": "9518190302536bcfda258697be0958c538cc4d8cc025c79c3bf29aaa188af82c",
-    "size": [
-      1280,
-      720
-    ]
+  "linoryx-preview.png": {
+    "source": "User-supplied Linoryx application screenshot",
+    "sha256": "d7c4f86a12ef37b88e36909b2b06fc9315af24e657be78586ad7a87a2cc5d972",
+    "size": [1920, 950]
   },
   "potamorph-preview.png": {
     "source": "https://github.com/slavisa-simic/tower-defense-ai/blob/715548fccbd02a156cc8f6ab12160b1adc938e74/Docs/Readme/Media/industrial-port.png",
     "sha256": "f92c3e4869df3d2af9b23777cbded8a84ac07d882d0df29b3a0f04f78b4233fb",
-    "size": [
-      960,
-      540
-    ]
+    "size": [960, 540]
   }
 }

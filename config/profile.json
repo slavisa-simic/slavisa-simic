@@ -25,16 +25,16 @@
   },
   "projects": [
     {
-      "id": "vigil",
-      "name": "Vigil",
-      "repository": "slavisa-simic/vigil",
-      "logo": "assets/profile/source/vigil-logo.png",
-      "accent": "#73a9f8",
-      "logo_sha256": "fce01136a01affc3419a4a3d025e1d4dd2b749cc01eabecbc6a91f7496eec90b",
+      "id": "linoryx",
+      "name": "Linoryx",
+      "repository": "slavisa-simic/linoryx",
+      "logo": "assets/profile/source/linoryx-logo.png",
+      "accent": "#D05445",
+      "logo_sha256": "93001d41499aedf948589ea3f146b7dc7bf4c57ebca0b5dbeafc2cae30a9476e",
       "showcase": {
-        "image": "assets/profile/source/vigil-preview.png",
-        "kind": "Incident management platform",
-        "description": "A full-stack app for reporting and managing IT incidents, with role-based access and an audit log.",
+        "image": "assets/profile/source/linoryx-preview.png",
+        "kind": "Telecom operations platform",
+        "description": "A full-stack platform for managing telecom services, customer reports, incidents and technician workflows, with role-based access and audit logging.",
         "stack": [
           "Java",
           "Spring Boot",
@@ -56,11 +56,7 @@
         "image": "assets/profile/source/potamorph-preview.png",
         "kind": "Tower-defense game",
         "description": "A tower-defense prototype set on the Danube, with aquatic enemies, defense upgrades, and two maps.",
-        "stack": [
-          "Unity",
-          "C#",
-          "UI Toolkit"
-        ],
+        "stack": ["Unity", "C#", "UI Toolkit"],
         "note": "Built with OpenAI Codex"
       }
     }

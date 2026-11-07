@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "configSha256": "605bceaa5a253fa8cd45c4741e38bb16a862e193453db0047597f2f5f26303b8",
+  "configSha256": "683b32e48c9359a6fe666aad75ecf75e789c32c83bb95cb33134d9ab812cd270",
   "label": "Repository Commit Activity",
   "dateField": "commit.author.date",
   "scope": "Unique commits reachable from the selected branch, authored by configured identities; merge commits included",
@@ -10,9 +10,9 @@
   "windowEnd": "2026-11-07",
   "projects": [
     {
-      "name": "Vigil",
-      "repo": "slavisa-simic/vigil",
-      "color": "#59A8E8",
+      "name": "Linoryx",
+      "repo": "slavisa-simic/linoryx",
+      "color": "#D05445",
       "enabled": true,
       "slot": 1,
       "branch": "main",

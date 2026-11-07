@@ -1,7 +1,7 @@
 {
-  "vigil-logo.png": {
-    "source": "User-supplied official Vigil logo",
-    "sha256": "fce01136a01affc3419a4a3d025e1d4dd2b749cc01eabecbc6a91f7496eec90b"
+  "linoryx-logo.png": {
+    "source": "User-supplied official Linoryx logo",
+    "sha256": "93001d41499aedf948589ea3f146b7dc7bf4c57ebca0b5dbeafc2cae30a9476e"
   },
   "potamorph-logo.png": {
     "source": "User-supplied official Potamorph logo",
