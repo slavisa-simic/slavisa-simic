@@ -6,8 +6,8 @@
   "scope": "Unique commits reachable from the selected branch, authored by configured identities; merge commits included",
   "timezone": "UTC",
   "periodDays": 365,
-  "windowStart": "2025-11-07",
-  "windowEnd": "2026-11-06",
+  "windowStart": "2025-11-08",
+  "windowEnd": "2026-11-07",
   "projects": [
     {
       "name": "Vigil",
@@ -16,7 +16,7 @@
       "enabled": true,
       "slot": 1,
       "branch": "main",
-      "headSha": "f6416ad0bfcd23868b2b2e86863a6241b5809b01",
+      "headSha": "1976ba7130861ec64bb5a7b718af3ae03948b645",
       "commits": [
         {
           "sha": "b68193f8a537c4da39d84657008afe0f356cd362",
@@ -149,9 +149,29 @@
           "authoredAt": "2026-11-05T19:50:10+00:00"
         },
         {
+          "sha": "447f9ea054d88ff53255ff365fd3312d10ef4965",
+          "date": "2026-11-05",
+          "authoredAt": "2026-11-05T23:13:23+00:00"
+        },
+        {
+          "sha": "4e5af69de0bd0c593072f890e0d13633ac23b2f6",
+          "date": "2026-11-05",
+          "authoredAt": "2026-11-05T23:10:37+00:00"
+        },
+        {
+          "sha": "d0c1643ab74177b11036564d54d6135196e21e9a",
+          "date": "2026-11-05",
+          "authoredAt": "2026-11-05T23:12:37+00:00"
+        },
+        {
           "sha": "d2265b4349d412800cbf2aff328e313538ad8963",
           "date": "2026-11-05",
           "authoredAt": "2026-11-05T19:50:22+00:00"
+        },
+        {
+          "sha": "f41d982172cafb312473e717bc871106f83073b3",
+          "date": "2026-11-05",
+          "authoredAt": "2026-11-05T23:13:00+00:00"
         },
         {
           "sha": "f4963545aba4ba3378053da54c8af37577de3a56",
@@ -162,13 +182,44 @@
           "sha": "f6416ad0bfcd23868b2b2e86863a6241b5809b01",
           "date": "2026-11-05",
           "authoredAt": "2026-11-05T19:50:23+00:00"
+        },
+        {
+          "sha": "0c42ea9968707ce519518fa05debf9f3f4627c7c",
+          "date": "2026-11-06",
+          "authoredAt": "2026-11-06T21:05:01+00:00"
+        },
+        {
+          "sha": "1813d7c18d58a8b30c4cf878fa8e0a7fef77229f",
+          "date": "2026-11-06",
+          "authoredAt": "2026-11-06T22:45:45+00:00"
+        },
+        {
+          "sha": "1976ba7130861ec64bb5a7b718af3ae03948b645",
+          "date": "2026-11-06",
+          "authoredAt": "2026-11-06T23:48:04+00:00"
+        },
+        {
+          "sha": "325d2eab07100dbf0755439b4161d4080c54b0ec",
+          "date": "2026-11-06",
+          "authoredAt": "2026-11-06T21:05:20+00:00"
+        },
+        {
+          "sha": "6acad1b090b9f0874bbe7709a420c635f95d7beb",
+          "date": "2026-11-06",
+          "authoredAt": "2026-11-06T22:07:09+00:00"
+        },
+        {
+          "sha": "ba24d9c15710147b1fb797085ff75724eac68c3f",
+          "date": "2026-11-06",
+          "authoredAt": "2026-11-06T21:05:10+00:00"
+        },
+        {
+          "sha": "fbab0d0066823a73f45b41afbaef9035598d3744",
+          "date": "2026-11-06",
+          "authoredAt": "2026-11-06T22:39:47+00:00"
         }
       ],
       "daily": [
-        {
-          "date": "2025-11-07",
-          "commits": 0
-        },
         {
           "date": "2025-11-08",
           "commits": 0
@@ -1619,22 +1670,26 @@
         },
         {
           "date": "2026-11-05",
-          "commits": 4
+          "commits": 8
         },
         {
           "date": "2026-11-06",
+          "commits": 7
+        },
+        {
+          "date": "2026-11-07",
           "commits": 0
         }
       ],
       "statistics": {
-        "totalCommits": 29,
-        "activeDays": 13,
+        "totalCommits": 40,
+        "activeDays": 14,
         "mostActiveMonths": [
           "2026-10"
         ],
         "mostActiveMonthCommits": 20,
-        "lastCommitDate": "2026-11-05",
-        "maxDailyCommits": 4
+        "lastCommitDate": "2026-11-06",
+        "maxDailyCommits": 8
       }
     },
     {
@@ -1723,10 +1778,6 @@
         }
       ],
       "daily": [
-        {
-          "date": "2025-11-07",
-          "commits": 0
-        },
         {
           "date": "2025-11-08",
           "commits": 0
@@ -3181,6 +3232,10 @@
         },
         {
           "date": "2026-11-06",
+          "commits": 0
+        },
+        {
+          "date": "2026-11-07",
           "commits": 0
         }
       ],
