@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "configSha256": "683b32e48c9359a6fe666aad75ecf75e789c32c83bb95cb33134d9ab812cd270",
+  "configSha256": "dd3c4b8263968e33062604df48b09f64640d33c169e0f2905d56b51a6d56ca9e",
   "label": "Repository Commit Activity",
   "dateField": "commit.author.date",
   "scope": "Unique commits reachable from the selected branch, authored by configured identities; merge commits included",
@@ -12,7 +12,7 @@
     {
       "name": "Linoryx",
       "repo": "slavisa-simic/linoryx",
-      "color": "#D05445",
+      "color": "#E7DED5",
       "enabled": true,
       "slot": 1,
       "branch": "main",
