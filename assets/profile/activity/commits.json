@@ -6,8 +6,8 @@
   "scope": "Unique commits reachable from the selected branch, authored by configured identities; merge commits included",
   "timezone": "UTC",
   "periodDays": 365,
-  "windowStart": "2025-11-08",
-  "windowEnd": "2026-11-07",
+  "windowStart": "2025-11-09",
+  "windowEnd": "2026-11-08",
   "projects": [
     {
       "name": "Linoryx",
@@ -16,7 +16,7 @@
       "enabled": true,
       "slot": 1,
       "branch": "main",
-      "headSha": "1976ba7130861ec64bb5a7b718af3ae03948b645",
+      "headSha": "7f2a894e0875cec62e0b0d6d4f7972f9f7b27c24",
       "commits": [
         {
           "sha": "b68193f8a537c4da39d84657008afe0f356cd362",
@@ -217,13 +217,24 @@
           "sha": "fbab0d0066823a73f45b41afbaef9035598d3744",
           "date": "2026-11-06",
           "authoredAt": "2026-11-06T22:39:47+00:00"
+        },
+        {
+          "sha": "7f2a894e0875cec62e0b0d6d4f7972f9f7b27c24",
+          "date": "2026-11-07",
+          "authoredAt": "2026-11-07T22:48:34+00:00"
+        },
+        {
+          "sha": "e121649307ffb42f4024ec7c96f75489179b6e22",
+          "date": "2026-11-07",
+          "authoredAt": "2026-11-07T22:27:55+00:00"
+        },
+        {
+          "sha": "e4910dea09c5f69244610cd73d468a0d323c5144",
+          "date": "2026-11-07",
+          "authoredAt": "2026-11-07T21:12:27+00:00"
         }
       ],
       "daily": [
-        {
-          "date": "2025-11-08",
-          "commits": 0
-        },
         {
           "date": "2025-11-09",
           "commits": 0
@@ -1678,17 +1689,21 @@
         },
         {
           "date": "2026-11-07",
+          "commits": 3
+        },
+        {
+          "date": "2026-11-08",
           "commits": 0
         }
       ],
       "statistics": {
-        "totalCommits": 40,
-        "activeDays": 14,
+        "totalCommits": 43,
+        "activeDays": 15,
         "mostActiveMonths": [
-          "2026-10"
+          "2026-11"
         ],
-        "mostActiveMonthCommits": 20,
-        "lastCommitDate": "2026-11-06",
+        "mostActiveMonthCommits": 21,
+        "lastCommitDate": "2026-11-07",
         "maxDailyCommits": 8
       }
     },
@@ -1699,7 +1714,7 @@
       "enabled": true,
       "slot": 2,
       "branch": "main",
-      "headSha": "715548fccbd02a156cc8f6ab12160b1adc938e74",
+      "headSha": "c883d7db5929e4e7f24d2b9c56ad1dded9f73504",
       "commits": [
         {
           "sha": "06f0bca84597a9ece9e96324d762724a93f2ace9",
@@ -1775,13 +1790,14 @@
           "sha": "715548fccbd02a156cc8f6ab12160b1adc938e74",
           "date": "2026-11-03",
           "authoredAt": "2026-11-03T10:14:19+00:00"
+        },
+        {
+          "sha": "c883d7db5929e4e7f24d2b9c56ad1dded9f73504",
+          "date": "2026-11-07",
+          "authoredAt": "2026-11-07T19:23:29+00:00"
         }
       ],
       "daily": [
-        {
-          "date": "2025-11-08",
-          "commits": 0
-        },
         {
           "date": "2025-11-09",
           "commits": 0
@@ -3236,17 +3252,21 @@
         },
         {
           "date": "2026-11-07",
+          "commits": 1
+        },
+        {
+          "date": "2026-11-08",
           "commits": 0
         }
       ],
       "statistics": {
-        "totalCommits": 15,
-        "activeDays": 3,
+        "totalCommits": 16,
+        "activeDays": 4,
         "mostActiveMonths": [
           "2026-10"
         ],
         "mostActiveMonthCommits": 12,
-        "lastCommitDate": "2026-11-03",
+        "lastCommitDate": "2026-11-07",
         "maxDailyCommits": 12
       }
     }
