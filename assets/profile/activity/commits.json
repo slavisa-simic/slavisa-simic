@@ -6,8 +6,8 @@
   "scope": "Unique commits reachable from the selected branch, authored by configured identities; merge commits included",
   "timezone": "UTC",
   "periodDays": 365,
-  "windowStart": "2025-11-13",
-  "windowEnd": "2026-11-12",
+  "windowStart": "2025-11-14",
+  "windowEnd": "2026-11-13",
   "projects": [
     {
       "name": "Linoryx",
@@ -235,10 +235,6 @@
         }
       ],
       "daily": [
-        {
-          "date": "2025-11-13",
-          "commits": 0
-        },
         {
           "date": "2025-11-14",
           "commits": 0
@@ -1694,6 +1690,10 @@
         {
           "date": "2026-11-12",
           "commits": 0
+        },
+        {
+          "date": "2026-11-13",
+          "commits": 0
         }
       ],
       "statistics": {
@@ -1798,10 +1798,6 @@
         }
       ],
       "daily": [
-        {
-          "date": "2025-11-13",
-          "commits": 0
-        },
         {
           "date": "2025-11-14",
           "commits": 0
@@ -3256,6 +3252,10 @@
         },
         {
           "date": "2026-11-12",
+          "commits": 0
+        },
+        {
+          "date": "2026-11-13",
           "commits": 0
         }
       ],
