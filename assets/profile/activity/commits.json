@@ -6,8 +6,8 @@
   "scope": "Unique commits reachable from the selected branch, authored by configured identities; merge commits included",
   "timezone": "UTC",
   "periodDays": 365,
-  "windowStart": "2025-11-19",
-  "windowEnd": "2026-11-18",
+  "windowStart": "2025-11-20",
+  "windowEnd": "2026-11-19",
   "projects": [
     {
       "name": "Linoryx",
@@ -16,7 +16,7 @@
       "enabled": true,
       "slot": 1,
       "branch": "main",
-      "headSha": "7f2a894e0875cec62e0b0d6d4f7972f9f7b27c24",
+      "headSha": "6fc9f1b5f4efacafd641528bb6b96cf50720311e",
       "commits": [
         {
           "sha": "b68193f8a537c4da39d84657008afe0f356cd362",
@@ -232,13 +232,14 @@
           "sha": "e4910dea09c5f69244610cd73d468a0d323c5144",
           "date": "2026-11-07",
           "authoredAt": "2026-11-07T21:12:27+00:00"
+        },
+        {
+          "sha": "6fc9f1b5f4efacafd641528bb6b96cf50720311e",
+          "date": "2026-11-18",
+          "authoredAt": "2026-11-18T16:48:28+00:00"
         }
       ],
       "daily": [
-        {
-          "date": "2025-11-19",
-          "commits": 0
-        },
         {
           "date": "2025-11-20",
           "commits": 0
@@ -1693,17 +1694,21 @@
         },
         {
           "date": "2026-11-18",
+          "commits": 1
+        },
+        {
+          "date": "2026-11-19",
           "commits": 0
         }
       ],
       "statistics": {
-        "totalCommits": 43,
-        "activeDays": 15,
+        "totalCommits": 44,
+        "activeDays": 16,
         "mostActiveMonths": [
           "2026-11"
         ],
-        "mostActiveMonthCommits": 21,
-        "lastCommitDate": "2026-11-07",
+        "mostActiveMonthCommits": 22,
+        "lastCommitDate": "2026-11-18",
         "maxDailyCommits": 8
       }
     },
@@ -1798,10 +1803,6 @@
         }
       ],
       "daily": [
-        {
-          "date": "2025-11-19",
-          "commits": 0
-        },
         {
           "date": "2025-11-20",
           "commits": 0
@@ -3256,6 +3257,10 @@
         },
         {
           "date": "2026-11-18",
+          "commits": 0
+        },
+        {
+          "date": "2026-11-19",
           "commits": 0
         }
       ],
